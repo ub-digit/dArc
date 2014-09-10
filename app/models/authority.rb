@@ -1,0 +1,5 @@
+class Authority < DarcFedora
+
+
+
+end
