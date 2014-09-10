@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     get 'check_connection' , to: 'api#check_connection'
   end
 
-  get 'authorities/:id' => 'authorities#show'
+  get 'authorities/:id/:api_key' => 'authorities#show'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -7,9 +7,10 @@ class DarcFedora
   end
 
   def self.find id
-  	fedora_connetion = Rubydora.connect Rails.application.config.fedora_connection
-    self.new fedora_connetion.find(id)
-    
+  	fedora_connection = Rubydora.connect Rails.application.config.fedora_connection
+    self.new fedora_connection.find(Rails.application.config.namespace_prefix + id.to_s)
+  rescue => error
+    return nil	
   end
 
   def self.find_by_id

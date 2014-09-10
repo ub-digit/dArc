@@ -1,5 +1,4 @@
 class AuthorityFunction < DarcFedora
-
-  
+ 
   
 end
