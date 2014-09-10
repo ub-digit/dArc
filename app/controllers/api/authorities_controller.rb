@@ -1,4 +1,4 @@
-class AuthoritiesController < Api::ApiController
+class Api::AuthoritiesController < Api::ApiController
 
   def show
     @authority = Authority.find(params[:id])

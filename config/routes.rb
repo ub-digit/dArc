@@ -2,9 +2,10 @@ Rails.application.routes.draw do
 
   namespace :api, :defaults => {:format => :json} do
     get 'check_connection' , to: 'api#check_connection'
+    get 'authorities/:id/:api_key', to: 'authorities#show'
   end
 
-  get 'authorities/:id/:api_key' => 'authorities#show'
+  
 
 
   # The priority is based upon order of creation: first created -> highest priority.
