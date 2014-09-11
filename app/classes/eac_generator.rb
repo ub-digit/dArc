@@ -3,7 +3,9 @@ require 'nokogiri'
 #Class for generating EAC from JSON, and convert EAC to JSON
 class EacGenerator
 	XML_SCHEMA = Pathname.new(Rails.root.to_s + "/app/assets/schemas/RA_EAC.xsd")
+	#XMK_SCHEMA = "http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd"
 
+	# Map translating type attribute to corresponding EAC-prefix
 	def self.type_map
 		{
 			"person" => "pers",
@@ -12,6 +14,7 @@ class EacGenerator
 		}
 	end
 
+	# Validates xml against schema
 	def self.schema_validation(xml)
 		doc = Nokogiri::XML(xml)
 		open(XML_SCHEMA.to_s) do |xsd_file|
@@ -22,9 +25,11 @@ class EacGenerator
 				return false
 			end
 		end
+		puts "VALIDERAR!"
 		return true
 	end
 
+	# generates a valid EAC document from JSON source
 	def self.generate_from_json(json, eventtype="create")
 		data = JSON.parse(json)
 
