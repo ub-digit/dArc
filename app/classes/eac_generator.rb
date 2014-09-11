@@ -25,7 +25,6 @@ class EacGenerator
 				return false
 			end
 		end
-		puts "VALIDERAR!"
 		return true
 	end
 
@@ -34,7 +33,7 @@ class EacGenerator
 		data = JSON.parse(json)
 
 		builder = Nokogiri::XML::Builder.new do |xml|
-			xml.eac('type' => data["type"], 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance', 'xsi:schemalocation' => 'http://xml.ra.se/EAC/RA_EAC.xsd', 'xmlns' => 'http://xml.ra.se/eac') {
+			xml.eac('type' => data["type"], 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance', 'xsi:schemaLocation' => 'http://xml.ra.se/EAC/RA_EAC.xsd', 'xmlns' => 'http://xml.ra.se/EAC') {
 				xml.eacheader(status: "draft") {
 					xml.eacid(countrycode: "SE", ownercode: Rails.application.config.ownercode){
 						xml.text(data["id"])
@@ -56,25 +55,31 @@ class EacGenerator
 							}
 						}
 					}
-					xml.send(type_map[data["type"]]+"desc") {
-						xml.existdesc {
-							xml.existdate(scope: "begin") {
-								xml.text(data["startdate"])
-							}
-							xml.existdate(scope: "end") {
-								xml.text(data["enddate"])
+					xml.desc{
+						xml.send(type_map[data["type"]]+"desc") {
+							xml.existdesc {
+								xml.existdate(scope: "begin") {
+									xml.text(data["startdate"])
+								}
+								xml.existdate(scope: "end") {
+									xml.text(data["enddate"])
+								}
 							}
 						}
+						xml.bioghist {
+							xml.p data["biography"]
+						}
+						
 					}
-					xml.bioghist data["biography"]
 					xml.funactrels {
-						xml.funactrel
+						xml.funactrel {
+							xml.funact "Snickare"
+						}
 					}
 				}
 			}
 		end
 		xml = builder.to_xml
-		puts builder.to_xml
 		return schema_validation(xml)
 	end
 
