@@ -1,0 +1,2892 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema xmlns="http://xml.ra.se/EAC" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://xml.ra.se/EAC" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="sv"> För bakgrund och anvisningar om tillämpningen av detta
+			schema se: http://xml.ra.se/eac/NAD_EAC.pdf </xs:documentation>
+		<xs:documentation xml:lang="en"> Restricted schema version of EAC.DTD developed at the IT
+			division of The National Archives of Sweden (http://www.ra.se/ ) for the purpose of
+			importing local archival authority records to the National Archival Database
+			(http://xml.ra.se/NAD/ ). In this version an href attribute is added to elements
+			containing system and syskey attributes in order to facilitate links to local web
+			places, and avoiding the problem with entity references in xml schemas. </xs:documentation>
+		<xs:documentation xml:lang="en"> edited with XMLSpy v2005 U (http://www.xmlspy.com) by
+			Richard Larsson (Riksarkivet, LDB-projektet)</xs:documentation>
+		<xs:documentation xml:lang="en"> edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by
+			Catrine Jönsson (Riksarkivet, IT-avd., LLA) 2005-10-26</xs:documentation>
+		<xs:documentation xml:lang="en"> Documentation updated by P-G Ottosson, 2005-12-05. </xs:documentation>
+		<xs:documentation xml:lang="en"> Misprint in xmlns, targetNamespace and @unit values
+			corrected by P-G Ottosson, 2006-09-11. </xs:documentation>
+		<xs:documentation xml:lang="en"> All attributes of type ID are changed to NMTOKEN ; P-G
+		Ottosson 2006-12-15</xs:documentation>
+		<xs:documentation xml:lang="en">Changed the condescgrp-element to allow one or more eac be present. Compare with the archdescgrp-element in schema
+		RA_EAD.xsd. Karin Bredenberg, 2007-11-05</xs:documentation>
+
+	</xs:annotation>
+	<xs:element name="eacgrp">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="eacheader" type="eacheaderType"/>
+				<xs:element name="condescgrp" type="condescgrpType"/>
+			</xs:sequence>
+			<xs:attribute name="type">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="identity"/>
+						<xs:enumeration value="related"/>
+						<xs:enumeration value="disparate"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="abbrType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="id" type="xs:NMTOKEN"/>
+				<xs:attribute name="expan" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="abstractType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="addressType">
+		<xs:sequence>
+			<xs:element name="addressline" type="addresslineType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="addresslineType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="ref" type="refType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="altdateType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="archrefType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="abstract" type="abstractType"/>
+			<xs:element name="physdesc" type="physdescType"/>
+			<xs:element name="descnote" type="descnoteType"/>
+			<xs:element name="repository" type="repositoryType"/>
+			<xs:element name="origination" type="originationType"/>
+			<xs:element name="unitdate" type="unitdateType"/>
+			<xs:element name="unitid" type="unitidType"/>
+			<xs:element name="unittitle" type="unittitleType"/>
+			<xs:element name="container" type="containerType"/>
+			<xs:element name="physloc" type="physlocType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="targetout" type="xs:ENTITY"/>
+		<xs:attribute name="linktype" fixed="simple">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="role" type="xs:string"/>
+		<xs:attribute name="arcrole" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="show">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="replace"/>
+					<xs:enumeration value="embed"/>
+					<xs:enumeration value="showother"/>
+					<xs:enumeration value="shownone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="actuate">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="onload"/>
+					<xs:enumeration value="onrequest"/>
+					<xs:enumeration value="actuateother"/>
+					<xs:enumeration value="actuatenone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="archunitType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="abstract" type="abstractType"/>
+				<xs:element name="physdesc" type="physdescType"/>
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="repository" type="repositoryType"/>
+				<xs:element name="origination" type="originationType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="unitdate" type="unitdateType"/>
+				<xs:element name="unitid" type="unitidType"/>
+				<xs:element name="unittitle" type="unittitleType"/>
+				<xs:element name="container" type="containerType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="physloc" type="physlocType" minOccurs="0" maxOccurs="0"/>
+			</xs:choice>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="assetstructType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="descentry" type="descentryType"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="chronlist" type="chronlistType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="list" type="listType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="table" type="tableType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="blockquote" type="blockquoteType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="p" type="pType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="authType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="type"/>
+					<xs:enumeration value="value"/>
+					<xs:enumeration value="both"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="system" type="xs:ENTITY"/>
+		<xs:attribute name="countrycode" type="xs:NMTOKEN"/>
+		<xs:attribute name="ownercode" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="authdeclType">
+		<xs:sequence>
+			<xs:element name="auth" type="authType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="bibrefType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="edition" type="editionType"/>
+			<xs:element name="imprint" type="imprintType"/>
+			<xs:element name="name" type="nameType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="bibseries" type="bibseriesType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="archref" type="archrefType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="targetout" type="xs:ENTITY"/>
+		<xs:attribute name="linktype" fixed="simple">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="role" type="xs:string"/>
+		<xs:attribute name="arcrole" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="show">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="replace"/>
+					<xs:enumeration value="embed"/>
+					<xs:enumeration value="showother"/>
+					<xs:enumeration value="shownone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="actuate">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="onload"/>
+					<xs:enumeration value="onrequest"/>
+					<xs:enumeration value="actuateother"/>
+					<xs:enumeration value="actuatenone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="bibseriesType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="num" type="numType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="bibunitType" mixed="true">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="name" type="nameType" minOccurs="0"/>
+			<xs:element name="title" type="titleType" minOccurs="0"/>
+			<xs:element name="edition" type="editionType" minOccurs="0"/>
+			<xs:element name="imprint" type="imprintType" minOccurs="0"/>
+			<xs:element name="bibseries" type="bibseriesType" minOccurs="0"/>
+			<xs:element name="descnote" type="descnoteType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="bioghistType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="chronlist" type="chronlistType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="list" type="listType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="table" type="tableType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="blockquote" type="blockquoteType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="p" type="pType"/>
+				<xs:element name="bioghist" type="bioghistType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="didentifier" type="didentifierType" minOccurs="0" maxOccurs="0"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="blockquoteType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="address" type="addressType"/>
+				<xs:element name="chronlist" type="chronlistType"/>
+				<xs:element name="list" type="listType"/>
+				<xs:element name="table" type="tableType"/>
+				<xs:element name="p" type="pType"/>
+			</xs:choice>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="causaType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="descentry" type="descentryType" minOccurs="0"
+					maxOccurs="unbounded"/>
+				<xs:choice minOccurs="0" maxOccurs="0">
+					<xs:element name="address" type="addressType"/>
+					<xs:element name="chronlist" type="chronlistType"/>
+					<xs:element name="list" type="listType"/>
+					<xs:element name="table" type="tableType"/>
+					<xs:element name="blockquote" type="blockquoteType"/>
+					<xs:element name="p" type="pType"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="characterType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="sex" type="sexType"/>
+					<xs:element name="descentry" type="descentryType"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="address" type="addressType"/>
+					<xs:element name="chronlist" type="chronlistType"/>
+					<xs:element name="list" type="listType"/>
+					<xs:element name="table" type="tableType"/>
+					<xs:element name="blockquote" type="blockquoteType"/>
+					<xs:element name="p" type="pType"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="chronheadType">
+		<xs:sequence>
+			<xs:element name="head01" type="head01Type" minOccurs="0"/>
+			<xs:element name="head02" type="head02Type" minOccurs="0"/>
+			<xs:element name="head03" type="head03Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="chronitemType">
+		<xs:sequence>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="place" type="placeType" minOccurs="0"/>
+			<xs:choice>
+				<xs:element name="event" type="eventType"/>
+				<xs:element name="eventgrp" type="eventgrpType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="chronlistType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="chronhead" type="chronheadType"/>
+			</xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="chronitem" type="chronitemType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="colspecType">
+		<xs:attribute name="colnum" type="xs:NMTOKEN"/>
+		<xs:attribute name="colname" type="xs:NMTOKEN"/>
+		<xs:attribute name="colwidth" type="xs:string"/>
+		<xs:attribute name="colsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="rowsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="align">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="left"/>
+					<xs:enumeration value="right"/>
+					<xs:enumeration value="center"/>
+					<xs:enumeration value="justify"/>
+					<xs:enumeration value="char"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="char" type="xs:string"/>
+		<xs:attribute name="charoff" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="condescType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="identity" type="identityType"/>
+				<xs:element name="desc" type="descType" minOccurs="0"/>
+				<xs:element name="eacrels" type="eacrelsType" minOccurs="0"/>
+				<xs:element name="resourcerels" type="resourcerelsType" minOccurs="0"/>
+				<xs:element name="funactrels" type="funactrelsType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="containerType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="corpdescType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="existdesc" type="existdescType" minOccurs="0"/>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="corptype" type="corptypeType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="legalstatus" type="legalstatusType"/>
+					<xs:element name="location" type="locationType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="descentry" type="descentryType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="locations" type="locationsType"/>
+					<xs:element name="causa" type="causaType"/>
+					<xs:element name="funactdesc" type="funactdescType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="assetstruct" type="assetstructType" minOccurs="0"/>
+					<xs:element name="env" type="envType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="ocd" type="ocdType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="corpgrpType">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="corphead" type="corpheadType"/>
+				<xs:element name="corphead" type="corpheadType" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element name="nameadds" type="nameaddsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="sourceref" type="sourcerefType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="sourcerefs" type="sourcerefsType" minOccurs="0" maxOccurs="0"/>
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="descnotes" type="descnotesType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="corpheadType">
+		<xs:sequence>
+			<xs:element name="part" type="partType" maxOccurs="unbounded"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="existdate" type="existdateType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="nameadd" type="nameaddType"/>
+				</xs:choice>
+				<xs:element name="usedate" type="usedateType" minOccurs="0"/>
+				<xs:choice minOccurs="0">
+					<xs:element name="sourceref" type="sourcerefType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="sourcerefs" type="sourcerefsType" minOccurs="0" maxOccurs="0"
+					/>
+				</xs:choice>
+				<xs:choice minOccurs="0">
+					<xs:element name="descnote" type="descnoteType"/>
+					<xs:element name="descnotes" type="descnotesType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="rule" type="xs:IDREF"/>
+		<xs:attribute name="authorized" type="xs:string"/>
+		<xs:attribute name="languagecode" type="xs:NMTOKEN"/>
+		<xs:attribute name="scriptcode" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Auktoriserad namnform"/>
+					<xs:enumeration value="Förkortning"/>
+					<xs:enumeration value="Tidigare/senare officiell namnform"/>
+					<xs:enumeration value="Ospecificerat alternativnamn"/>
+					<xs:enumeration value="Översättning"/>
+					<xs:enumeration value="Parallellform"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="corpnameType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="corptypeType">
+		<xs:sequence>
+			<xs:element name="value" type="valueType"/>
+			<xs:element name="date" type="dateType" minOccurs="0"/>
+			<xs:element name="place" type="placeType" minOccurs="0"/>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="sourceref" type="sourcerefType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="dateType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="altdate" type="altdateType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="scope">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="begin"/>
+					<xs:enumeration value="end"/>
+					<xs:enumeration value="active"/>
+					<xs:enumeration value="begin-end"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="form">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="single"/>
+					<xs:enumeration value="closedspan"/>
+					<xs:enumeration value="openspan"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="era" type="xs:string"/>
+		<xs:attribute name="calendar" type="xs:string"/>
+		<xs:attribute name="normal" type="xs:string"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="descType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0">
+					<xs:element name="corpdesc" type="corpdescType"/>
+					<xs:element name="persdesc" type="persdescType"/>
+					<xs:element name="famdesc" type="famdescType"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="bioghist" type="bioghistType"/>
+					<xs:element name="ocd" type="ocdType"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="descentryType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="value" type="valueType"/>
+			<xs:element name="date" type="dateType" minOccurs="0"/>
+			<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="sourceref" type="sourcerefType" minOccurs="0" maxOccurs="0"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Instruktion"/>
+					<xs:enumeration value="Direktiv"/>
+					<xs:enumeration value="Förordning"/>
+					<xs:enumeration value="Kungl. brev"/>
+					<xs:enumeration value="Kungl. kungörelse"/>
+					<xs:enumeration value="Regleringsbrev"/>
+					<xs:enumeration value="Regeringsbeslut"/>
+					<xs:enumeration value="Reglemente"/>
+					<xs:enumeration value="Kungl. privilegier"/>
+					<xs:enumeration value="Kungl. Maj:ts stadga"/>
+					<xs:enumeration value="Riksdagsbeslut"/>
+					<xs:enumeration value="Regeringens bemyndigande"/>
+					<xs:enumeration value="Bolagsordning"/>
+					<xs:enumeration value="Stadgar"/>
+					<xs:enumeration value="Konstituerande sammanträde"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="descnoteType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="lb" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="abbr" type="abbrType" minOccurs="0"/>
+			<xs:element name="expan" type="expanType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="ptr" type="ptrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="extptr" type="extptrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="corpname" type="corpnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="famname" type="famnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="persname" type="persnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="funact" type="funactType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="subject" type="subjectType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="genreform" type="genreformType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="date" type="dateType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="num" type="numType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="ref" type="refType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="extref" type="extrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="bibref" type="bibrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="title" type="titleType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="archref" type="archrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="note" type="noteType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="chronlist" type="chronlistType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="list" type="listType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="table" type="tableType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="blockquote" type="blockquoteType" minOccurs="0" maxOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="descnotesType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0"/>
+			<xs:element name="descnote" type="descnoteType"/>
+			<xs:element name="descnote" type="descnoteType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="didentifierType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="targetout" type="xs:ENTITY"/>
+		<xs:attribute name="linktype" fixed="simple">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="role" type="xs:string"/>
+		<xs:attribute name="arcrole" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="show">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="replace"/>
+					<xs:enumeration value="embed"/>
+					<xs:enumeration value="showother"/>
+					<xs:enumeration value="shownone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="actuate">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="onload"/>
+					<xs:enumeration value="onrequest"/>
+					<xs:enumeration value="actuateother"/>
+					<xs:enumeration value="actuatenone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="dimensionsType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="dimensions" type="dimensionsType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="unit" type="xs:string"/>
+	</xs:complexType>
+	<xs:element name="eac" type="eacType"/>
+	<xs:complexType name="eacheaderType">
+		<xs:sequence>
+			<xs:element name="eacid" type="eacidType"/>
+			<xs:element name="mainhist" type="mainhistType"/>
+			<xs:element name="languagedecl" type="languagedeclType" minOccurs="0"/>
+			<xs:element name="ruledecl" type="ruledeclType" minOccurs="0"/>
+			<xs:element name="sourcedecl" type="sourcedeclType" minOccurs="0"/>
+			<xs:element name="authdecl" type="authdeclType" minOccurs="0" maxOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="status" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="draft"/>
+					<xs:enumeration value="edited"/>
+					<xs:enumeration value="deleted"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="langencoding" type="xs:NMTOKEN" default="iso639-2b"/>
+		<xs:attribute name="scriptencoding" type="xs:NMTOKEN" default="iso15924"/>
+		<xs:attribute name="dateencoding" type="xs:NMTOKEN" default="iso8601"/>
+		<xs:attribute name="countryencoding" type="xs:NMTOKEN" default="iso3166-1_a2"/>
+		<xs:attribute name="ownerencoding" type="xs:NMTOKEN" default="iso15511"/>
+		<xs:attribute name="encodinganalogsys" type="xs:NMTOKEN"/>
+		<xs:attribute name="detaillevel">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="minimal"/>
+					<xs:enumeration value="partial"/>
+					<xs:enumeration value="full"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="eacidType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en"> 2005-09-16 CJO (Added the attribute href)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="id" type="xs:NMTOKEN"/>
+				<xs:attribute name="ea" type="xs:NMTOKEN"/>
+				<xs:attribute name="syskey" type="xs:string"/>
+				<xs:attribute name="system" type="xs:ENTITY"/>
+				<xs:attribute name="href" type="xs:string"/>
+				<xs:attribute name="countrycode" type="xs:NMTOKEN" use="required"/>
+				<xs:attribute name="ownercode" type="xs:NMTOKEN" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="eacrelType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="persname" type="persnameType"/>
+				<xs:element name="corpname" type="corpnameType"/>
+				<xs:element name="famname" type="famnameType"/>
+			</xs:choice>
+			<xs:sequence>
+				<xs:element name="date" type="dateType" minOccurs="0"/>
+				<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+				<xs:choice minOccurs="0">
+					<xs:element name="descnote" type="descnoteType"/>
+					<xs:element name="descnotes" type="descnotesType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+				<xs:element name="source" type="sourceType" minOccurs="0" maxOccurs="0"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="reltype">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="superior"/>
+					<xs:enumeration value="subordinate"/>
+					<xs:enumeration value="earlier"/>
+					<xs:enumeration value="later"/>
+					<xs:enumeration value="associative"/>
+					<xs:enumeration value="parent"/>
+					<xs:enumeration value="child"/>
+					<xs:enumeration value="identity"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="syskey" type="xs:string" use="required"/>
+		<xs:attribute name="system" type="xs:ENTITY"/>
+		<xs:attribute name="countrycode" type="xs:NMTOKEN"/>
+		<xs:attribute name="ownercode" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="rule" type="xs:IDREF"/>
+	</xs:complexType>
+	<xs:complexType name="eacrelsType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="eacrel" type="eacrelType" maxOccurs="unbounded"/>
+			<xs:choice minOccurs="0" maxOccurs="0">
+				<xs:element name="sourceref" type="sourcerefType"/>
+				<xs:element name="sourcerefs" type="sourcerefsType"/>
+			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="descnotes" type="descnotesType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="editionType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="emphType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="render" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="bold"/>
+					<xs:enumeration value="italic"/>
+					<xs:enumeration value="underline"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="entryType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="address" type="addressType"/>
+			<xs:element name="list" type="listType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="colname" type="xs:NMTOKEN"/>
+		<xs:attribute name="namest" type="xs:NMTOKEN"/>
+		<xs:attribute name="nameend" type="xs:NMTOKEN"/>
+		<xs:attribute name="morerows" type="xs:NMTOKEN"/>
+		<xs:attribute name="colsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="rowsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="align">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="left"/>
+					<xs:enumeration value="right"/>
+					<xs:enumeration value="center"/>
+					<xs:enumeration value="justify"/>
+					<xs:enumeration value="char"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="char" type="xs:string"/>
+		<xs:attribute name="charoff" type="xs:NMTOKEN"/>
+		<xs:attribute name="valign">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="top"/>
+					<xs:enumeration value="middle"/>
+					<xs:enumeration value="bottom"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="envType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="descentry" type="descentryType"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="address" type="addressType"/>
+					<xs:element name="chronlist" type="chronlistType"/>
+					<xs:element name="list" type="listType"/>
+					<xs:element name="table" type="tableType"/>
+					<xs:element name="blockquote" type="blockquoteType"/>
+					<xs:element name="p" type="pType"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="eventType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="address" type="addressType"/>
+			<xs:element name="chronlist" type="chronlistType"/>
+			<xs:element name="list" type="listType"/>
+			<xs:element name="table" type="tableType"/>
+			<xs:element name="blockquote" type="blockquoteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="eventgrpType">
+		<xs:sequence>
+			<xs:element name="event" type="eventType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="existdateType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="altdate" type="altdateType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="scope">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="begin"/>
+					<xs:enumeration value="end"/>
+					<xs:enumeration value="active"/>
+					<xs:enumeration value="begin-end"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="form">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="single"/>
+					<xs:enumeration value="closedspan"/>
+					<xs:enumeration value="openspan"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="era" type="xs:string"/>
+		<xs:attribute name="calendar" type="xs:string"/>
+		<xs:attribute name="normal" type="xs:string"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="existdescType">
+		<xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="existdate" type="existdateType"/>
+				<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+			</xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="sourceref" type="sourcerefType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="expanType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="id" type="xs:NMTOKEN"/>
+				<xs:attribute name="abbr" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="extentType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="unit" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="hyllm."/>
+					<xs:enumeration value="vol."/>
+					<xs:enumeration value="fasc."/>
+					<xs:enumeration value="blad."/>
+					<xs:enumeration value="sid."/>
+					<xs:enumeration value="Hyllmeter"/>
+					<xs:enumeration value="Volymer"/>
+					<xs:enumeration value="Inbundna pappershandlingar"/>
+					<xs:enumeration value="Buntade, pärmlagda eller kartonglagda pappershandlingar"/>
+					<xs:enumeration value="Kartor"/>
+					<xs:enumeration value="Ritningar"/>
+					<xs:enumeration value="Mikrofilmrullar"/>
+					<xs:enumeration value="Mikrofichekort"/>
+					<xs:enumeration value="Spelfilmsrullar"/>
+					<xs:enumeration value="Fotografier"/>
+					<xs:enumeration value="Ljudupptagningar"/>
+					<xs:enumeration value="Videoupptagningar"/>
+					<xs:enumeration value="ADB-upptagningar"/>
+					<xs:enumeration value="Föremål"/>
+					<xs:enumeration value="Hyllm"/>
+					<xs:enumeration value="Hyllm."/>
+					<xs:enumeration value="Vol"/>
+					<xs:enumeration value="Vol."/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="extptrType">
+		<xs:attribute name="targetout" type="xs:ENTITY"/>
+		<xs:attribute name="linktype" fixed="simple">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="role" type="xs:string"/>
+		<xs:attribute name="arcrole" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="show">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="replace"/>
+					<xs:enumeration value="embed"/>
+					<xs:enumeration value="showother"/>
+					<xs:enumeration value="shownone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="actuate">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="onload"/>
+					<xs:enumeration value="onrequest"/>
+					<xs:enumeration value="actuateother"/>
+					<xs:enumeration value="actuatenone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="extrefType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="address" type="addressType"/>
+			<xs:element name="chronlist" type="chronlistType"/>
+			<xs:element name="list" type="listType"/>
+			<xs:element name="table" type="tableType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="archref" type="archrefType"/>
+		</xs:choice>
+		<xs:attribute name="targetout" type="xs:ENTITY"/>
+		<xs:attribute name="linktype" fixed="simple">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="role" type="xs:string"/>
+		<xs:attribute name="arcrole" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="show">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="replace"/>
+					<xs:enumeration value="embed"/>
+					<xs:enumeration value="showother"/>
+					<xs:enumeration value="shownone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="actuate">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="onload"/>
+					<xs:enumeration value="onrequest"/>
+					<xs:enumeration value="actuateother"/>
+					<xs:enumeration value="actuatenone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="famdescType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="existdesc" type="existdescType" minOccurs="0"/>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="legalstatus" type="legalstatusType" minOccurs="0"
+						maxOccurs="0"/>
+					<xs:element name="location" type="locationType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="descentry" type="descentryType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="locations" type="locationsType"/>
+					<xs:element name="funactdesc" type="funactdescType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="assetstruct" type="assetstructType" minOccurs="0"
+						maxOccurs="0"/>
+					<xs:element name="env" type="envType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="ocd" type="ocdType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="famgrpType">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="famhead" type="famheadType"/>
+				<xs:element name="famhead" type="famheadType" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element name="nameadds" type="nameaddsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="sourceref" type="sourcerefType"/>
+				<xs:element name="sourcerefs" type="sourcerefsType"/>
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="descnotes" type="descnotesType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="famheadType">
+		<xs:sequence>
+			<xs:element name="part" type="partType" maxOccurs="unbounded"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="existdate" type="existdateType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="nameadd" type="nameaddType"/>
+				</xs:choice>
+				<xs:element name="usedate" type="usedateType" minOccurs="0"/>
+				<xs:choice minOccurs="0" maxOccurs="0">
+					<xs:element name="sourceref" type="sourcerefType"/>
+					<xs:element name="sourcerefs" type="sourcerefsType"/>
+				</xs:choice>
+				<xs:choice minOccurs="0">
+					<xs:element name="descnote" type="descnoteType"/>
+					<xs:element name="descnotes" type="descnotesType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="rule" type="xs:IDREF"/>
+		<xs:attribute name="authorized" type="xs:string"/>
+		<xs:attribute name="languagecode" type="xs:NMTOKEN"/>
+		<xs:attribute name="scriptcode" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Auktoriserad namnform"/>
+					<xs:enumeration value="Förkortning"/>
+					<xs:enumeration value="Tidigare/senare officiell namnform"/>
+					<xs:enumeration value="Ospecificerat alternativnamn"/>
+					<xs:enumeration value="Översättning"/>
+					<xs:enumeration value="Parallellform"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="famnameType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="funactType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="ignore" type="ignoreType"/>
+			<xs:element name="part" type="partType"/>
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="valueauth" type="xs:IDREF"/>
+		<xs:attribute name="valuekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="funactdescType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="descentry" type="descentryType"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="address" type="addressType"/>
+					<xs:element name="chronlist" type="chronlistType"/>
+					<xs:element name="list" type="listType"/>
+					<xs:element name="table" type="tableType"/>
+					<xs:element name="blockquote" type="blockquoteType"/>
+					<xs:element name="p" type="pType"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="funactrelType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="funact" type="funactType"/>
+			</xs:choice>
+			<xs:sequence>
+				<xs:element name="date" type="dateType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+				<xs:choice minOccurs="0">
+					<xs:element name="descnote" type="descnoteType"/>
+					<xs:element name="descnotes" type="descnotesType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+				<xs:element name="source" type="sourceType" minOccurs="0" maxOccurs="0"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="reltype" type="xs:string"/>
+		<xs:attribute name="syskey" type="xs:string"/>
+		<xs:attribute name="system" type="xs:ENTITY"/>
+		<xs:attribute name="countrycode" type="xs:NMTOKEN"/>
+		<xs:attribute name="ownercode" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="rule" type="xs:IDREF"/>
+	</xs:complexType>
+	<xs:complexType name="funactrelsType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="funactrel" type="funactrelType" maxOccurs="unbounded"/>
+			<xs:choice minOccurs="0" maxOccurs="0">
+				<xs:element name="sourceref" type="sourcerefType"/>
+				<xs:element name="sourcerefs" type="sourcerefsType"/>
+			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="descnotes" type="descnotesType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="genreformType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="ignore" type="ignoreType"/>
+			<xs:element name="part" type="partType"/>
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="valueauth" type="xs:IDREF"/>
+		<xs:attribute name="valuekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="headType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="head01Type" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="head02Type" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="head03Type" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="identityType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="legalid" type="legalidType" minOccurs="0" maxOccurs="0"/>
+				<xs:choice>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="persgrp" type="persgrpType" minOccurs="0" maxOccurs="0"/>
+						<xs:element name="pershead" type="persheadType"/>
+					</xs:choice>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="corpgrp" type="corpgrpType" minOccurs="0" maxOccurs="0"/>
+						<xs:element name="corphead" type="corpheadType"/>
+					</xs:choice>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="famgrp" type="famgrpType" minOccurs="0" maxOccurs="0"/>
+						<xs:element name="famhead" type="famheadType"/>
+					</xs:choice>
+				</xs:choice>
+				<xs:element name="nameadds" type="nameaddsType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="didentifier" type="didentifierType" minOccurs="0" maxOccurs="0"/>
+				<xs:sequence minOccurs="0" maxOccurs="0">
+					<xs:choice minOccurs="0">
+						<xs:element name="sourceref" type="sourcerefType"/>
+						<xs:element name="sourcerefs" type="sourcerefsType"/>
+					</xs:choice>
+					<xs:choice minOccurs="0">
+						<xs:element name="descnote" type="descnoteType"/>
+						<xs:element name="descnotes" type="descnotesType"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="ignoreType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="i"/>
+					<xs:enumeration value="s"/>
+					<xs:enumeration value="d"/>
+					<xs:enumeration value="di"/>
+					<xs:enumeration value="is"/>
+					<xs:enumeration value="ds"/>
+					<xs:enumeration value="all"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="authorized" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="imprintType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="publisher" type="publisherType"/>
+			<xs:element name="date" type="dateType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="itemType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="address" type="addressType"/>
+			<xs:element name="chronlist" type="chronlistType"/>
+			<xs:element name="list" type="listType"/>
+			<xs:element name="table" type="tableType"/>
+			<xs:element name="blockquote" type="blockquoteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="itemsType">
+		<xs:sequence>
+			<xs:element name="item" type="itemType"/>
+			<xs:element name="item" type="itemType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="languageType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType" minOccurs="0" maxOccurs="0"/>
+			<xs:element ref="lb" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="abbr" type="abbrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="expan" type="expanType" minOccurs="0" maxOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="languagecode" type="xs:NMTOKEN"/>
+		<xs:attribute name="scriptcode" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="languagedeclType">
+		<xs:sequence>
+			<xs:element name="language" type="languageType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:element name="lb">
+		<xs:complexType/>
+	</xs:element>
+	<xs:complexType name="legalidType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="part" type="partType"/>
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="valueauth" type="xs:IDREF"/>
+		<xs:attribute name="valuekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="legalstatusType">
+		<xs:sequence>
+			<xs:element name="value" type="valueType"/>
+			<xs:element name="date" type="dateType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+			<xs:choice minOccurs="0" maxOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="sourceref" type="sourcerefType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Statlig"/>
+					<xs:enumeration value="Kommunal"/>
+					<xs:enumeration value="Enskild"/>
+					<xs:enumeration value="Offentlig (övrig)"/>
+					<xs:enumeration value=""/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="listType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0"/>
+			<xs:choice>
+				<xs:element name="item" type="itemType" maxOccurs="unbounded"/>
+				<xs:sequence>
+					<xs:element name="listhead" type="listheadType" minOccurs="0"/>
+					<xs:element name="items" type="itemsType" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+					<xs:enumeration value="deflist"/>
+					<xs:enumeration value="marked"/>
+					<xs:enumeration value="ordered"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="mark" type="xs:string"/>
+		<xs:attribute name="numeration">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="arabic"/>
+					<xs:enumeration value="upperalpha"/>
+					<xs:enumeration value="loweralpha"/>
+					<xs:enumeration value="upperroman"/>
+					<xs:enumeration value="lowerroman"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="continuation">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="continues"/>
+					<xs:enumeration value="starts"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="listheadType">
+		<xs:sequence>
+			<xs:element name="head01" type="head01Type" minOccurs="0"/>
+			<xs:element name="head02" type="head02Type" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="locationType">
+		<xs:sequence>
+			<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="date" type="dateType" minOccurs="0"/>
+			<xs:element name="place" type="placeType" minOccurs="0"/>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="sourceref" type="sourcerefType" minOccurs="0" maxOccurs="0"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Verksamhetsort"/>
+					<xs:enumeration value="Sätesort"/>
+					<xs:enumeration value="Födelseort"/>
+					<xs:enumeration value="Dödsort"/>
+					<xs:enumeration value="Ämne"/>
+					<xs:enumeration value="Odefinierat värde"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="locationsType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="location" type="locationType" maxOccurs="unbounded"/>
+				<xs:choice minOccurs="0" maxOccurs="0">
+					<xs:element name="address" type="addressType"/>
+					<xs:element name="chronlist" type="chronlistType"/>
+					<xs:element name="list" type="listType"/>
+					<xs:element name="table" type="tableType"/>
+					<xs:element name="blockquote" type="blockquoteType"/>
+					<xs:element name="p" type="pType"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="maindateType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType" minOccurs="0" maxOccurs="0"/>
+			<xs:element ref="lb" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="abbr" type="abbrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="expan" type="expanType" minOccurs="0" maxOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="calendar" type="xs:string"/>
+		<xs:attribute name="normal" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="maindescType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="maineventType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="name" type="nameType"/>
+			<xs:element name="maindate" type="maindateType"/>
+			<xs:element name="maindesc" type="maindescType" minOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="maintype" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="create"/>
+					<xs:enumeration value="update"/>
+					<xs:enumeration value="delete"/>
+					<xs:enumeration value="import"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="mainhistType">
+		<xs:sequence>
+			<xs:element name="mainevent" type="maineventType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="musunitType" mixed="true">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="name" type="nameType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="edition" type="editionType"/>
+			<xs:element name="imprint" type="imprintType"/>
+			<xs:element name="bibseries" type="bibseriesType"/>
+			<xs:element name="descnote" type="descnoteType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="nameType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType" minOccurs="0" maxOccurs="0"/>
+			<xs:element ref="lb" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="abbr" type="abbrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="expan" type="expanType" minOccurs="0" maxOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="valueauth" type="xs:IDREF"/>
+		<xs:attribute name="valuekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="nameaddType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="nameaddsType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="existdate" type="existdateType"/>
+			<xs:element name="nameadd" type="nameaddType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="languagecode" type="xs:NMTOKEN"/>
+		<xs:attribute name="scriptcode" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="noteType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="address" type="addressType"/>
+			<xs:element name="chronlist" type="chronlistType"/>
+			<xs:element name="list" type="listType"/>
+			<xs:element name="table" type="tableType"/>
+			<xs:element name="blockquote" type="blockquoteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="numType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="ocdType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="descentry" type="descentryType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="chronlist" type="chronlistType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="list" type="listType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="table" type="tableType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="blockquote" type="blockquoteType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="p" type="pType"/>
+					<xs:element name="ocd" type="ocdType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="originationType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="name" type="nameType"/>
+			<xs:element name="persname" type="persnameType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="pType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="abbr" type="abbrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="expan" type="expanType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="ptr" type="ptrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="extptr" type="extptrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="corpname" type="corpnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="famname" type="famnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="persname" type="persnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="funact" type="funactType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="subject" type="subjectType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="genreform" type="genreformType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="date" type="dateType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="num" type="numType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="ref" type="refType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="extref" type="extrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="bibref" type="bibrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="title" type="titleType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="archref" type="archrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="note" type="noteType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="chronlist" type="chronlistType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="list" type="listType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="table" type="tableType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="blockquote" type="blockquoteType" minOccurs="0" maxOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="partType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ignore" type="ignoreType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="entry"/>
+					<xs:enumeration value="subdivision"/>
+					<xs:enumeration value="surname"/>
+					<xs:enumeration value="forename"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="persdescType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="existdesc" type="existdescType" minOccurs="0"/>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="legalstatus" type="legalstatusType" minOccurs="0"
+						maxOccurs="0"/>
+					<xs:element name="sex" type="sexType"/>
+					<xs:element name="location" type="locationType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="descentry" type="descentryType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="locations" type="locationsType"/>
+					<xs:element name="funactdesc" type="funactdescType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="character" type="characterType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="env" type="envType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="ocd" type="ocdType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="persgrpType">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="pershead" type="persheadType"/>
+				<xs:element name="pershead" type="persheadType" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:element name="nameadds" type="nameaddsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="sourceref" type="sourcerefType" minOccurs="0" maxOccurs="0"/>
+				<xs:element name="sourcerefs" type="sourcerefsType" minOccurs="0" maxOccurs="0"/>
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="descnotes" type="descnotesType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="persheadType">
+		<xs:sequence>
+			<xs:element name="part" type="partType" maxOccurs="unbounded"/>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="existdate" type="existdateType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="place" type="placeType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="nameadd" type="nameaddType"/>
+				</xs:choice>
+				<xs:element name="usedate" type="usedateType" minOccurs="0"/>
+				<xs:choice minOccurs="0">
+					<xs:element name="sourceref" type="sourcerefType" minOccurs="0" maxOccurs="0"/>
+					<xs:element name="sourcerefs" type="sourcerefsType" minOccurs="0" maxOccurs="0"
+					/>
+				</xs:choice>
+				<xs:choice minOccurs="0">
+					<xs:element name="descnote" type="descnoteType"/>
+					<xs:element name="descnotes" type="descnotesType" minOccurs="0" maxOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="rule" type="xs:IDREF"/>
+		<xs:attribute name="authorized" type="xs:string"/>
+		<xs:attribute name="languagecode" type="xs:NMTOKEN"/>
+		<xs:attribute name="scriptcode" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Auktoriserad namnform"/>
+					<xs:enumeration value="Förkortning"/>
+					<xs:enumeration value="Tidigare/senare officiell namnform"/>
+					<xs:enumeration value="Ospecificerat alternativnamn"/>
+					<xs:enumeration value="Översättning"/>
+					<xs:enumeration value="Parallellform"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="persnameType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="physdescType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType" minOccurs="0" maxOccurs="0"/>
+			<xs:element ref="lb" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="abbr" type="abbrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="expan" type="expanType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="ptr" type="ptrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="extptr" type="extptrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="ref" type="refType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="extref" type="extrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="bibref" type="bibrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="title" type="titleType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="archref" type="archrefType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="note" type="noteType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="dimensions" type="dimensionsType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="physfacet" type="physfacetType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="extent" type="extentType"/>
+			<xs:element name="date" type="dateType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="corpname" type="corpnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="famname" type="famnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="persname" type="persnameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="funact" type="funactType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="subject" type="subjectType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="genreform" type="genreformType" minOccurs="0" maxOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="physfacetType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="date" type="dateType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="unit" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="physlocType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="placeType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="part" type="partType"/>
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="placetype">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="geog"/>
+					<xs:enumeration value="juris"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="normal" type="xs:string"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="valueauth" type="xs:IDREF"/>
+		<xs:attribute name="valuekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="ptrType">
+		<xs:attribute name="targetin" type="xs:IDREF"/>
+		<xs:attribute name="linktype" fixed="simple">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="role" type="xs:string"/>
+		<xs:attribute name="arcrole" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="show">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="replace"/>
+					<xs:enumeration value="embed"/>
+					<xs:enumeration value="showother"/>
+					<xs:enumeration value="shownone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="actuate">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="onload"/>
+					<xs:enumeration value="onrequest"/>
+					<xs:enumeration value="actuateother"/>
+					<xs:enumeration value="actuatenone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="publisherType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="refType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="address" type="addressType"/>
+			<xs:element name="chronlist" type="chronlistType"/>
+			<xs:element name="list" type="listType"/>
+			<xs:element name="table" type="tableType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="archref" type="archrefType"/>
+		</xs:choice>
+		<xs:attribute name="targetin" type="xs:IDREF"/>
+		<xs:attribute name="linktype" fixed="simple">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="role" type="xs:string"/>
+		<xs:attribute name="arcrole" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="show">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="replace"/>
+					<xs:enumeration value="embed"/>
+					<xs:enumeration value="showother"/>
+					<xs:enumeration value="shownone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="actuate">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="onload"/>
+					<xs:enumeration value="onrequest"/>
+					<xs:enumeration value="actuateother"/>
+					<xs:enumeration value="actuatenone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="repositoryType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="address" type="addressType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="name" type="nameType"/>
+			<xs:element name="subarea" type="subareaType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="resourcerelType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en"> 2005-09-16 CJO (Added the attribute href)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="bibunit" type="bibunitType"/>
+				<xs:element name="archunit" type="archunitType"/>
+				<xs:element name="musunit" type="musunitType" minOccurs="0" maxOccurs="0"/>
+			</xs:choice>
+			<xs:sequence minOccurs="0" maxOccurs="0">
+				<xs:element name="date" type="dateType" minOccurs="0"/>
+				<xs:element name="place" type="placeType" minOccurs="0"/>
+				<xs:choice minOccurs="0">
+					<xs:element name="descnote" type="descnoteType"/>
+					<xs:element name="descnotes" type="descnotesType"/>
+				</xs:choice>
+				<xs:element name="source" type="sourceType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="reltype">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="origination"/>
+					<xs:enumeration value="destruction"/>
+					<xs:enumeration value="control"/>
+					<xs:enumeration value="causa"/>
+					<xs:enumeration value="subject"/>
+					<xs:enumeration value="other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="syskey" type="xs:string"/>
+		<xs:attribute name="system" type="xs:ENTITY"/>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="countrycode" type="xs:NMTOKEN"/>
+		<xs:attribute name="ownercode" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Arkivbildare"/>
+					<xs:enumeration value="Ingående arkivbildare"/>
+					<xs:enumeration value="Upphovsman"/>
+					<xs:enumeration value="Ämne"/>
+					<xs:enumeration value="Arkivinstitution"/>
+					<xs:enumeration value="Ansvarig enhet"/>
+					<xs:enumeration value="Avsändare"/>
+					<xs:enumeration value="Mottagare"/>
+					<xs:enumeration value="Huvudarkivbildare"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="rule" type="xs:IDREF"/>
+	</xs:complexType>
+	<xs:complexType name="resourcerelsType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="resourcerel" type="resourcerelType" maxOccurs="unbounded"/>
+			<xs:choice minOccurs="0" maxOccurs="0">
+				<xs:element name="sourceref" type="sourcerefType"/>
+				<xs:element name="sourcerefs" type="sourcerefsType"/>
+			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="0">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="descnotes" type="descnotesType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="rowType">
+		<xs:sequence>
+			<xs:element name="entry" type="entryType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="rowsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="valign">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="top"/>
+					<xs:enumeration value="middle"/>
+					<xs:enumeration value="bottom"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ruleType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType" minOccurs="0" maxOccurs="0"/>
+			<xs:element ref="lb" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="abbr" type="abbrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="expan" type="expanType" minOccurs="0" maxOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id">
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:enumeration value="NAD2"/>
+					<xs:enumeration value="NAD1"/>
+					<xs:enumeration value="ARKIS1"/>
+					<xs:enumeration value="GLA1"/>
+					<xs:enumeration value="REA"/>
+					<xs:enumeration value="ASL"/>
+					<xs:enumeration value="KRS"/>
+					<xs:enumeration value="SVAR"/>
+					<xs:enumeration value="SVAR2"/>
+					<xs:enumeration value="KARTIA"/>
+					<xs:enumeration value="NAD_EAC"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="system" type="xs:ENTITY"/>
+		<xs:attribute name="countrycode" type="xs:NMTOKEN"/>
+		<xs:attribute name="ownercode" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="ruledeclType">
+		<xs:sequence>
+			<xs:element name="rule" type="ruleType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="sexType">
+		<xs:sequence minOccurs="0" maxOccurs="0">
+			<xs:element name="value" type="valueType" minOccurs="0"/>
+			<xs:element name="date" type="dateType" minOccurs="0"/>
+			<xs:element name="place" type="placeType" minOccurs="0"/>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="descnote" type="descnoteType"/>
+				<xs:element name="sourceref" type="sourcerefType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="m"/>
+					<xs:enumeration value="f"/>
+					<xs:enumeration value="u"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="sourceType" mixed="true">
+		<xs:annotation>
+			<xs:documentation xml:lang="en"> 2005-09-16 CJO (Added the attribute href)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="name" type="nameType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="edition" type="editionType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="imprint" type="imprintType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="bibseries" type="bibseriesType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="descnote" type="descnoteType"/>
+			<xs:element name="sourceinfo" type="sourceinfoType" minOccurs="0" maxOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="syskey" type="xs:string"/>
+		<xs:attribute name="system" type="xs:ENTITY"/>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="countrycode" type="xs:NMTOKEN"/>
+		<xs:attribute name="ownercode" type="xs:NMTOKEN"/>
+	</xs:complexType>
+
+	<xs:complexType name="sourcedeclType">
+		<xs:sequence>
+			<xs:element name="source" type="sourceType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="sourceinfoType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="place" type="placeType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="address" type="addressType"/>
+			<xs:element name="chronlist" type="chronlistType"/>
+			<xs:element name="list" type="listType"/>
+			<xs:element name="table" type="tableType"/>
+			<xs:element name="blockquote" type="blockquoteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="sourcerefType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="sourceinfo" type="sourceinfoType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="sourceref" type="xs:IDREF"/>
+	</xs:complexType>
+	<xs:complexType name="sourcerefsType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0"/>
+			<xs:element name="sourceref" type="sourcerefType"/>
+			<xs:element name="sourceref" type="sourcerefType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="subareaType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="subjectType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="ignore" type="ignoreType"/>
+			<xs:element name="part" type="partType"/>
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+		<xs:attribute name="valueauth" type="xs:IDREF"/>
+		<xs:attribute name="valuekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="tableType">
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0"/>
+			<xs:element name="tgroup" type="tgroupType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="frame">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="top"/>
+					<xs:enumeration value="bottom"/>
+					<xs:enumeration value="topbot"/>
+					<xs:enumeration value="all"/>
+					<xs:enumeration value="sides"/>
+					<xs:enumeration value="none"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="colsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="rowsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="pgwide" type="xs:NMTOKEN"/>
+	</xs:complexType>
+	<xs:complexType name="tbodyType">
+		<xs:sequence>
+			<xs:element name="row" type="rowType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="valign">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="top"/>
+					<xs:enumeration value="middle"/>
+					<xs:enumeration value="bottom"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="tgroupType">
+		<xs:sequence>
+			<xs:element name="colspec" type="colspecType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="thead" type="theadType" minOccurs="0"/>
+			<xs:element name="tbody" type="tbodyType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="cols" type="xs:NMTOKEN" use="required"/>
+		<xs:attribute name="colsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="rowsep" type="xs:NMTOKEN"/>
+		<xs:attribute name="align">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="left"/>
+					<xs:enumeration value="right"/>
+					<xs:enumeration value="center"/>
+					<xs:enumeration value="justify"/>
+					<xs:enumeration value="char"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="theadType">
+		<xs:sequence>
+			<xs:element name="row" type="rowType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="valign">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="top"/>
+					<xs:enumeration value="middle"/>
+					<xs:enumeration value="bottom"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="titleType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType" minOccurs="0" maxOccurs="0"/>
+			<xs:element ref="lb" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="abbr" type="abbrType" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="date" type="dateType"/>
+			<xs:element name="num" type="numType" minOccurs="0" maxOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="render">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="bold"/>
+					<xs:enumeration value="italic"/>
+					<xs:enumeration value="bolditalic"/>
+					<xs:enumeration value="boldunderline"/>
+					<xs:enumeration value="boldsmcaps"/>
+					<xs:enumeration value="boldquoted"/>
+					<xs:enumeration value="nonproport"/>
+					<xs:enumeration value="altrender"/>
+					<xs:enumeration value="quoted"/>
+					<xs:enumeration value="smcaps"/>
+					<xs:enumeration value="sub"/>
+					<xs:enumeration value="super"/>
+					<xs:enumeration value="underline"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="targetout" type="xs:ENTITY"/>
+		<xs:attribute name="linktype" fixed="simple">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="simple"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="href" type="xs:string"/>
+		<xs:attribute name="role" type="xs:string"/>
+		<xs:attribute name="arcrole" type="xs:string"/>
+		<xs:attribute name="title" type="xs:string"/>
+		<xs:attribute name="show">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="new"/>
+					<xs:enumeration value="replace"/>
+					<xs:enumeration value="embed"/>
+					<xs:enumeration value="showother"/>
+					<xs:enumeration value="shownone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="actuate">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="onload"/>
+					<xs:enumeration value="onrequest"/>
+					<xs:enumeration value="actuateother"/>
+					<xs:enumeration value="actuatenone"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="unitdateType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="bulk"/>
+					<xs:enumeration value="inclusive"/>
+					<xs:enumeration value="single"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="scope">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="begin"/>
+					<xs:enumeration value="end"/>
+					<xs:enumeration value="active"/>
+					<xs:enumeration value="begin-end"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="normal" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="unitidType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="syskey" type="xs:string"/>
+		<xs:attribute name="system" type="xs:ENTITY"/>
+		<xs:attribute name="countrycode" type="xs:NMTOKEN" use="required"/>
+		<xs:attribute name="ownercode" type="xs:NMTOKEN" use="required"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="unittitleType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="ptr" type="ptrType"/>
+			<xs:element name="extptr" type="extptrType"/>
+			<xs:element name="ref" type="refType"/>
+			<xs:element name="extref" type="extrefType"/>
+			<xs:element name="bibref" type="bibrefType"/>
+			<xs:element name="title" type="titleType"/>
+			<xs:element name="archref" type="archrefType"/>
+			<xs:element name="note" type="noteType"/>
+			<xs:element name="corpname" type="corpnameType"/>
+			<xs:element name="famname" type="famnameType"/>
+			<xs:element name="persname" type="persnameType"/>
+			<xs:element name="funact" type="funactType"/>
+			<xs:element name="subject" type="subjectType"/>
+			<xs:element name="genreform" type="genreformType"/>
+			<xs:element name="unitdate" type="unitdateType"/>
+			<xs:element name="num" type="numType"/>
+			<xs:element name="date" type="dateType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="usedateType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="0">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+			<xs:element name="altdate" type="altdateType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="scope">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="begin"/>
+					<xs:enumeration value="end"/>
+					<xs:enumeration value="active"/>
+					<xs:enumeration value="begin-end"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="form">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="single"/>
+					<xs:enumeration value="closedspan"/>
+					<xs:enumeration value="openspan"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="era" type="xs:string"/>
+		<xs:attribute name="calendar" type="xs:string"/>
+		<xs:attribute name="normal" type="xs:string"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="typeauth" type="xs:IDREF"/>
+		<xs:attribute name="typekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="valueType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="emph" type="emphType"/>
+			<xs:element ref="lb"/>
+			<xs:element name="abbr" type="abbrType"/>
+			<xs:element name="expan" type="expanType"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="valueauth" type="xs:IDREF"/>
+		<xs:attribute name="valuekey" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="eacType">
+		<xs:sequence>
+			<xs:element name="eacheader" type="eacheaderType"/>
+			<xs:element name="condesc" type="condescType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:NMTOKEN"/>
+		<xs:attribute name="ea" type="xs:NMTOKEN"/>
+		<xs:attribute name="type" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="person"/>
+					<xs:enumeration value="family"/>
+					<xs:enumeration value="corporatebody"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="condescgrpType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Changed first row of ref=eac to allow one or more eac.  Karin Bredenberg, 2007-11-05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="head" type="headType" minOccurs="0" maxOccurs="0"/>
+			<xs:sequence>
+				<xs:element ref="eac" minOccurs="1" maxOccurs="unbounded"/>
+				<!--<xs:element ref="eac" maxOccurs="unbounded"/>-->
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id"/>
+		<xs:attribute name="ea"/>
+	</xs:complexType>
+</xs:schema>
