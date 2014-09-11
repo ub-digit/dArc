@@ -5,4 +5,6 @@ Rails.application.config.fedora_connection = {
   :url => <url>, :user => <user>, :password => <password>
 }
 
-Rails.application.config.namespace_prefix = 'darc:'
+
+Rails.application.config.namespace_prefix = 'info:fedora/darc:' 
+
