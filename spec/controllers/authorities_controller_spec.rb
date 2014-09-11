@@ -4,7 +4,7 @@ RSpec.configure do |c|
 	c.include TestHelper
 end
 
-RSpec.describe AuthoritiesController, :type => :controller do
+RSpec.describe Api::AuthoritiesController, :type => :controller do
 	before :each do
 		config_init
 		@api_key = Rails.application.config.api_key
