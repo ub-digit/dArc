@@ -6,5 +6,6 @@ module TestHelper
 
 	def config_init
 		Rails.application.config.api_key = "test_key"
+		Rails.application.config.ownercode = "test_owner"
 	end
 end

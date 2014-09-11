@@ -1,1 +1,2 @@
 Rails.application.config.api_key = <your_key_here>
+Rails.application.config.ownercode = "dArc"

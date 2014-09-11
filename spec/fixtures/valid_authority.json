@@ -1,6 +1,7 @@
 {
-	"type": "Person",
-	"firtname": "Sven",
+	"id": 1337,
+	"type": "person",
+	"firstname": "Sven",
 	"surname": "Svensson",
 
 	"startdate": "1945",
