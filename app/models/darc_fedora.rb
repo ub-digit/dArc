@@ -13,7 +13,7 @@ class DarcFedora
      end
   end
 
-  def self.find id options={}
+  def self.find id, options={}
     case id
       when Integer
         string_id = numeric_id_to_fedora_id(id)
@@ -26,13 +26,13 @@ class DarcFedora
     self.new string_id,fedora_connection.find(string_id)
   end
 
-  def self.find_by_id id options={}
+  def self.find_by_id id, options={}
      self.find(id)
   rescue => error
     return nil	
   end
 
-  def self.all options = {}
+  def self.all options={}
   end
 
   def check_model m

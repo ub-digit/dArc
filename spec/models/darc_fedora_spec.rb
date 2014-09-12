@@ -28,7 +28,8 @@ end
 	describe "initialize" do
 		context "with a valid mock object" do
 			it "returns an object" do
-
+				obj = DarcFedora.new("testID", RubydoraMock.new)
+				expect(obj).to_not be nil
 			end
 		end
 	end
