@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 
   namespace :api, :defaults => {:format => :json} do
     get 'check_connection' , to: 'api#check_connection'
-    get 'authorities/:id/:api_key', to: 'authorities#show'
+    get 'authorities/:id', to: 'authorities#show'
+    put 'authorities/:id', to: 'authorities#update'
   end
 
   
