@@ -1,9 +1,14 @@
 class Authority < DarcFedora
-  attr_accessor :title, :authorized_forename, :authorized_surname, :type, :startdate, :enddate, :biography
+#  attr_accessor :title, :authorized_forename, :authorized_surname, :type, :startdate, :enddate, :biography
+  attr_datastream :dc, :titlex
+  attr_datastream :eac, :authorized_forename, :authorized_surname, :startdate
+  scope :brief, :title, :authorized_forename, :startdate
+  scope :full, :title, :authorized_forename, :authorized_surname, :startdate
 
-  def initialize id, obj
+  def initialize id, obj, scope = :brief
      super
-     
+#     create_scope(@scope)
+     return
      dc = Dataformats::DC.new @obj
      @title = dc.get_dc_value 'title'
 
@@ -34,7 +39,7 @@ class Authority < DarcFedora
      eac.save()
   end
   
-  def as_json(opt)
+  def xxxas_json(opt)
      {
         title: @title,
         authorized_forename: @authorized_forename,
