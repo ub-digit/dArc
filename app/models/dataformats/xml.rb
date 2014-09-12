@@ -57,4 +57,19 @@ class Dataformats::Xml
        nodes[0].value = value
      end
   end
+
+  def read_element xpath, namespace
+     if is_new?
+       return nil
+     end
+     @doc.xpath(xpath, namespace)[0].text
+  end
+
+  def write_element xpath, namespace, value
+     if is_new?
+       @doc = create_empty
+     end
+     
+     @doc.xpath(xpath, namespace)[0].content = value
+  end
 end
