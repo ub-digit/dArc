@@ -1,7 +1,7 @@
 class Api::AuthoritiesController < Api::ApiController
 
   def show
-    @authority = Authority.find(params[:id])
+    @authority = Authority.find(params[:id].to_i)
     if !@authority.nil? 
       render json: {status: ResponseData::ResponseStatus.new("SUCCESS"), data: @authority}
     else
