@@ -35,24 +35,11 @@ class Dataformats::EAC < Dataformats::Xml
   end
 
   def type= type
-     if is_new?
-       @doc = create_empty
-     end
-
-     nodes = @doc.xpath('//e:eac/@type', 'e' => "http://xml.ra.se/EAC")
-
-     if !type
-       nodes.remove()
-     else
-       nodes[0].value=type
-     end
+     write_attribute('//e:eac/@type', {'e' => "http://xml.ra.se/EAC"}, type)
   end
 
   def type
-     if is_new?
-       return nil
-     end
-     @doc.xpath('//e:eac/@type', 'e' => "http://xml.ra.se/EAC")[0].value
+     read_attribute('//e:eac/@type', {'e' => "http://xml.ra.se/EAC"})
   end
 
   def startdate= startdate

@@ -36,4 +36,25 @@ class Dataformats::Xml
   def to_xml
      @doc.to_xml
   end
+
+  def read_attribute xpath, namespace
+     if is_new?
+       return nil
+     end
+     @doc.xpath(xpath, namespace)[0].value
+  end
+
+  def write_attribute xpath, namespace, value
+     if is_new?
+       @doc = create_empty
+     end
+
+     nodes = @doc.xpath(xpath, namespace)
+
+     if !value
+       nodes.remove()
+     else
+       nodes[0].value = value
+     end
+  end
 end
