@@ -2,9 +2,10 @@ class DarcFedora
   attr_reader :id, :obj
   include ActiveModel::Validations
   
-  def initialize id, obj
+  def initialize id, obj, scope="brief"
      @id = id
      @obj = obj
+     @scope = scope
 
      @obj.models.each{ |m| check_model(m) }
      unless @validModel
@@ -12,7 +13,7 @@ class DarcFedora
      end
   end
 
-  def self.find id
+  def self.find id options={}
     case id
       when Integer
         string_id = numeric_id_to_fedora_id(id)
@@ -25,13 +26,13 @@ class DarcFedora
     self.new string_id,fedora_connection.find(string_id)
   end
 
-  def self.find_by_id id
+  def self.find_by_id id options={}
      self.find(id)
   rescue => error
     return nil	
   end
 
-  def self.all
+  def self.all options = {}
   end
 
   def check_model m
@@ -55,4 +56,5 @@ class DarcFedora
   def self.numeric_id_to_fedora_id numeric_id
      Rails.application.config.namespace_prefix + numeric_id.to_s
   end
+
 end
