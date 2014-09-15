@@ -23,7 +23,6 @@ RSpec.describe Api::AuthoritiesController, :type => :controller do
 				expect(json['status']['code'] == -1).to be true
 			end 
 		end
-
 	end
 
 	describe "PUT update" do

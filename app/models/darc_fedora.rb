@@ -1,10 +1,46 @@
+module DarcFedoraDSHandler
+  def attr_datastream(dataformat, *args)
+    @@attr_fields_datastream ||= {}
+    args.each do |arg|
+      @@attr_fields_datastream[arg] = dataformat
+    end
+  end
+
+  def scope(scope_name, *args)
+    scope_fields = args
+    define_method("#{scope_name}_load".to_sym) do
+      scope_fields.each do |field|
+        # title:
+        #  dataformat_fetch(:dc, :title)
+        # startdate:
+        #  dataformat_fetch(:eac, :startdate)
+        ds_data = dataformat_fetch(@@attr_fields_datastream[field], field)
+        instance_variable_set("@#{field}", ds_data)
+      end
+    end
+    define_method("#{scope_name}_as_json".to_sym) do
+      json_data = {}
+      scope_fields.each do |field|
+        json_data[field] = instance_variable_get("@#{field}")
+      end
+      json_data
+    end
+  end
+end
+
 class DarcFedora
+  DS_MAP={
+    dc: Dataformats::DC,
+    eac: Dataformats::EAC
+  }
+  extend DarcFedoraDSHandler
   attr_reader :id, :obj
   include ActiveModel::Validations
   
-  def initialize id, obj
+  def initialize id, obj, scope="brief"
      @id = id
      @obj = obj
+     @scope = scope
 
      @obj.models.each{ |m| check_model(m) }
      unless @validModel
@@ -12,7 +48,7 @@ class DarcFedora
      end
   end
 
-  def self.find id
+  def self.find id, options={}
     case id
       when Integer
         string_id = numeric_id_to_fedora_id(id)
@@ -25,13 +61,26 @@ class DarcFedora
     self.new string_id,fedora_connection.find(string_id)
   end
 
-  def self.find_by_id id
+  def self.find_by_id id, options={}
      self.find(id)
   rescue => error
     return nil	
   end
 
-  def self.all
+  def self.all options={}
+  end
+
+  def load
+    self.send("#{@scope}_load")
+  end
+
+  def as_json(opt = {})
+    self.send("#{@scope}_as_json")
+  end
+
+  def dataformat_fetch(datastream, field)
+    puts ["Calling dataformat_fetch", datastream, field] # DEBUG
+    return DS_MAP[datastream].new(@obj).send(field)
   end
 
   def check_model m
@@ -55,4 +104,5 @@ class DarcFedora
   def self.numeric_id_to_fedora_id numeric_id
      Rails.application.config.namespace_prefix + numeric_id.to_s
   end
+
 end

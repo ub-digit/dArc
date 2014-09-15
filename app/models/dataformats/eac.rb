@@ -5,86 +5,43 @@ class Dataformats::EAC < Dataformats::Xml
   end
 
   def authorized_forename= name
-     if is_new?
-       @doc = create_empty
-     end
-     
-     @doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="forename"]', 'e' => "http://xml.ra.se/EAC")[0].content=name
+     write_element('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="forename"]', {'e' => "http://xml.ra.se/EAC"}, name)
   end
 
   def authorized_forename
-     if is_new?
-       return nil
-     end
-     @doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="forename"]', 'e' => "http://xml.ra.se/EAC")[0].text
+     read_element('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="forename"]', {'e' => "http://xml.ra.se/EAC"})
   end
 
   def authorized_surname= name
-     if is_new?
-       @doc = create_empty
-     end
-     
-     @doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].content=name
+     write_element('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', {'e' => "http://xml.ra.se/EAC"}, name)
   end
 
   def authorized_surname
-     if is_new?
-       return nil
-     end
-     @doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].text
+     read_element('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', {'e' => "http://xml.ra.se/EAC"})
   end
 
   def type= type
-     if is_new?
-       @doc = create_empty
-     end
-
-     nodes = @doc.xpath('//e:eac/@type', 'e' => "http://xml.ra.se/EAC")
-
-     if !type
-       nodes.remove()
-     else
-       nodes[0].value=type
-     end
+     write_attribute('//e:eac/@type', {'e' => "http://xml.ra.se/EAC"}, type)
   end
 
   def type
-     if is_new?
-       return nil
-     end
-     @doc.xpath('//e:eac/@type', 'e' => "http://xml.ra.se/EAC")[0].value
+     read_attribute('//e:eac/@type', {'e' => "http://xml.ra.se/EAC"})
   end
 
   def startdate= startdate
-     if is_new?
-       @doc = create_empty
-     end
-     
-     #@doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].content=name
+     write_or_create_element(Dataformats::Xml::Path.new(['eac', 'condesc', 'desc', 'persdesc', 'existdesc', 'existdate', { :scope => 'begin' }], 'e', "http://xml.ra.se/EAC"), startdate)
   end
 
   def startdate
-     if is_new?
-       return nil
-     end
-     #@doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].text
-     ''
+     read_element('//e:eac/e:condesc/e:desc/e:persdesc/e:existdesc/e:existdate[@scope="begin"]', {'e' => "http://xml.ra.se/EAC"})
   end
 
   def enddate= enddate
-     if is_new?
-       @doc = create_empty
-     end
-     
-     #@doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].content=name
+     write_or_create_element(Dataformats::Xml::Path.new(['eac', 'condesc', 'desc', 'persdesc', 'existdesc', 'existdate', { :scope => 'end' }], 'e', "http://xml.ra.se/EAC"), startdate)
   end
 
   def enddate
-     if is_new?
-       return nil
-     end
-     #@doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].text
-     ''
+     read_element('//e:eac/e:condesc/e:desc/e:persdesc/e:existdesc/e:existdate[@scope="end"]', {'e' => "http://xml.ra.se/EAC"})
   end
 
   def biography= biography
