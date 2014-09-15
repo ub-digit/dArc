@@ -29,35 +29,19 @@ class Dataformats::EAC < Dataformats::Xml
   end
 
   def startdate= startdate
-     if is_new?
-       @doc = create_empty
-     end
-     
-     #@doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].content=name
+     write_or_create_element(Dataformats::Xml::Path.new(['eac', 'condesc', 'desc', 'persdesc', 'existdesc', 'existdate', { :scope => 'begin' }], 'e', "http://xml.ra.se/EAC"), startdate)
   end
 
   def startdate
-     if is_new?
-       return nil
-     end
-     #@doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].text
-     ''
+     read_element('//e:eac/e:condesc/e:desc/e:persdesc/e:existdesc/e:existdate[@scope="begin"]', {'e' => "http://xml.ra.se/EAC"})
   end
 
   def enddate= enddate
-     if is_new?
-       @doc = create_empty
-     end
-     
-     #@doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].content=name
+     write_or_create_element(Dataformats::Xml::Path.new(['eac', 'condesc', 'desc', 'persdesc', 'existdesc', 'existdate', { :scope => 'end' }], 'e', "http://xml.ra.se/EAC"), startdate)
   end
 
   def enddate
-     if is_new?
-       return nil
-     end
-     #@doc.xpath('//e:eac/e:condesc/e:identity/e:pershead[@authorized!=""]/e:part[@type="surname"]', 'e' => "http://xml.ra.se/EAC")[0].text
-     ''
+     read_element('//e:eac/e:condesc/e:desc/e:persdesc/e:existdesc/e:existdate[@scope="end"]', {'e' => "http://xml.ra.se/EAC"})
   end
 
   def biography= biography
