@@ -1,9 +1,5 @@
 require 'rails_helper'
 
-RSpec.configure do |c|
-	c.include TestHelper
-end
-
 RSpec.describe Api::ApiController, :type => :controller do
 	before :each do
 		config_init

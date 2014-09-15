@@ -14,9 +14,10 @@ class Api::AuthoritiesController < Api::ApiController
     if !@authority.nil? 
       @authority.from_json(request.raw_post)
       @authority.save()
-      render json: {status: ResponseData::ResponseStatus.new("SUCCESS"), data: @authority}
+      #render json: {status: ResponseData::ResponseStatus.new("SUCCESS"), data: @authority}
     else
-      render json: {status: ResponseData::ResponseStatus.new("FAIL").set_error("OBJECT_ERROR", "Could not find object with id: #{params[:id]}")}
+      #render json: {status: ResponseData::ResponseStatus.new("FAIL").set_error("OBJECT_ERROR", "Could not find object with id: #{params[:id]}")}
     end
+    render status: 404
   end
 end
