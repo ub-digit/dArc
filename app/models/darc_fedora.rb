@@ -1,7 +1,5 @@
 module DarcFedoraDSHandler
   def attr_datastream(dataformat, *args)
-    pp [:attr_datastream, dataformat, args] # DEBUG
-    pp self # DEBUG
     @@attr_fields_datastream ||= {}
     args.each do |arg|
       @@attr_fields_datastream[arg] = dataformat
@@ -9,7 +7,6 @@ module DarcFedoraDSHandler
   end
 
   def scope(scope_name, *args)
-    pp [:scope, scope_name, args] # DEBUG
     scope_fields = args
     define_method("#{scope_name}_load".to_sym) do
       scope_fields.each do |field|
@@ -44,7 +41,7 @@ class DarcFedora
      @id = id
      @obj = obj
      @scope = scope
-return # DEBUG
+
      @obj.models.each{ |m| check_model(m) }
      unless @validModel
        raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
@@ -82,18 +79,8 @@ return # DEBUG
   end
 
   def dataformat_fetch(datastream, field)
-  pp ["Calling dataformat_fetch", datastream, field] # DEBUG
-  return # DEBUG
-  return DS_MAP[datastream].new(@obj).send(field)
-  # TODO: Ta bort resten
-    if datastream == :dc
-      @datastreams_dc ||= Dataformats::DC.new @obj
-      return @datastreams_dc.get_dc_value field.to_s
-    end
-    if datastream == :eac
-      @datastreams_eac ||= Dataformats::EAC.new @obj
-      return @datastreams_eac.send(field)
-    end
+    puts ["Calling dataformat_fetch", datastream, field] # DEBUG
+    return DS_MAP[datastream].new(@obj).send(field)
   end
 
   def check_model m

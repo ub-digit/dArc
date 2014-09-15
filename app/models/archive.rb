@@ -1,5 +1,7 @@
 class Archive < DarcFedora
   attr_reader :title
+  scope :brief
+  scope :full
 
   def initialize id, obj
      super

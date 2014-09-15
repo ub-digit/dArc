@@ -1,4 +1,6 @@
 class Model < DarcFedora
+  scope :brief
+  scope :full
 
   @@models = {}
 
