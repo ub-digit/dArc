@@ -62,7 +62,12 @@ class Dataformats::Xml
      if is_new?
        return nil
      end
-     @doc.xpath(xpath, namespace)[0].text
+
+     nodes = @doc.xpath(xpath, namespace)
+     if nodes.length == 0
+       return nil
+     end
+     nodes[0].text
   end
 
   def write_element xpath, namespace, value
