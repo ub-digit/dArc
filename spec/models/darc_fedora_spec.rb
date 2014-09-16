@@ -19,20 +19,10 @@ RSpec.describe DarcFedora, :type => :model do
 			end 
 		end
 		context "with a non existing id" do 
-			it "returns a nil object" do 
-				result = DarcFedora.find(-7)
-				expect(result).to be nil
+			it "raises an error" do 
 				expect{DarcFedora.find(-7)}.to raise_error
 			end 
 		end
 	end
 
-	describe "initialize" do
-		context "with a valid mock object" do
-			it "returns an object" do
-				obj = DarcFedora.new("testID", RubydoraMock.new)
-				expect(obj).to_not be nil
-			end
-		end
-	end
 end

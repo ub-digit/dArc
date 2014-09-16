@@ -1,18 +1,11 @@
-class Archive < DarcFedora
-  attr_reader :title
-  scope :brief
-  scope :full
+class Archive < DarcFedoraObject
 
-  def initialize id, obj
+  #attr_datastream :ead
+  scope :brief, :title
+  scope :full, :title
+
+  def initialize id, obj, scope="brief"
      super
-     
-     dc = Dataformats::DC.new @obj
-     @title = dc.get_dc_value 'title'
-  end
-
-  def as_json(opt)
-     {
-        title: @title
-     }
+     load
   end
 end

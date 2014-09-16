@@ -65,10 +65,10 @@ class DarcFedora
      @obj = obj
      @scope = scope
 
-     @obj.models.each{ |m| check_model(m) }
-     unless @validModel
-       raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
-     end
+     # @obj.models.each{ |m| check_model(m) }
+     # unless @validModel
+     #   raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
+     # end
   end
 
   def self.find id, options={}
