@@ -21,9 +21,9 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=EAB1D44093279569574E45EB20E9E401; Path=/fedora
+      - JSESSIONID=F766F771D1C11BA7D1CE534A720F035F; Path=/fedora
       Date:
-      - Tue, 16 Sep 2014 09:27:39 GMT
+      - Tue, 16 Sep 2014 14:42:38 GMT
       Content-Type:
       - text/xml
       Content-Length:
@@ -38,5 +38,5 @@ http_interactions:
         for this object</apim:dsLabel><apim:dsVersionID>DC.1</apim:dsVersionID><apim:dsCreateDate>2014-09-12T12:51:12.056Z</apim:dsCreateDate><apim:dsState>A</apim:dsState><apim:dsMIME>text/xml</apim:dsMIME><apim:dsFormatURI>http://www.openarchives.org/OAI/2.0/oai_dc/</apim:dsFormatURI><apim:dsControlGroup>X</apim:dsControlGroup><apim:dsSize>389</apim:dsSize><apim:dsVersionable>true</apim:dsVersionable><apim:dsInfoType></apim:dsInfoType><apim:dsLocation>darc:21+DC+DC.1</apim:dsLocation><apim:dsLocationType></apim:dsLocationType><apim:dsChecksumType>DISABLED</apim:dsChecksumType><apim:dsChecksum>none</apim:dsChecksum></datastreamProfile><datastreamProfile
         pid="darc:21" dsID="RELS-EXT" ><apim:dsLabel>Relationships</apim:dsLabel><apim:dsVersionID>RELS-EXT.0</apim:dsVersionID><apim:dsCreateDate>2014-09-12T12:51:12.014Z</apim:dsCreateDate><apim:dsState>A</apim:dsState><apim:dsMIME>application/rdf+xml</apim:dsMIME><apim:dsFormatURI>info:fedora/fedora-system:FedoraRELSExt-1.0</apim:dsFormatURI><apim:dsControlGroup>X</apim:dsControlGroup><apim:dsSize>275</apim:dsSize><apim:dsVersionable>false</apim:dsVersionable><apim:dsInfoType></apim:dsInfoType><apim:dsLocation>darc:21+RELS-EXT+RELS-EXT.0</apim:dsLocation><apim:dsLocationType></apim:dsLocationType><apim:dsChecksumType>DISABLED</apim:dsChecksumType><apim:dsChecksum>none</apim:dsChecksum></datastreamProfile></objectDatastreams>
     http_version: 
-  recorded_at: Tue, 16 Sep 2014 09:27:36 GMT
+  recorded_at: Tue, 16 Sep 2014 14:42:35 GMT
 recorded_with: VCR 2.9.3

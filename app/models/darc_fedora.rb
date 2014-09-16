@@ -65,6 +65,7 @@ class DarcFedora
      @obj = obj
      @scope = scope
 
+     pp @obj.models
      # don't do the model check for content model objects
      unless @obj.models.include?("info:fedora/fedora-system:ContentModel-3.0") then
        # ensure that the list of models includes the model for the runtime class

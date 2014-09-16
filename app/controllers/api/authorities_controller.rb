@@ -14,7 +14,7 @@ class Api::AuthoritiesController < Api::ApiController
   def update
     @authority = Authority.find(params[:id].to_i, {:select => :full})
     if !@authority.nil? 
-      @authority.from_json(request.raw_post)
+      @authority.to_json(request.raw_post)
       @authority.save
       render json: {authority: @authority}, status: 201
     else

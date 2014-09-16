@@ -1,11 +1,12 @@
 class Models
-  @@loaded = 0
+  attr_accessor :id_by_model_name, :model_name_by_id, :loaded
+  @@loaded = false
   @@id_by_model_name = {}
   @@model_name_by_id = {}
 
   def self.get_all_models
     # return if already loaded
-    if @@loaded == 1 then return end
+    if @@loaded then return end
     
   	fedora_connection = Rubydora.connect Rails.application.config.fedora_connection
   	csv = fedora_connection.sparql('select ?m where { ?m <info:fedora/fedora-system:def/model#hasModel> <info:fedora/fedora-system:ContentModel-3.0>}')
@@ -23,7 +24,7 @@ class Models
   	  @@model_name_by_id[id] = model_name
   	end
   	# mark as loaded
-  	@@loaded = 1
+  	@@loaded = true
   end
   
   def self.get_id_for_model_name model_name
@@ -34,5 +35,17 @@ class Models
   def self.get_model_name_for_id id
     self.get_all_models
     @@model_name_by_id[id]
+  end
+
+  def self.loaded
+    @@loaded
+  end
+
+  def self.id_by_model_name
+    @@id_by_model_name
+  end
+
+  def self.model_name_by_id
+    @@model_name_by_id
   end
 end

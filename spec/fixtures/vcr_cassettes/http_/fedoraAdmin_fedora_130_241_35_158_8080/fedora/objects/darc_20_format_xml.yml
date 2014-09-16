@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://fedoraAdmin:fedora@130.241.35.158:8080/fedora/objects/darc:19?format=xml
+    uri: http://fedoraAdmin:fedora@130.241.35.158:8080/fedora/objects/darc:20?format=xml
     body:
       encoding: US-ASCII
       string: ''
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=72EA1B01EA48F0A8B56EEA5E65F8E268; Path=/fedora
+      - JSESSIONID=331BAFB35BA12F2766E1126AC79ABFA9; Path=/fedora
       Date:
       - Tue, 16 Sep 2014 14:42:38 GMT
       Content-Type:
@@ -32,7 +32,7 @@ http_interactions:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><objectProfile  xmlns="http://www.fedora.info/definitions/1/0/access/"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.fedora.info/definitions/1/0/access/
-        http://www.fedora.info/definitions/1/0/objectProfile.xsd" pid="darc:19" ><objLabel></objLabel><objOwnerId>fedoraAdmin</objOwnerId><objModels><model>info:fedora/fedora-system:FedoraObject-3.0</model><model>info:fedora/fedora-system:ContentModel-3.0</model></objModels><objCreateDate>2014-09-12T12:51:11.518Z</objCreateDate><objLastModDate>2014-09-12T12:51:11.686Z</objLastModDate><objDissIndexViewURL>http://localhost:8080/fedora/objects/darc%3A19/methods/fedora-system%3A3/viewMethodIndex</objDissIndexViewURL><objItemIndexViewURL>http://localhost:8080/fedora/objects/darc%3A19/methods/fedora-system%3A3/viewItemIndex</objItemIndexViewURL><objState>A</objState></objectProfile>
+        http://www.fedora.info/definitions/1/0/objectProfile.xsd" pid="darc:20" ><objLabel></objLabel><objOwnerId>fedoraAdmin</objOwnerId><objModels><model>info:fedora/fedora-system:FedoraObject-3.0</model><model>info:fedora/fedora-system:ContentModel-3.0</model></objModels><objCreateDate>2014-09-12T12:51:11.732Z</objCreateDate><objLastModDate>2014-09-12T12:51:11.898Z</objLastModDate><objDissIndexViewURL>http://localhost:8080/fedora/objects/darc%3A20/methods/fedora-system%3A3/viewMethodIndex</objDissIndexViewURL><objItemIndexViewURL>http://localhost:8080/fedora/objects/darc%3A20/methods/fedora-system%3A3/viewItemIndex</objItemIndexViewURL><objState>A</objState></objectProfile>
     http_version: 
   recorded_at: Tue, 16 Sep 2014 14:42:35 GMT
 recorded_with: VCR 2.9.3

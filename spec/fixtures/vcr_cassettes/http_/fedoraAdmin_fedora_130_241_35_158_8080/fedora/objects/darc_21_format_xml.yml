@@ -21,9 +21,9 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=EF5868D05EFB2E8EFA4E298290598765; Path=/fedora
+      - JSESSIONID=832741B85075C2A147AB939BE42DBD46; Path=/fedora
       Date:
-      - Tue, 16 Sep 2014 09:27:39 GMT
+      - Tue, 16 Sep 2014 14:42:38 GMT
       Content-Type:
       - text/xml
       Content-Length:
@@ -34,5 +34,5 @@ http_interactions:
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.fedora.info/definitions/1/0/access/
         http://www.fedora.info/definitions/1/0/objectProfile.xsd" pid="darc:21" ><objLabel></objLabel><objOwnerId>fedoraAdmin</objOwnerId><objModels><model>info:fedora/fedora-system:FedoraObject-3.0</model><model>info:fedora/fedora-system:ContentModel-3.0</model></objModels><objCreateDate>2014-09-12T12:51:11.953Z</objCreateDate><objLastModDate>2014-09-12T12:51:12.056Z</objLastModDate><objDissIndexViewURL>http://localhost:8080/fedora/objects/darc%3A21/methods/fedora-system%3A3/viewMethodIndex</objDissIndexViewURL><objItemIndexViewURL>http://localhost:8080/fedora/objects/darc%3A21/methods/fedora-system%3A3/viewItemIndex</objItemIndexViewURL><objState>A</objState></objectProfile>
     http_version: 
-  recorded_at: Tue, 16 Sep 2014 09:27:36 GMT
+  recorded_at: Tue, 16 Sep 2014 14:42:35 GMT
 recorded_with: VCR 2.9.3

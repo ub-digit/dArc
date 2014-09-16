@@ -21,11 +21,11 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=04CBB8AC5499ABFDE01C161F90447C0B; Path=/fedora
+      - JSESSIONID=22996A7D0B17A27E4184ED13469401E3; Path=/fedora
       Content-Disposition:
       - inline; filename="Dublin Core Record for this object.xml"
       Date:
-      - Mon, 15 Sep 2014 13:46:27 GMT
+      - Tue, 16 Sep 2014 14:42:38 GMT
       Content-Type:
       - text/xml
       Content-Length:
@@ -39,5 +39,5 @@ http_interactions:
           <dc:identifier>darc:19</dc:identifier>
         </oai_dc:dc>
     http_version: 
-  recorded_at: Mon, 15 Sep 2014 13:46:26 GMT
+  recorded_at: Tue, 16 Sep 2014 14:42:35 GMT
 recorded_with: VCR 2.9.3

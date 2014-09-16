@@ -21,9 +21,9 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=EEA6EEC88B4ADF1BC18BAD180D6A189E; Path=/fedora
+      - JSESSIONID=72D2C75BA7748760BF8E19F36CBB2528; Path=/fedora
       Date:
-      - Mon, 15 Sep 2014 13:46:27 GMT
+      - Tue, 16 Sep 2014 14:42:38 GMT
       Content-Type:
       - text/xml
       Content-Length:
@@ -40,5 +40,5 @@ http_interactions:
         pid="darc:19" dsID="DS-COMPOSITE-MODEL" ><apim:dsLabel>Datastream Composite
         Model</apim:dsLabel><apim:dsVersionID>DS-COMPOSITE-MODEL.0</apim:dsVersionID><apim:dsCreateDate>2014-09-12T12:51:11.640Z</apim:dsCreateDate><apim:dsState>A</apim:dsState><apim:dsMIME>text/xml</apim:dsMIME><apim:dsFormatURI></apim:dsFormatURI><apim:dsControlGroup>X</apim:dsControlGroup><apim:dsSize>135</apim:dsSize><apim:dsVersionable>true</apim:dsVersionable><apim:dsInfoType></apim:dsInfoType><apim:dsLocation>darc:19+DS-COMPOSITE-MODEL+DS-COMPOSITE-MODEL.0</apim:dsLocation><apim:dsLocationType></apim:dsLocationType><apim:dsChecksumType>DISABLED</apim:dsChecksumType><apim:dsChecksum>none</apim:dsChecksum></datastreamProfile></objectDatastreams>
     http_version: 
-  recorded_at: Mon, 15 Sep 2014 13:46:26 GMT
+  recorded_at: Tue, 16 Sep 2014 14:42:35 GMT
 recorded_with: VCR 2.9.3
