@@ -14,13 +14,13 @@ RSpec.describe Api::AuthoritiesController, :type => :controller do
 		context "with existing id" do 
 			it "returns a json message" do 
 				get :show, api_key: @api_key, id: 25
-				expect(json['status']['code'] == 0).to be true
+				expect(response.status.to_i == 200).to be 
 			end 
 		end
 		context "with a non existing id" do 
 			it "returns a error message" do 
 				get :show, api_key: @api_key, id: -7
-				expect(json['status']['code'] == -1).to be true
+				expect(response.status.to_i != 200).to be true
 			end 
 		end
 	end
@@ -29,7 +29,7 @@ RSpec.describe Api::AuthoritiesController, :type => :controller do
 		context "with valid attributes" do
 			it "should return a success message" do
 				post :update, api_key: @api_key, id: 25
-				expect(response.status).to be 200
+				expect(response.status.to_i == 201).to be 
 			end
 		end
 	end
