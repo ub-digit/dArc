@@ -92,7 +92,7 @@ class DarcFedora
   end
 
   def self.find_by_id id, options={}
-     self.find(id)
+     self.find(id, options)
   rescue => error
     return nil	
   end
@@ -142,7 +142,7 @@ class DarcFedora
        return nil
      end
      model = Model.find(m)
-     if(model.get_dc_value('title').include? self.class.name)
+     if(model.get_dc_value('title').include? self.class.fedora_model_name)
        @validModel = 1
      end
   end
@@ -158,4 +158,7 @@ class DarcFedora
      Rails.application.config.namespace_prefix + numeric_id.to_s
   end
 
+  def self.fedora_model_name
+     name
+  end
 end
