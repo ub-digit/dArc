@@ -28,16 +28,16 @@ class Dataformats::EAC < Dataformats::Xml
      read_attribute('//e:eac/@type', {'e' => "http://xml.ra.se/EAC"})
   end
 
-  def startdate= startdate
-     write_or_create_element(Dataformats::Xml::Path.new(['eac', 'condesc', 'desc', 'persdesc', 'existdesc', 'existdate', { :scope => 'begin' }], 'e', "http://xml.ra.se/EAC"), startdate)
+  def startdate= value
+     write_or_create_element(Dataformats::Xml::Path.new(['eac', 'condesc', 'desc', 'persdesc', 'existdesc', 'existdate', { :scope => 'begin' }], 'e', "http://xml.ra.se/EAC"), value)
   end
 
   def startdate
      read_element('//e:eac/e:condesc/e:desc/e:persdesc/e:existdesc/e:existdate[@scope="begin"]', {'e' => "http://xml.ra.se/EAC"})
   end
 
-  def enddate= enddate
-     write_or_create_element(Dataformats::Xml::Path.new(['eac', 'condesc', 'desc', 'persdesc', 'existdesc', 'existdate', { :scope => 'end' }], 'e', "http://xml.ra.se/EAC"), startdate)
+  def enddate= value
+     write_or_create_element(Dataformats::Xml::Path.new(['eac', 'condesc', 'desc', 'persdesc', 'existdesc', 'existdate', { :scope => 'end' }], 'e', "http://xml.ra.se/EAC"), value)
   end
 
   def enddate
