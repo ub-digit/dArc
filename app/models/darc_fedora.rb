@@ -9,13 +9,28 @@ module DarcFedoraDSHandler
   def scope(scope_name, *args)
     scope_fields = args
     define_method("#{scope_name}_load".to_sym) do
-      scope_fields.each do |field|
-        # title:
-        #  dataformat_fetch(:dc, :title)
-        # startdate:
-        #  dataformat_fetch(:eac, :startdate)
-        ds_data = dataformat_fetch(@@attr_fields_datastream[field], field)
-        instance_variable_set("@#{field}", ds_data)
+      @@attr_fields_datastream.values.uniq.each do |ds|
+        ds_scope_fields = scope_fields.select do |field| @@attr_fields_datastream[field] == ds end
+        if !ds_scope_fields.empty? then dataformat_wrapper_create(ds) end
+        ds_scope_fields.each do |field|
+          ds_data = dataformat_fetch(field)
+          instance_variable_set("@#{field}", ds_data)
+        end
+        if !ds_scope_fields.empty? then dataformat_wrapper_dispose end
+      end
+    end
+    define_method("#{scope_name}_save".to_sym) do
+      @@attr_fields_datastream.values.uniq.each do |ds|
+        ds_scope_fields = scope_fields.select do |field| @@attr_fields_datastream[field] == ds end
+        if !ds_scope_fields.empty? then dataformat_wrapper_create(ds) end
+        ds_scope_fields.each do |field|
+          ds_data = instance_variable_get("@#{field}")
+          dataformat_push(field, ds_data)
+        end
+        if !ds_scope_fields.empty? then
+          dataformat_wrapper_save
+          dataformat_wrapper_dispose
+        end
       end
     end
     define_method("#{scope_name}_as_json".to_sym) do
@@ -24,6 +39,14 @@ module DarcFedoraDSHandler
         json_data[field] = instance_variable_get("@#{field}")
       end
       json_data
+    end
+    define_method("#{scope_name}_from_json".to_sym) do |json|
+      json_data = JSON.parse(json)
+      scope_fields.each do |field|
+        if json_data[field.to_s] != nil then
+          instance_variable_set("@#{field}", json_data[field.to_s])
+        end
+      end
     end
   end
 end
@@ -74,13 +97,36 @@ class DarcFedora
     self.send("#{@scope}_load")
   end
 
+  def save
+    self.send("#{@scope}_save")
+  end
+
   def as_json(opt = {})
     self.send("#{@scope}_as_json")
   end
 
-  def dataformat_fetch(datastream, field)
-    puts ["Calling dataformat_fetch", datastream, field] # DEBUG
-    return DS_MAP[datastream].new(@obj).send(field)
+  def from_json(json, opt = {})
+    self.send("#{@scope}_from_json", json)
+  end
+
+  def dataformat_wrapper_create(datastream)
+    @wrapper = DS_MAP[datastream].new(@obj)
+  end
+
+  def dataformat_wrapper_dispose
+    @wrapper = nil
+  end
+
+  def dataformat_wrapper_save
+    @wrapper.save
+  end
+
+  def dataformat_fetch(field)
+    return @wrapper.send(field)
+  end
+
+  def dataformat_push(field, value)
+    return @wrapper.send(field.to_s + '=', value)
   end
 
   def check_model m

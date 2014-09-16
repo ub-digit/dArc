@@ -8,4 +8,12 @@ class Dataformats::DC < Dataformats::Xml
      'DC'
   end
 
+  def title= title
+     write_element('//oai_dc:dc/dc:title', {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"}, title)
+  end
+
+  def title
+     read_element('//oai_dc:dc/dc:title', {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"})
+  end
+
 end
