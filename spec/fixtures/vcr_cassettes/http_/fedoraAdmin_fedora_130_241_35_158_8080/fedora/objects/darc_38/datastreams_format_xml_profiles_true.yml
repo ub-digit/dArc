@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://fedoraAdmin:fedora@130.241.35.158:8080/fedora/objects/darc:38/datastreams?format=xml&profiles=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=5519F977569CD44749ED338160310F48; Path=/fedora
+      Date:
+      - Tue, 16 Sep 2014 15:34:09 GMT
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '1916'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><objectDatastreams xmlns="http://www.fedora.info/definitions/1/0/access/"
+        xmlns:apim="http://www.fedora.info/definitions/1/0/management/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.fedora.info/definitions/1/0/access/
+        http://localhost:8080/fedora/schema/listDatastreams.xsd" pid="darc:38"  baseURL="http://localhost:8080/fedora/"
+        ><datastreamProfile pid="darc:38" dsID="DC" ><apim:dsLabel>Dublin Core Record
+        for this object</apim:dsLabel><apim:dsVersionID>DC.1</apim:dsVersionID><apim:dsCreateDate>2014-09-16T15:29:38.662Z</apim:dsCreateDate><apim:dsState>A</apim:dsState><apim:dsMIME>text/xml</apim:dsMIME><apim:dsFormatURI>http://www.openarchives.org/OAI/2.0/oai_dc/</apim:dsFormatURI><apim:dsControlGroup>X</apim:dsControlGroup><apim:dsSize>372</apim:dsSize><apim:dsVersionable>true</apim:dsVersionable><apim:dsInfoType></apim:dsInfoType><apim:dsLocation>darc:38+DC+DC.1</apim:dsLocation><apim:dsLocationType></apim:dsLocationType><apim:dsChecksumType>DISABLED</apim:dsChecksumType><apim:dsChecksum>none</apim:dsChecksum></datastreamProfile><datastreamProfile
+        pid="darc:38" dsID="RELS-EXT" ><apim:dsLabel>Relationships</apim:dsLabel><apim:dsVersionID>RELS-EXT.1</apim:dsVersionID><apim:dsCreateDate>2014-09-16T15:29:38.975Z</apim:dsCreateDate><apim:dsState>A</apim:dsState><apim:dsMIME>application/rdf+xml</apim:dsMIME><apim:dsFormatURI>info:fedora/fedora-system:FedoraRELSExt-1.0</apim:dsFormatURI><apim:dsControlGroup>X</apim:dsControlGroup><apim:dsSize>378</apim:dsSize><apim:dsVersionable>false</apim:dsVersionable><apim:dsInfoType></apim:dsInfoType><apim:dsLocation>darc:38+RELS-EXT+RELS-EXT.1</apim:dsLocation><apim:dsLocationType></apim:dsLocationType><apim:dsChecksumType>DISABLED</apim:dsChecksumType><apim:dsChecksum>none</apim:dsChecksum></datastreamProfile></objectDatastreams>
+    http_version: 
+  recorded_at: Tue, 16 Sep 2014 15:34:06 GMT
+recorded_with: VCR 2.9.3

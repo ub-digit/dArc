@@ -17,11 +17,11 @@ RSpec.describe Authority, :type => :model do
 				expect{Authority.find(db_ids[:invalid])}.to raise_error
 			end 
 		end
-		# context "with wrong object type" do
-		# 	it "raises an error" do
-		# 		expect{Authority.find(21)}.to raise_error
-		# 	end
-		# end
+		context "with wrong object type" do
+			it "raises an error" do
+				expect{Authority.find(db_ids[:disk])}.to raise_error
+			end
+		end
 	end
 
 	describe "class" do
@@ -33,14 +33,12 @@ RSpec.describe Authority, :type => :model do
 		end
 	end
 
-	describe "update" do
+	describe "save" do
 		context "with valid attributes" do
-			it "should update without errors" do
+			it "should save without errors" do
 				a = Authority.find(db_ids[:authority])
-				a.startdate = 1337
-				a.save
-				b = Authority.find(db_ids[:authority])
-				expect(b.startdate = '1337')
+				a.from_json({"startdate" => "1337"}.to_json)
+				expect(a.save).to be true
 			end
 		end
 	end

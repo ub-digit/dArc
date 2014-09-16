@@ -21,13 +21,13 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=510EEE487A341BCD97CF2BA0B5B43978; Path=/fedora
+      - JSESSIONID=2EC5E8508061547E90FF7BFD2D564EAC; Path=/fedora
       Content-Type:
       - text/xml;charset=UTF-8
       Transfer-Encoding:
       - chunked
       Date:
-      - Tue, 16 Sep 2014 14:42:38 GMT
+      - Tue, 16 Sep 2014 15:34:09 GMT
     body:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8"?><fedoraRepository xmlns="http://www.fedora.info/definitions/1/0/access/"
@@ -35,5 +35,5 @@ http_interactions:
         xsi:schemaLocation="http://www.fedora.info/definitions/1/0/access/ http://www.fedora.info/definitions/1/0/fedoraRepository.xsd"><repositoryName>Fedora
         Repository</repositoryName><repositoryBaseURL>http://localhost:8080/fedora</repositoryBaseURL><repositoryVersion>3.7.1</repositoryVersion><repositoryPID>    <PID-namespaceIdentifier>darc</PID-namespaceIdentifier>    <PID-delimiter>:</PID-delimiter>    <PID-sample>darc:100</PID-sample>    <retainPID>*</retainPID></repositoryPID><repositoryOAI-identifier>    <OAI-namespaceIdentifier>example.org</OAI-namespaceIdentifier>    <OAI-delimiter>:</OAI-delimiter>    <OAI-sample>oai:example.org:darc:100</OAI-sample></repositoryOAI-identifier><sampleSearch-URL>http://localhost:8080/fedora/objects</sampleSearch-URL><sampleAccess-URL>http://localhost:8080/fedora/objects/demo:5</sampleAccess-URL><sampleOAI-URL>http://localhost:8080/fedora/oai?verb=Identify</sampleOAI-URL><adminEmail>bob@example.org</adminEmail><adminEmail>sally@example.org</adminEmail></fedoraRepository>
     http_version: 
-  recorded_at: Tue, 16 Sep 2014 14:42:35 GMT
+  recorded_at: Tue, 16 Sep 2014 15:34:06 GMT
 recorded_with: VCR 2.9.3

@@ -32,6 +32,7 @@ module DarcFedoraDSHandler
           dataformat_wrapper_dispose
         end
       end
+      return true
     end
     define_method("#{scope_name}_as_json".to_sym) do
       json_data = {}

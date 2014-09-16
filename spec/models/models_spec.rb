@@ -9,9 +9,8 @@ RSpec.describe Models, :type => :model do
 		context "with existsing model types" do
 			it "should set class variables" do
 				Models.get_all_models
-				pp Models.id_by_model_name
 				expect(Models.loaded).to be true
-				expect(Models.id_by_model_name["Authority"]).to eq "info:fedora/darc:19"
+				expect(Models.id_by_model_name["Authority"]).to eq db_ids[:authority_model_id]
 			end
 		end
 	end

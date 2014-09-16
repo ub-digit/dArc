@@ -14,13 +14,14 @@ module TestHelper
 
 	def db_ids 
 		{
+			authority_model_id: "info:fedora/darc:31",
 			invalid: -7,
-			authority: 25,
-			archive: 26,
-			disk: 27,
-			disk_image: 28,
-			digital_document: 29,
-			content_file: 30
+			authority: 37,
+			archive: 38,
+			disk: 39,
+			disk_image: 40,
+			digital_document: 41,
+			content_file: 42
 		}
 	end
 end
