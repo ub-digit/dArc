@@ -3,10 +3,12 @@ class Api::AuthoritiesController < Api::ApiController
   def show
     @authority = Authority.find(params[:id].to_i)
     if !@authority.nil? 
-      render json: {status: ResponseData::ResponseStatus.new("SUCCESS"), data: @authority}
+      render json: {authority: @authority}, status: 200
     else
-      render json: {status: ResponseData::ResponseStatus.new("FAIL").set_error("OBJECT_ERROR", "Could not find object with id: #{params[:id]}")}
+      render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
     end
+  rescue => error
+    render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
   end
 
   def update
@@ -14,10 +16,11 @@ class Api::AuthoritiesController < Api::ApiController
     if !@authority.nil? 
       @authority.as_json(request.raw_post)
       @authority.save
-      render json: {status: ResponseData::ResponseStatus.new("SUCCESS"), data: @authority}
+      render json: {authority: @authority}, status: 201
     else
-      render json: {status: ResponseData::ResponseStatus.new("FAIL").set_error("OBJECT_ERROR", "Could not find object with id: #{params[:id]}")}
+      render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
     end
-
+  rescue => error
+    render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
   end
 end
