@@ -80,8 +80,15 @@ class DarcFedora
       else
         raise ArgumentError, 'id must be numeric or a string', caller
     end
+    
+    # set the scope from options[:select] if present. default to :full 
+    scope = :full
+    if options.has_key? :select then
+      scope = options[:select]
+    end
+    
   	fedora_connection = Rubydora.connect Rails.application.config.fedora_connection
-    self.new string_id,fedora_connection.find(string_id)
+    self.new string_id,fedora_connection.find(string_id),scope
   end
 
   def self.find_by_id id, options={}

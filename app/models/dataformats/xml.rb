@@ -91,7 +91,7 @@ class Dataformats::Xml
      if nodes.length == 0
        path.create(@doc)
      end
-     path.eval_xpath(@doc)[0].content = value
+     path.set_value value, @doc
   end
   
   # holds an XML path as an array and can be used to create all elements and attributes
@@ -134,39 +134,77 @@ class Dataformats::Xml
      # ensures that the element/attribute structure represented by this path is present
      # in the supplied document. elements and attributes are created as needed
      def create doc
+       # do nothing if the path is empty. this is needed for recursion
        if path == nil || path.empty?
          return
        end
+       
+       # do nothing if the document already has something matching this path
+       if eval_xpath(doc).length > 0 then
+         return
+       end
 
+       # check for a match on parent and make sure parent is created (by recursion)
        parent_path = parent
        nodes = parent.eval_xpath(doc)
        if nodes.length == 0
          parent.create doc
        end
 
-       thing_to_create = path.last
-       case thing_to_create
-         when String
-           parent.add_child thing_to_create, doc
-         when Hash
-           thing_to_create.each {|key, value| parent.set_attribute(key,value, doc) }
-       end
+       # add an element to the parent and optionally set attributes on it
+       ele = parent.add_child last_element, doc
+       if has_attributes? then
+           attributes.each {|key, value| ele.set_attribute(key,value) }
+       end 
      end
      
      # returns a path object representing the parent element of this path
      def parent
-       self.class.new @path[0..-2], @ns_prefix, @ns_uri
+       if has_attributes? then
+         self.class.new @path[0..-3], @ns_prefix, @ns_uri
+       else
+         self.class.new @path[0..-2], @ns_prefix, @ns_uri
+       end
      end
 
      # adds a child element to the element represented by this path
      def add_child element_name, doc
        element = doc.create_element element_name
        eval_xpath(doc)[0].add_child element
+       element
      end
 
      # sets an attribute on the element represented by this path
      def set_attribute name, value, doc
        eval_xpath(doc)[0].set_attribute name, value
+     end
+
+     # sets the contents of the element represented by this path
+     def set_value value, doc
+       eval_xpath(doc)[0].content = value
+     end
+
+     # returns true if this path has an attribute definition as its last part
+     def has_attributes?
+       return @path.last.is_a? Hash
+     end
+
+     # returns the last element definition in this path
+     def last_element
+       if has_attributes? then
+         @path[-2]
+       else
+         @path[-1]
+       end
+     end
+
+     # returns the last attribute definition in this path or an empty hash
+     def attributes
+       if has_attributes? then
+         @path[-1]
+       else
+         {}
+       end
      end
   end
 end
