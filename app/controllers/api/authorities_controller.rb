@@ -10,9 +10,9 @@ class Api::AuthoritiesController < Api::ApiController
   end
 
   def update
-    @authority = Authority.find(params[:id].to_i)
+    @authority = Authority.find(params[:id].to_i, {:select => :full})
     if !@authority.nil? 
-      @authority.as_json(request.raw_post)
+      @authority.from_json(request.raw_post)
       @authority.save
       render json: {status: ResponseData::ResponseStatus.new("SUCCESS"), data: @authority}
     else
