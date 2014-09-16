@@ -65,9 +65,13 @@ class DarcFedora
      @obj = obj
      @scope = scope
 
-     @obj.models.each{ |m| check_model(m) }
-     unless @validModel
-       raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
+     # don't do the model check for content model objects
+     unless @obj.models.include?("info:fedora/fedora-system:ContentModel-3.0") then
+       # ensure that the list of models includes the model for the runtime class
+       valid = @obj.models.include?( Models.get_id_for_model_name self.class.fedora_model_name )
+       unless valid
+         raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
+       end
      end
   end
 
@@ -134,17 +138,6 @@ class DarcFedora
 
   def dataformat_push(field, value)
     return @wrapper.send(field.to_s + '=', value)
-  end
-
-  def check_model m
-     if m =~ /info:fedora\/fedora-system:ContentModel-3.0/ or m == @id
-       @validModel = 1
-       return nil
-     end
-     model = Model.find(m)
-     if(model.get_dc_value('title').include? self.class.fedora_model_name)
-       @validModel = 1
-     end
   end
 
   def get_dc_value name
