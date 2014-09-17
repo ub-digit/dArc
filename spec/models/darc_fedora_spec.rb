@@ -16,6 +16,18 @@ RSpec.describe DarcFedora, :type => :model do
 				expect{DarcFedora.find(db_ids[:invalid])}.to raise_error
 			end 
 		end
+		context "a valid integer id" do
+			it "should return an object" do
+				obj = Authority.find(db_ids[:authority])
+				expect(obj).to be_an Authority
+			end
+		end
+		context "a valid string id" do
+			it "should return an object" do
+				obj = Authority.find("darc:" + db_ids[:authority].to_s)
+				expect(obj).to be_an Authority
+			end
+		end
 	end
 
 	describe "initialize" do
@@ -34,6 +46,32 @@ RSpec.describe DarcFedora, :type => :model do
 			end
 		end
 	end
+
+	describe "find_by_id" do
+		context "with an existing value" do
+			it "should return an object" do
+				obj = Authority.find_by_id(db_ids[:authority])
+				expect(obj).to be_an(Authority)
+			end
+		end
+		context "with a non existing value" do
+			it "should return nil" do
+				obj = Authority.find_by_id(db_ids[:invalid])
+				expect(obj).to be nil
+			end
+		end
+	end
+
+	describe "all" do
+		context "of a valid model" do
+			it "should return a list of objects" do
+				list = Authority.all
+				expect(list).to be_an(Array)
+				expect(list.first).to be_an(Authority)
+			end
+		end
+	end
+
 
 	
 end
