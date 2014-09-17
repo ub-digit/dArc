@@ -25,6 +25,16 @@ RSpec.describe Api::AuthoritiesController, :type => :controller do
 		end
 	end
 
+	describe "GET index" do
+		context "for a valid model" do
+			it "should return a list of objects" do
+				get :index, api_key: @api_key
+				expect(json["authorities"]).to_not be nil
+				expect(json["authorities"]).to be_an(Array)
+			end
+		end
+	end
+
 	describe "PUT update" do
 		context "with valid attributes" do
 			it "should return a success message" do
