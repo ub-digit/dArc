@@ -90,12 +90,10 @@ class DarcFedora
      @obj = obj
      @scope = scope
 
-     #pp @obj.models
      # don't do the model check for content model objects
-     unless @obj.models.include?("info:fedora/fedora-system:ContentModel-3.0") then
+     unless @obj.models.include?("info:fedora/fedora-system:ContentModel-3.0")
        # ensure that the list of models includes the model for the runtime class
-       valid = @obj.models.include?( Models.get_id_for_model_name self.class.fedora_model_name )
-       unless valid
+       unless @obj.models.include?( Models.get_id_for_model_name self.class.fedora_model_name )
          raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
        end
      end

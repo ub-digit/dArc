@@ -25,23 +25,23 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=29B082C76233BD7845298738FFD627C6; Path=/fedora
+      - JSESSIONID=3BDF738E6AE28D4B8AE5CAB37740F44F; Path=/fedora
       Content-Type:
       - text/plain;charset=UTF-8
       Content-Length:
       - '124'
       Date:
-      - Tue, 16 Sep 2014 15:34:09 GMT
+      - Wed, 17 Sep 2014 13:02:33 GMT
     body:
       encoding: UTF-8
       string: |
         "m"
-        info:fedora/darc:33
-        info:fedora/darc:34
-        info:fedora/darc:31
-        info:fedora/darc:32
-        info:fedora/darc:35
-        info:fedora/darc:36
+        info:fedora/darc:50
+        info:fedora/darc:53
+        info:fedora/darc:54
+        info:fedora/darc:49
+        info:fedora/darc:51
+        info:fedora/darc:52
     http_version: 
-  recorded_at: Tue, 16 Sep 2014 15:34:06 GMT
+  recorded_at: Wed, 17 Sep 2014 13:02:30 GMT
 recorded_with: VCR 2.9.3

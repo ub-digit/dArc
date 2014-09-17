@@ -14,14 +14,32 @@ module TestHelper
 
 	def db_ids 
 		{
-			authority_model_id: "info:fedora/darc:31",
+			authority_model_id: "info:fedora/darc:49",
 			invalid: -7,
-			authority: 37,
-			archive: 38,
-			disk: 39,
-			disk_image: 40,
-			digital_document: 41,
-			content_file: 42
+			authority: 55,
+			archive: 56,
+			disk: 57,
+			disk_image: 58,
+			digital_document: 59,
+			content_file: 60
 		}
+	end
+
+	# Returns a valid authroty object
+	def get_valid_authority
+		#get valid authority object
+		string_id = Authority.numeric_id_to_fedora_id(db_ids[:authority])
+		obj = Authority.fedora_connection.find(string_id)
+		authority = Authority.new(string_id, obj)
+		return authority
+	end
+
+	# Returns a valid authroty object
+	def get_valid_archive
+		#get valid authority object
+		string_id = Archive.numeric_id_to_fedora_id(db_ids[:archive])
+		obj = Archive.fedora_connection.find(string_id)
+		archive = Archive.new(string_id, obj)
+		return archive
 	end
 end
