@@ -23,8 +23,14 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.around_http_request do |request|
     VCR.use_cassette(get_cassette_path(request), &request)
+    VCR.turn_off!(:ignore_cassettes => true)
   end
 end
+
+# Comment these two lines out to use VCR cassettes!
+VCR.turn_off!(:ignore_cassettes => true)
+WebMock.allow_net_connect!
+
 
 def get_cassette_path(request)
   return request.uri.to_s
