@@ -41,7 +41,11 @@ class Dataformats::Xml
      if is_new?
        return nil
      end
-     @doc.xpath(xpath, namespace)[0].value
+     nodes = @doc.xpath(xpath, namespace)
+     if nodes.length == 0
+       return nil
+     end
+     nodes[0].value
   end
 
   def write_attribute xpath, namespace, value
