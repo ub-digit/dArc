@@ -66,7 +66,7 @@ class DarcFedora
      @obj = obj
      @scope = scope
 
-     pp @obj.models
+     #pp @obj.models
      # don't do the model check for content model objects
      unless @obj.models.include?("info:fedora/fedora-system:ContentModel-3.0") then
        # ensure that the list of models includes the model for the runtime class
@@ -75,6 +75,10 @@ class DarcFedora
          raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
        end
      end
+  end
+
+  def self.fedora_connection
+    @fedora_connection ||= Rubydora.connect Rails.application.config.fedora_connection
   end
 
   def self.find id, options={}
@@ -93,7 +97,6 @@ class DarcFedora
       scope = options[:select]
     end
     
-  	fedora_connection = Rubydora.connect Rails.application.config.fedora_connection
     self.new string_id,fedora_connection.find(string_id),scope
   end
 
@@ -104,6 +107,17 @@ class DarcFedora
   end
 
   def self.all options={}
+    model_id =  Models.get_id_for_model_name self.fedora_model_name
+    puts "current model Name: #{model_id}"
+    resp = fedora_connection.sparql("SELECT ?a WHERE { ?a <info:fedora/fedora-system:def/model#hasModel> <#{model_id}> }")
+    #puts resp
+    result = []
+    resp.each do |r| 
+      id = r.to_s.sub(/^info\:fedora\/darc\:/, '').to_i
+      obj = self.find(id)
+      result << obj 
+    end
+    return result
   end
 
   def load
