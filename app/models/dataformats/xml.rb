@@ -1,7 +1,7 @@
-class Dataformats::Xml
+class Dataformats::Xml < Dataformats::Wrapper
 
   def initialize obj
-     @obj = obj
+     super
      @doc = document_for_ds(datastream_name)
   end
 

@@ -55,7 +55,8 @@ end
 class DarcFedora
   DS_MAP={
     dc: Dataformats::DC,
-    eac: Dataformats::EAC
+    eac: Dataformats::EAC,
+    relations: Dataformats::Relations
   }
   extend DarcFedoraDSHandler
   attr_reader :id, :obj
