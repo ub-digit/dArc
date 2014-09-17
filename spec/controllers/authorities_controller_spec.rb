@@ -20,7 +20,7 @@ RSpec.describe Api::AuthoritiesController, :type => :controller do
 		context "with a non existing id" do 
 			it "returns a error message" do 
 				get :show, api_key: @api_key, id: db_ids[:invalid]
-				expect(response.status.to_i != 200).to be true
+				expect(response.status.to_i == 404).to be true
 			end 
 		end
 	end

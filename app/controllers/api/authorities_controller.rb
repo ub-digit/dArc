@@ -19,8 +19,8 @@ class Api::AuthoritiesController < Api::ApiController
     else
       render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
     end
-#  rescue => error
-#    render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
+  rescue => error
+    render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
   end
 
   def update
