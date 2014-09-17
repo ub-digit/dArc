@@ -24,7 +24,7 @@ class Api::AuthoritiesController < Api::ApiController
   end
 
   def update
-    @authority = Authority.find(params[:id].to_i, {:select => :full})
+    @authority = Authority.find(params[:id].to_i, {:select => :update})
     if !@authority.nil? 
       @authority.from_json(request.raw_post)
       @authority.save

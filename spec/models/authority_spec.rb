@@ -36,7 +36,7 @@ RSpec.describe Authority, :type => :model do
 	describe "save" do
 		context "with valid attributes" do
 			it "should save without errors" do
-				a = Authority.find(db_ids[:authority])
+				a = Authority.find(db_ids[:authority], {:select => :update})
 				a.from_json({"startdate" => "1337"}.to_json)
 				expect(a.save).to be true
 			end
