@@ -27,7 +27,7 @@ class Dataformats::Xml
      ds = @obj.datastreams[datastream_name]
      ds.mimeType='text/xml'
      ds.controlGroup='X'
-     ds.dsLabel='EAC'
+     ds.dsLabel=datastream_name
      ds.content=@doc.to_xml
      ds.save()
   end
@@ -99,10 +99,9 @@ class Dataformats::Xml
   class Path
      attr_accessor :path, :ns_prefix, :ns_uri
 
-     def initialize path, ns_prefix, ns_uri
+     def initialize path, namespaces
        @path = path
-       @ns_prefix = ns_prefix
-       @ns_uri = ns_uri
+       @namespaces = namespaces
      end
     
      # evaluate this path as an xpath in the context of the supplied node
@@ -116,7 +115,7 @@ class Dataformats::Xml
        @path.each{|x|
          case x
            when String
-             xpath += '/' + @ns_prefix + ':' + x
+             xpath += '/' + x
            when Hash
              xpath += '['
              x.each {|name, value| xpath += '@' + name.to_s + '="' + value + '"'}
@@ -128,7 +127,7 @@ class Dataformats::Xml
     
      # returns the namespace prefix and uri associated with this path as a hash
      def as_namespace
-       Hash[@ns_prefix, @ns_uri]
+       @namespaces
      end
 
      # ensures that the element/attribute structure represented by this path is present
@@ -161,15 +160,15 @@ class Dataformats::Xml
      # returns a path object representing the parent element of this path
      def parent
        if has_attributes? then
-         self.class.new @path[0..-3], @ns_prefix, @ns_uri
+         self.class.new @path[0..-3], @namespaces
        else
-         self.class.new @path[0..-2], @ns_prefix, @ns_uri
+         self.class.new @path[0..-2], @namespaces
        end
      end
 
      # adds a child element to the element represented by this path
      def add_child element_name, doc
-       element = doc.create_element element_name
+       element = doc.create_element(local_part(element_name))
        eval_xpath(doc)[0].add_child element
        element
      end
@@ -204,6 +203,24 @@ class Dataformats::Xml
          @path[-1]
        else
          {}
+       end
+     end
+
+     # returns the prefix part of a qname or nil if there is no prefix
+     def prefix_part qualified_name
+       if /:/.match(qualified_name) then
+         /(.*):.*/.match(qualified_name)[1]
+       else
+         nil
+       end
+     end
+
+     # returns the local part of a qname
+     def local_part qualified_name
+       if /:/.match(qualified_name) then
+         /.*:(.*)/.match(qualified_name)[1]
+       else
+         ''
        end
      end
   end
