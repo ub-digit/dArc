@@ -8,8 +8,8 @@ class Api::AuthoritiesController < Api::ApiController
     else
       render json: {error: "No objects found"}, status: 404
     end
-#  rescue => error
-#    render json: {error: "No objects found"}, status: 404
+  rescue => error
+    render json: {error: "No objects found"}, status: 404
   end
 
   def show
@@ -26,9 +26,9 @@ class Api::AuthoritiesController < Api::ApiController
   def update
     @authority = Authority.find(params[:id].to_i, {:select => :full})
     if !@authority.nil? 
-      @authority.to_json(request.raw_post)
+      @authority.from_json(request.raw_post)
       @authority.save
-      render json: {authority: @authority}, status: 201
+      render json: {authority: @authority}, status: 200
     else
       render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
     end

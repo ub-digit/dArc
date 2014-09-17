@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     get 'authorities', to: 'authorities#index'
     get 'authorities/:id', to: 'authorities#show'
     put 'authorities/:id', to: 'authorities#update'
+
+    get 'persons', to: 'persons#index'
+    get 'persons/:id', to: 'persons#show'
+    put 'persons/:id', to: 'persons#update'
   end
 
   

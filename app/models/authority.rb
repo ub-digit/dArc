@@ -1,7 +1,8 @@
 class Authority < DarcFedoraObject
 
-scope :full, :title, :startdate, :enddate
-scope :brief, :title, :startdate
+attr_datastream :eac, :type, :startdate, :enddate
+scope :full, :title, :type, :startdate, :enddate
+scope :brief, :title, :type, :startdate
 
   def initialize id, obj, scope="full"
     super

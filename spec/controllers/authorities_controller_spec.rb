@@ -39,7 +39,7 @@ RSpec.describe Api::AuthoritiesController, :type => :controller do
 		context "with valid attributes" do
 			it "should return a success message" do
 				post :update, api_key: @api_key, id: db_ids[:authority]
-				expect(response.status.to_i == 201).to be true
+				expect(response.status.to_i == 200).to be true
 			end
 		end
 	end
