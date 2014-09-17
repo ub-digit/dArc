@@ -5,8 +5,8 @@ attr_datastream :eac, :type, :authorized_forename, :authorized_surname, :startda
 scope :brief, :type, :authorized_forename, :startdate
 scope :full, :type, :title, :authorized_forename, :authorized_surname, :startdate, :enddate
 
-  def self.fedora_model_name
-     'Authority'
-  end
+def self.fedora_model_name
+ 'Authority'
+end
 
 end
