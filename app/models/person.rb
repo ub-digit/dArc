@@ -1,12 +1,12 @@
 class Person < Authority
-TYPE="person"
+  TYPE="person"
 
-attr_datastream :eac, :type, :authorized_forename, :authorized_surname, :startdate, :enddate
-scope :brief, :type, :authorized_forename, :startdate
-scope :full, :type, :title, :authorized_forename, :authorized_surname, :startdate, :enddate
+  attr_datastream :eac, :authorized_forename, :authorized_surname
+  scope :brief, :authorized_forename
+  scope :full, :authorized_forename, :authorized_surname
 
-def self.fedora_model_name
- 'Authority'
-end
+  def self.fedora_model_name
+    'Authority'
+  end
 
 end
