@@ -21,12 +21,13 @@ module DarcFedoraDSHandler
     @@all_scope_fields ||= {}
     @@all_scope_fields[scope_name] ||= []
     @@all_scope_fields[scope_name] += scope_fields
+    @@all_scope_fields[scope_name] = @@all_scope_fields[scope_name].uniq
     
     # Defines method 'scope_name'_load (ie. brief_load)
     # Load method sets all fields defined in scope, using the given dataformat class
     define_method("#{scope_name}_load".to_sym) do
       @@attr_fields_datastream.values.uniq.each do |ds|
-        ds_scope_fields = scope_fields.select do |field| @@attr_fields_datastream[field] == ds end
+        ds_scope_fields = @@all_scope_fields[scope_name].select do |field| @@attr_fields_datastream[field] == ds end
         if !ds_scope_fields.empty? then dataformat_wrapper_create(ds) end
         ds_scope_fields.each do |field|
           ds_data = dataformat_fetch(field)
@@ -34,9 +35,6 @@ module DarcFedoraDSHandler
         end
         if !ds_scope_fields.empty? then dataformat_wrapper_dispose end
       end
-      
-      # call load on super if it exists
-      super() if defined?(super)
     end
 
     # Defines method 'scope_name'_save (ie. brief_save)
