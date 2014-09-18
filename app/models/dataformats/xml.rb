@@ -171,9 +171,15 @@ class Dataformats::Xml < Dataformats::Wrapper
 
      # adds a child element to the element represented by this path
      def add_child element_name, doc
-       element = doc.create_element(local_part(element_name))
-       eval_xpath(doc)[0].add_child element
-       element
+       ns_uri = @namespaces[prefix_part(element_name)]
+       
+       ns_prefix = eval_xpath(doc)[0].namespaces.key(ns_uri)
+       ns_prefix = ns_prefix.sub(/xmlns/, '')
+       ns_prefix = ns_prefix.sub(/:/, '')
+       if ns_prefix.length > 0 then ns_prefix += ':' end
+       added = eval_xpath(doc)[0].add_child '<'+ns_prefix+local_part(element_name)+'/>'
+       
+       added[0]
      end
 
      # sets an attribute on the element represented by this path

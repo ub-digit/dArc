@@ -30,6 +30,10 @@ RSpec.describe Dataformats::Xml::Path do
   it "creates missing elements double namespace" do
     test_create ['ns1:a', 'ns2:b', 'ns2:c'], {'ns1' => 'ns1u', 'ns2' => 'ns2u'}, '<ns1:a xmlns:ns1="ns1u" xmlns:ns2="ns2u"><ns2:b/></a>', '<ns1:a xmlns:ns1="ns1u" xmlns:ns2="ns2u"><ns2:b><ns2:c/></ns2:b></a>'
   end
+
+  it "creates missing elements double namespace for dc" do
+    test_create ['oai_dc:dc', 'dc:title'], {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"}, '<oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd"><dc:identifier>darc:66</dc:identifier></oai_dc:dc>', '<oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd"><dc:identifier>darc:66</dc:identifier><dc:title/></oai_dc:dc>'
+  end
   
   def test_create path, ns, in_xml, expect_xml
     path = Dataformats::Xml::Path.new(path, ns)
@@ -39,7 +43,7 @@ RSpec.describe Dataformats::Xml::Path do
 
     expect(doc.to_xml).to eq(Nokogiri::XML(expect_xml).to_xml)
   end
-  
+
   def ns_p
     'e'
   end
