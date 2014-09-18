@@ -6,6 +6,9 @@ class Authority < DarcFedoraObject
   scope :update, :title, :type, :startdate, :enddate
   scope :brief, :title, :type, :startdate
 
+  validates :type, inclusion: { in: %w(person corporation family), message: "#{@type} is not a valid value." }
+
+  
   def initialize id, obj, scope="full"
     super
     load

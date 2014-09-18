@@ -70,6 +70,13 @@ module DarcFedoraDSHandler
         end
       end
     end
+
+    # Generate reader method for each field in scope
+    scope_fields.each do |field|
+      define_method(field) do
+        instance_variable_get("@#{field}")
+      end
+    end
   end
 end
 
@@ -85,6 +92,7 @@ class DarcFedora
   extend DarcFedoraDSHandler
   attr_reader :id, :obj
   include ActiveModel::Validations
+  validate :dataformats_valid
   
   def initialize id, obj, scope="brief"
      @id = id
@@ -98,6 +106,12 @@ class DarcFedora
          raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
        end
      end
+  end
+
+  # Validates all dataformats
+  def dataformats_valid
+    # Add code for validation of dataformats
+    # Use @errors.add(:field_name, "Error message") to make invalid
   end
 
   # Returns a rubydora connection object
@@ -163,6 +177,7 @@ class DarcFedora
 
   # Saves fields in current scope through its' respective dataformat class
   def save
+    return false if invalid?
     self.send("#{@scope}_save")
   end
 
