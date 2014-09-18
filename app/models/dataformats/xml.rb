@@ -37,29 +37,28 @@ class Dataformats::Xml < Dataformats::Wrapper
      @doc.to_xml
   end
 
-  def read_attribute xpath, namespace
+  def read_attribute path, attribute_name
      if is_new?
        return nil
      end
-     nodes = @doc.xpath(xpath, namespace)
+
+     nodes = path.eval_xpath(@doc)
      if nodes.length == 0
        return nil
      end
-     nodes[0].value
+     nodes[0].get_attribute attribute_name
   end
 
-  def write_attribute xpath, namespace, value
+  def write_attribute path, attribute_name, value
      if is_new?
        @doc = create_empty
      end
 
-     nodes = @doc.xpath(xpath, namespace)
-
-     if !value
-       nodes.remove()
-     else
-       nodes[0].value = value
+     nodes = path.eval_xpath(@doc)
+     if nodes.length == 0
+       path.create(@doc)
      end
+     nodes[0].set_attribute attribute_name, value
   end
 
   def read_element xpath, namespace
@@ -172,9 +171,15 @@ class Dataformats::Xml < Dataformats::Wrapper
 
      # adds a child element to the element represented by this path
      def add_child element_name, doc
-       element = doc.create_element(local_part(element_name))
-       eval_xpath(doc)[0].add_child element
-       element
+       ns_uri = @namespaces[prefix_part(element_name)]
+       
+       ns_prefix = eval_xpath(doc)[0].namespaces.key(ns_uri)
+       ns_prefix = ns_prefix.sub(/xmlns/, '')
+       ns_prefix = ns_prefix.sub(/:/, '')
+       if ns_prefix.length > 0 then ns_prefix += ':' end
+       added = eval_xpath(doc)[0].add_child '<'+ns_prefix+local_part(element_name)+'/>'
+       
+       added[0]
      end
 
      # sets an attribute on the element represented by this path
