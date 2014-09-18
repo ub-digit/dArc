@@ -22,7 +22,6 @@ class Dataformats::Relations < Dataformats::Wrapper
   # the relation direction are controlled by the arguments
   def lookup relation, direction_to
     obj_id = pid_to_fedora_id(@obj.pid)
-    puts obj_id
   	fedora_connection = Rubydora.connect Rails.application.config.fedora_connection
   	if direction_to
       sparql = 'select ?m where { ?m <'+relation+'> <'+obj_id+'> }'
