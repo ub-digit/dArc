@@ -30,6 +30,9 @@ module DarcFedoraDSHandler
         end
         if !ds_scope_fields.empty? then dataformat_wrapper_dispose end
       end
+      
+      # call load on super if it exists
+      super() if defined?(super)
     end
 
     # Defines method 'scope_name'_save (ie. brief_save)
@@ -52,12 +55,16 @@ module DarcFedoraDSHandler
 
     # Defines method 'scope_name'_as_json (ie. brief_as_json)
     # as_json method returns a hash containing all fields defined in scope
-    define_method("#{scope_name}_as_json".to_sym) do
+    define_method("#{scope_name}_as_json".to_sym) do |opt = {}|
       json_data = {}
       scope_fields.each do |field|
         json_data[field] = instance_variable_get("@#{field}")
       end
-      json_data
+      
+      # get the json data from super if it exists and merge with our data
+      super_data = {}
+      super_data = super(opt) if defined?(super)
+      json_data.merge(super_data)
     end
 
     # Defines method 'scope_name'_from_json (ie. brief_from_json)
@@ -181,7 +188,7 @@ class DarcFedora
 
   # Returns fields in current scope from its' respective dataformat class as a hash
   def as_json(opt = {})
-    self.send("#{@scope}_as_json")
+    self.send("#{@scope}_as_json", opt)
   end
 
   # Sets fields in current scope through its' respective dataformat class from a json document
