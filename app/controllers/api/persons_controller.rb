@@ -16,7 +16,10 @@ class Api::PersonsController < Api::ApiController
     @authority = Person.create()
     if !@authority.nil? 
       @authority.from_json(params[:person])
-      @authority.save
+      unless @authority.save then
+        render json: {error: "Could not create", errors: @authority.errors}, status: 400
+        return
+      end
       render json: {person: @authority}, status: 200
     else
       render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404

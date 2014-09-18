@@ -16,4 +16,20 @@ class Dataformats::DC < Dataformats::Xml
      read_element('//oai_dc:dc/dc:title', {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"})
   end
 
+  def pid= value
+     # read only
+  end
+
+  def pid
+     read_element('//oai_dc:dc/dc:identifier', {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"})
+  end
+
+  def id= value
+     # read only
+  end
+
+  def id
+     pid.sub(/^.*:/,'').to_i
+  end
+
 end

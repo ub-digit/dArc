@@ -72,7 +72,11 @@ module DarcFedoraDSHandler
     # Defines method 'scope_name'_from_json (ie. brief_from_json)
     # from_json method sets all fields defined in scope, based on a given json document
     define_method("#{scope_name}_from_json".to_sym) do |json, opt = {}|
-      json_data = JSON.parse(json)
+      if json.is_a? Hash then
+        json_data = json
+      else
+        json_data = JSON.parse(json)
+      end
       scope_fields.each do |field|
         if json_data[field.to_s] != nil then
           instance_variable_set("@#{field}", json_data[field.to_s])
@@ -134,7 +138,7 @@ class DarcFedora
     pid = fedora_connection.ingest
     obj = fedora_connection.find(pid)
     obj.models << Models.get_id_for_model_name(self.fedora_model_name)
-    self.new pid,fedora_connection.find(pid)   
+    self.new pid,fedora_connection.find(pid), :create 
   end
 
   # Finds a record based on id, can take both numeric part of PID(ie. 17), as well as full PID-string(ie. 'darc:17')

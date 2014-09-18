@@ -5,6 +5,7 @@ class Authority < DarcFedoraObject
   scope :full, :type, :startdate, :enddate, :archives
   scope :update, :type, :startdate, :enddate
   scope :brief, :type, :startdate
+  scope :create, :type, :startdate, :enddate
 
   validates :type, inclusion: { in: %w(person corporation family), message: "#{@type} is not a valid value." }
 
