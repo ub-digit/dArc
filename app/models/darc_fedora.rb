@@ -18,6 +18,10 @@ module DarcFedoraDSHandler
   def scope(scope_name, *args)
     scope_fields = args
 
+    @@all_scope_fields ||= {}
+    @@all_scope_fields[scope_name] ||= []
+    @@all_scope_fields[scope_name] += scope_fields
+    
     # Defines method 'scope_name'_load (ie. brief_load)
     # Load method sets all fields defined in scope, using the given dataformat class
     define_method("#{scope_name}_load".to_sym) do
