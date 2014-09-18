@@ -105,6 +105,13 @@ class DarcFedora
     @fedora_connection ||= Rubydora.connect Rails.application.config.fedora_connection
   end
 
+  def self.create options={}
+    pid = fedora_connection.ingest
+    obj = fedora_connection.find(pid)
+    obj.models << Models.get_id_for_model_name(self.fedora_model_name)
+    self.new pid,fedora_connection.find(pid)   
+  end
+
   # Finds a record based on id, can take both numeric part of PID(ie. 17), as well as full PID-string(ie. 'darc:17')
   # Returns a DarcFedora object or raises an exception
   def self.find id, options={}

@@ -43,4 +43,13 @@ RSpec.describe Api::PersonsController, :type => :controller do
 			end
 		end
 	end
+
+	describe "POST update" do
+		context "with valid attributes" do
+			it "should return a success message" do
+				post :create, api_key: @api_key, person: {startdate: "1337"}.to_json
+				expect(response.status.to_i == 200).to be true
+			end
+		end
+	end
 end

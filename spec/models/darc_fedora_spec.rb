@@ -72,6 +72,14 @@ RSpec.describe DarcFedora, :type => :model do
 		end
 	end
 
+	describe "create" do
+		context "of a valid model" do
+			it "should return an objects" do
+				obj = Authority.create
+				expect(obj).to be_an(Authority)
+			end
+		end
+	end
 
 	
 end
