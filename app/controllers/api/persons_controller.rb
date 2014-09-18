@@ -14,9 +14,7 @@ class Api::PersonsController < Api::ApiController
 
   def create
     @authority = Person.create()
-    puts @authority
     if !@authority.nil? 
-      #puts JSON.parse(params[:person])
       @authority.from_json(params[:person])
       @authority.save
       render json: {person: @authority}, status: 200

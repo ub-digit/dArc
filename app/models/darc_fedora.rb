@@ -158,9 +158,7 @@ class DarcFedora
   # Returns an array of integer part of PID for all objects of current class
   def self.all options={}
     model_id =  Models.get_id_for_model_name self.fedora_model_name
-    #puts "current model Name: #{model_id}"
     resp = fedora_connection.sparql("SELECT ?a WHERE { ?a <info:fedora/fedora-system:def/model#hasModel> <#{model_id}> }")
-    #puts resp
     result = []
     resp.each do |r| 
       id = r.to_s.sub(/^info\:fedora\/darc\:/, '').to_i
