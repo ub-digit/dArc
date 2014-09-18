@@ -21,11 +21,11 @@ class Dataformats::EAC < Dataformats::Xml
   end
 
   def type= type
-     write_attribute('//e:eac/@type', {'e' => "http://xml.ra.se/EAC"}, type)
+     write_attribute(Dataformats::Xml::Path.new(['e:eac'], {'e' => "http://xml.ra.se/EAC"}), 'type', type)
   end
 
   def type
-     read_attribute('//e:eac/@type', {'e' => "http://xml.ra.se/EAC"})
+     read_attribute(Dataformats::Xml::Path.new(['e:eac'], {'e' => "http://xml.ra.se/EAC"}), 'type')
   end
 
   def startdate= value
