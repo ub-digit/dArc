@@ -4,7 +4,9 @@ Rails.application.config.ownercode = "dArc"
 Rails.application.config.fedora_connection = {
   :url => <url>, :user => <user>, :password => <password>
 }
-
+Rails.application.config.fedora_test_connection = {
+  :url => <url>, :user => <user>, :password => <password>
+}
 
 Rails.application.config.namespace_prefix = 'info:fedora/darc:' 
 
