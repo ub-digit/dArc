@@ -135,11 +135,27 @@ class DarcFedora
     @fedora_connection ||= Rubydora.connect Rails.application.config.fedora_connection
   end
 
+
   def self.create options={}
     pid = fedora_connection.ingest
     obj = fedora_connection.find(pid)
     obj.models << Models.get_id_for_model_name(self.fedora_model_name)
     self.new pid,fedora_connection.find(pid), :create 
+  end
+
+  # Purges a fedora object. Returns a sting or raises an exepction. 
+  def self.purge id
+    case id
+      when Integer
+        string_id = numeric_id_to_fedora_id(id)
+      when String
+        string_id = id
+      else
+        raise ArgumentError, 'id must be numeric or a string', caller
+    end
+    
+    obj = fedora_connection.find(string_id)
+    obj.delete
   end
 
   # Finds a record based on id, can take both numeric part of PID(ie. 17), as well as full PID-string(ie. 'darc:17')
@@ -153,7 +169,7 @@ class DarcFedora
       else
         raise ArgumentError, 'id must be numeric or a string', caller
     end
-    
+
     # set the scope from options[:select] if present. default to :full 
     scope = :full
     if options.has_key? :select then
@@ -183,6 +199,7 @@ class DarcFedora
     end
     return result
   end
+
 
   # Loads fields in current scope from its' respective dataformat class
   def load

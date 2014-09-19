@@ -52,4 +52,14 @@ class Api::PersonsController < Api::ApiController
   rescue => error
     render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
   end
+
+  def purge
+    res = Person.purge(params[:id].to_i)
+    render nothing: true, status: 200
+  rescue Rubydora::RecordNotFound => error
+    render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
+  rescue => error
+    render json: {error: "Unknown error"}, status: 500
+  end
+
 end

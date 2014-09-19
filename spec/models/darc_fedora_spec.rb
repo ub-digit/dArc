@@ -76,10 +76,19 @@ RSpec.describe DarcFedora, :type => :model do
 		context "of a valid model" do
 			it "should return an objects" do
 				obj = Authority.create
+				@@create_id = obj.id
 				expect(obj).to be_an(Authority)
 			end
 		end
 	end
 
-	
+	describe "purge" do
+		context "of a valid model" do
+			it "should return a string" do
+				res = Authority.purge(@@create_id.to_i)
+				expect(res).to be_a(String)
+			end
+		end
+	end
+
 end
