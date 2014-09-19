@@ -4,4 +4,8 @@ class Api::PersonsController < Api::FedoraObjectController
     Person
   end
 
+  def type_list_name
+    "persons"
+  end
+
 end
