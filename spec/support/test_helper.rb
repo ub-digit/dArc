@@ -14,12 +14,12 @@ module TestHelper
 		{
 			authority_model_id: "info:fedora/darc:49",
 			invalid: -7,
-			authority: 55,
-			archive: 56,
-			disk: 57,
-			disk_image: 58,
-			digital_document: 59,
-			content_file: 60
+			authority: 107,
+			archive: 108,
+			disk: 109,
+			disk_image: 110,
+			digital_document: 111,
+			content_file: 112
 		}
 	end
 
