@@ -8,6 +8,14 @@ class Dataformats::Relations < Dataformats::Wrapper
      lookup_to 'info:fedora/fedora-system:def/relations-external#isDependentOf'
   end
 
+  def authorities= value
+     # NOT setting anything, this wrapper is read-only
+  end
+
+  def authorities
+     lookup_from 'info:fedora/fedora-system:def/relations-external#isDependentOf'
+  end
+
   # looks up relations from this object of the specified type
   def lookup_from relation
     lookup relation, false

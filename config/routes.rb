@@ -11,6 +11,11 @@ Rails.application.routes.draw do
     post 'persons', to: 'persons#create'
     put 'persons/:id', to: 'persons#update'
     delete 'persons/:id', to: 'persons#purge'
+
+    get 'archives', to: 'archives#index'
+    get 'archives/:id', to: 'archives#show'
+    post 'archives', to: 'archives#create'
+    put 'archives/:id', to: 'archives#update'
   end
 
   

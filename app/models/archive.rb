@@ -1,8 +1,8 @@
 class Archive < DarcFedoraObject
 
-  #attr_datastream :ead
-  scope :brief, :title
-  scope :full, :title
+  attr_datastream :relations, :authorities
+  scope :full, :authorities
+  #relation :dependentOf, :authority
 
   def initialize id, obj, scope="brief"
      super
