@@ -10,6 +10,22 @@ module DarcFedoraDSHandler
     args.each do |arg|
       @@attr_fields_datastream[arg] = dataformat
     end
+
+    if(dataformat.to_s.match(/^relations_out_/)) then
+      rel_type = dataformat.to_s.sub('relations_out_', '')
+      args.each do |arg|
+        define_method("relation_add_#{arg.to_s}".to_sym) do |rel_id|
+          dataformat_wrapper_create("relations_out_#{rel_type}".to_sym)
+          @wrapper.send("add_#{arg.to_s}", rel_id)
+          dataformat_wrapper_dispose
+        end
+        define_method("relation_remove_#{arg.to_s}".to_sym) do |rel_id|
+          dataformat_wrapper_create("relations_out_#{rel_type}".to_sym)
+          @wrapper.send("remove_#{arg.to_s}", rel_id)
+          dataformat_wrapper_dispose
+        end
+      end
+    end
   end
 
   # Creates a scope named after the first given parameter
