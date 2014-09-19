@@ -102,7 +102,12 @@ class DarcFedora
   DS_MAP={
     dc: Dataformats::DC,
     eac: Dataformats::EAC,
-    relations: Dataformats::Relations
+    relations_out_dependent: Dataformats::RelationsOut::Dependent,
+    relations_out_subset: Dataformats::RelationsOut::Subset,
+    relations_out_part: Dataformats::RelationsOut::Part,
+    relations_in_dependent: Dataformats::RelationsIn::Dependent,
+    relations_in_subset: Dataformats::RelationsIn::Subset,
+    relations_in_part: Dataformats::RelationsIn::Part
   }
   extend DarcFedoraDSHandler
   attr_reader :id, :obj

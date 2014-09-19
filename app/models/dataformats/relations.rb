@@ -5,7 +5,7 @@ class Dataformats::Relations < Dataformats::Wrapper
   end
 
   def archives
-     lookup_to 'info:fedora/fedora-system:def/relations-external#isDependentOf'
+     lookup
   end
 
   def authorities= value
@@ -13,25 +13,15 @@ class Dataformats::Relations < Dataformats::Wrapper
   end
 
   def authorities
-     lookup_from 'info:fedora/fedora-system:def/relations-external#isDependentOf'
-  end
-
-  # looks up relations from this object of the specified type
-  def lookup_from relation
-    lookup relation, false
-  end
-
-  # looks up relations to this object of the specified type
-  def lookup_to relation
-    lookup relation, true
+     lookup
   end
 
   # uses sparql to search for objects related to this object. the type of relation and
   # the relation direction are controlled by the arguments
-  def lookup relation, direction_to
+  def lookup_in_direction relation, direction_in
     obj_id = pid_to_fedora_id(@obj.pid)
   	fedora_connection = Rubydora.connect Rails.application.config.fedora_connection
-  	if direction_to
+  	if direction_in
       sparql = 'select ?m where { ?m <'+relation+'> <'+obj_id+'> }'
     else
       sparql = 'select ?m where { <'+obj_id+'> <'+relation+'> ?m }'

@@ -1,6 +1,6 @@
 class Archive < DarcFedoraObject
 
-  attr_datastream :relations, :authorities
+  attr_datastream :relations_out_dependent, :authorities
   scope :full, :authorities
   #relation :dependentOf, :authority
 

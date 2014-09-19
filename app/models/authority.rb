@@ -1,7 +1,7 @@
 class Authority < DarcFedoraObject
 
   attr_datastream :eac, :type, :startdate, :enddate
-  attr_datastream :relations, :archives
+  attr_datastream :relations_in_dependent, :archives
   scope :full, :type, :startdate, :enddate, :archives
   scope :update, :type, :startdate, :enddate
   scope :brief, :type, :startdate
