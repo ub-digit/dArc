@@ -22,17 +22,18 @@ class Api::FedoraObjectController < Api::ApiController
   def create
     @object = type_class.create()
     if !@object.nil? 
-      @object.from_json(params[:person])
+      puts params[type_name.to_sym]
+      @object.from_json(params[type_name.to_sym])
       unless @object.save then
         render json: {error: "Could not create", errors: @object.errors}, status: 400
         return
       end
       render json: {type_name => @object}, status: 200
     else
-      render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
+      render json: {error: "Could not create object"}, status: 404
     end
   rescue => error
-    render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
+    render json: {error: "Could not create object #{error}"}, status: 404
    end
 
 
@@ -50,7 +51,7 @@ class Api::FedoraObjectController < Api::ApiController
   def update
     @object = type_class.find(params[:id].to_i, {:select => :update})
     if !@object.nil? 
-      @object.from_json(params[:archive])
+      @object.from_json(params[type_name.to_sym])
       @object.save
       render json: {type_name => @object}, status: 200
     else

@@ -43,4 +43,13 @@ RSpec.describe Api::AuthoritiesController, :type => :controller do
 			end
 		end
 	end
+
+	describe "POST create" do
+		context "with valid attributes" do
+			it "should return a success message" do
+				post :create, api_key: @api_key, authority: {type: "person", title: "TestPerson", startdate: "1337", enddate: "1408"}
+				expect(response.status.to_i).to eq 200
+			end
+		end
+	end
 end

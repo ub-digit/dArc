@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     get 'authorities/:id', to: 'authorities#show'
     put 'authorities/:id', to: 'authorities#update'
     delete 'authorities/:id', to: 'authorities#purge'
+    post 'authorities', to: 'authorities#create'
 
     get 'persons', to: 'persons#index'
     get 'persons/:id', to: 'persons#show'

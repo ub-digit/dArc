@@ -43,4 +43,15 @@ RSpec.describe Api::PersonsController, :type => :controller do
 			end
 		end
 	end
+
+	
+
+	# describe "DELETE purge" do
+	# 	context "of an existing id" do
+	# 		it "should return a success message" do
+	# 			delete :purge, api_key: @api_key, authority: {type: "person", id: @@}
+	# 			expect(response.status.to_i).to eq 200
+	# 		end
+	# 	end
+	# end
 end
