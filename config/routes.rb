@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get 'authorities', to: 'authorities#index'
     get 'authorities/:id', to: 'authorities#show'
     put 'authorities/:id', to: 'authorities#update'
+    delete 'authorities/:id', to: 'authorities#purge'
 
     get 'persons', to: 'persons#index'
     get 'persons/:id', to: 'persons#show'
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
     get 'archives/:id', to: 'archives#show'
     post 'archives', to: 'archives#create'
     put 'archives/:id', to: 'archives#update'
+    delete 'archives/:id', to: 'archives#purge'
     put 'archives/:id/authorities/:authority_id', to: 'archives#add_authority'
     delete 'archives/:id/authorities/:authority_id', to: 'archives#remove_authority'
   end
