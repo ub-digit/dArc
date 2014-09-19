@@ -108,6 +108,7 @@ class DarcFedora
   attr_reader :id, :obj
   include ActiveModel::Validations
   validate :dataformats_valid
+  validates_presence_of :title
   
   def initialize id, obj, scope="brief"
      @id = id
