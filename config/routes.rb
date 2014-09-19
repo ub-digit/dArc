@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     get 'archives/:id', to: 'archives#show'
     post 'archives', to: 'archives#create'
     put 'archives/:id', to: 'archives#update'
+    put 'archives/:id/authorities/:authority_id', to: 'archives#add_authority'
+    delete 'archives/:id/authorities/:authority_id', to: 'archives#remove_authority'
   end
 
   
