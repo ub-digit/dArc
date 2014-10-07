@@ -22,7 +22,6 @@ class Api::FedoraObjectController < Api::ApiController
   def create
     @object = type_class.create()
     if !@object.nil? 
-      puts params[type_name.to_sym]
       @object.from_json(params[type_name.to_sym])
       unless @object.save then
         render json: {error: "Could not create", errors: @object.errors}, status: 400
@@ -34,7 +33,7 @@ class Api::FedoraObjectController < Api::ApiController
     end
   rescue => error
     render json: {error: "Could not create object #{error}"}, status: 404
-   end
+  end
 
 
   def show

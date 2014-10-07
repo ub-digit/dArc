@@ -18,4 +18,21 @@ RSpec.describe Archive, :type => :model do
 			end 
 		end
 	end
+
+	describe "save" do
+		context "with valid attributes" do
+			it "should save without errors" do
+				a = Archive.find(db_ids[:archive], {:select => :update})
+				a.from_json({"unitid" => "1337", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive"}.to_json)
+				expect(a.save).to be true
+			end
+		end
+		# context "with invalid attributes" do
+		# 	it "should return false" do
+		# 		a = Archive.find(db_ids[:archive], {:select => :update})
+		# 		a.from_json({"type" => "wrongtype"}.to_json)
+		# 		expect(a.save).to be false
+		# 	end
+		# end
+	end
 end

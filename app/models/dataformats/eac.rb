@@ -29,7 +29,7 @@ class Dataformats::EAC < Dataformats::Xml
   end
 
   def startdate= value
-     write_or_create_element(Dataformats::Xml::Path.new(['e:eac', 'e:condesc', 'e:desc', 'e:persdesc', 'e:existdesc', 'e:existdate', { :scope => 'begin' }], {'e' => "http://xml.ra.se/EAC"}), value)
+     write_to_path(Dataformats::Xml::Path.new(['e:eac', 'e:condesc', 'e:desc', 'e:persdesc', 'e:existdesc', 'e:existdate', { :scope => 'begin' }], {'e' => "http://xml.ra.se/EAC"}), value)
   end
 
   def startdate
@@ -37,7 +37,7 @@ class Dataformats::EAC < Dataformats::Xml
   end
 
   def enddate= value
-     write_or_create_element(Dataformats::Xml::Path.new(['e:eac', 'e:condesc', 'e:desc', 'e:persdesc', 'e:existdesc', 'e:existdate', { :scope => 'end' }], {'e' => "http://xml.ra.se/EAC"}), value)
+     write_to_path(Dataformats::Xml::Path.new(['e:eac', 'e:condesc', 'e:desc', 'e:persdesc', 'e:existdesc', 'e:existdate', { :scope => 'end' }], {'e' => "http://xml.ra.se/EAC"}), value)
   end
 
   def enddate

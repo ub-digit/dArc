@@ -37,6 +37,7 @@ class Dataformats::Xml < Dataformats::Wrapper
      @doc.to_xml
   end
 
+  # Reads attribute from given path and attribute name
   def read_attribute path, attribute_name
      if is_new?
        return nil
@@ -49,6 +50,7 @@ class Dataformats::Xml < Dataformats::Wrapper
      nodes[0].get_attribute attribute_name
   end
 
+  # Writes attribute to given path and attribute name, and creates path if it doesn't exist
   def write_attribute path, attribute_name, value
      if is_new?
        @doc = create_empty
@@ -61,6 +63,7 @@ class Dataformats::Xml < Dataformats::Wrapper
      nodes[0].set_attribute attribute_name, value
   end
 
+  # Reads element value from given xpath, used for specific cases where condition is applied
   def read_element xpath, namespace
      if is_new?
        return nil
@@ -73,6 +76,7 @@ class Dataformats::Xml < Dataformats::Wrapper
      nodes[0].text
   end
 
+  # Writes element value to given xpath, used for specific cases where condition is applied
   def write_element xpath, namespace, value
      if is_new?
        @doc = create_empty
@@ -85,7 +89,8 @@ class Dataformats::Xml < Dataformats::Wrapper
      @doc.xpath(xpath, namespace)[0].content = value
   end
 
-  def write_or_create_element path, value
+  # Writes value to given path, and creates path if it doesn't exist
+  def write_to_path path, value
      if is_new?
        @doc = create_empty
      end
@@ -95,6 +100,19 @@ class Dataformats::Xml < Dataformats::Wrapper
        path.create(@doc)
      end
      path.set_value value, @doc
+  end
+
+  # Reads value from given path
+  def read_from_path path
+     if is_new?
+       return nil
+     end
+
+     nodes = path.eval_xpath(@doc)
+     if nodes.length == 0
+       return nil
+     end
+     nodes[0].text
   end
   
   # holds an XML path as an array and can be used to create all elements and attributes
@@ -121,7 +139,12 @@ class Dataformats::Xml < Dataformats::Wrapper
              xpath += '/' + x
            when Hash
              xpath += '['
-             x.each {|name, value| xpath += '@' + name.to_s + '="' + value + '"'}
+             x.each_with_index do |(name, value), index|
+              if index > 0
+                xpath += ' and '
+              end
+              xpath += '@' + name.to_s + '="' + value + '"'
+            end
              xpath += ']'
          end
        }

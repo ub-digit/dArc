@@ -9,7 +9,7 @@ class Dataformats::DC < Dataformats::Xml
   end
 
   def title= title
-     write_or_create_element(Dataformats::Xml::Path.new(['oai_dc:dc', 'dc:title'], {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"}), title)
+     write_to_path(Dataformats::Xml::Path.new(['oai_dc:dc', 'dc:title'], {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"}), title)
   end
 
   def title
