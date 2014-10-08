@@ -16,6 +16,22 @@ class Dataformats::Relations < Dataformats::Wrapper
      lookup
   end
 
+  def disks= value
+     # NOT setting anything, this wrapper is read-only
+  end
+
+  def disks
+     lookup
+  end
+
+  def disk_images= value
+     # NOT setting anything, this wrapper is read-only
+  end
+
+  def disk_images
+     lookup
+  end
+
   # uses sparql to search for objects related to this object. the type of relation and
   # the relation direction are controlled by the arguments
   def lookup_in_direction relation, direction_in
