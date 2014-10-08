@@ -21,6 +21,16 @@ Rails.application.routes.draw do
     delete 'archives/:id', to: 'archives#purge'
     put 'archives/:id/authorities/:authority_id', to: 'archives#add_authority'
     delete 'archives/:id/authorities/:authority_id', to: 'archives#remove_authority'
+
+    get 'disks', to: 'disks#index'
+    get 'disks/:id', to: 'disks#show'
+    post 'disks', to: 'disks#create'
+    put 'disks/:id', to: 'disks#update'
+
+    get 'disk_images', to: 'disk_images#index'
+    get 'disk_images/:id', to: 'disk_images#show'
+    post 'disk_images', to: 'disk_images#create'
+    put 'disk_images/:id', to: 'disk_images#update'
   end
 
   
