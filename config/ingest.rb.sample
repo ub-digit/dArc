@@ -1,0 +1,6 @@
+module IngestConfig extend self
+
+  INBOX = "<path to inbox>"
+  STORAGE_PATH = "<path to storage>"
+
+end
