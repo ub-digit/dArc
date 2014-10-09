@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     get 'disk_images/:id', to: 'disk_images#show'
     post 'disk_images', to: 'disk_images#create'
     put 'disk_images/:id', to: 'disk_images#update'
+
+    get 'content_file_infos/:disk_image/:parent', to: 'content_file_infos#index'
   end
 
   
