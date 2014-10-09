@@ -31,6 +31,22 @@ class Dataformats::RelationsOut < Dataformats::Relations
      rels.delete(matching_rels.first)
   end
 
+  def save
+     return if @new_relations == nil
+     current_relations = lookup
+     @new_relations.each do |new_relation|
+       unless current_relations.include? new_relation then
+         relation_add new_relation
+       end
+     end
+     current_relations.each do |current_relation|
+       unless @new_relations.include? current_relation then
+         relation_remove current_relation
+       end
+     end
+     @new_relations = nil
+  end
+
   def lookup
     lookup_in_direction relation_type, false
   end

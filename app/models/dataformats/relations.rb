@@ -1,7 +1,7 @@
 class Dataformats::Relations < Dataformats::Wrapper
 
   def archives= value
-     # NOT setting anything, this wrapper is read-only
+     @new_relations = value
   end
 
   def archives
@@ -9,7 +9,7 @@ class Dataformats::Relations < Dataformats::Wrapper
   end
 
   def authorities= value
-     # NOT setting anything, this wrapper is read-only
+     @new_relations = value
   end
 
   def authorities
@@ -17,7 +17,7 @@ class Dataformats::Relations < Dataformats::Wrapper
   end
 
   def disks= value
-     # NOT setting anything, this wrapper is read-only
+     @new_relations = value
   end
 
   def disks
@@ -25,7 +25,7 @@ class Dataformats::Relations < Dataformats::Wrapper
   end
 
   def disk_images= value
-     # NOT setting anything, this wrapper is read-only
+     @new_relations = value
   end
 
   def disk_images
