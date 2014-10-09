@@ -51,3 +51,4 @@ end
 gem 'rubydora'
 gem 'nokogiri'
 gem 'rack-cors'
+gem 'mongo'
