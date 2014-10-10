@@ -6,7 +6,7 @@ class Archive < DarcFedoraObject
   scope :full, :authorities, :disks, :unittitle, :unitdate, :unitid, :abstract 
   scope :update, :authorities, :unittitle, :unitdate, :unitid, :abstract
   scope :brief, :unittitle, :unitdate, :unitid
-  scope :create, :unittitle, :unitdate, :unitid, :abstract
+  scope :create, :authorities, :unittitle, :unitdate, :unitid, :abstract
 
   def initialize id, obj, scope=:full
      super
