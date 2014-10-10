@@ -16,6 +16,14 @@ class Dataformats::DC < Dataformats::Xml
      read_element('//oai_dc:dc/dc:title', {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"})
   end
 
+  def description= value
+     write_to_path(Dataformats::Xml::Path.new(['oai_dc:dc', 'dc:description'], {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"}), value)
+  end
+
+  def description
+     read_element('//oai_dc:dc/dc:description', {'dc' => "http://purl.org/dc/elements/1.1/", 'oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/"})
+  end
+
   def pid= value
      # read only
   end

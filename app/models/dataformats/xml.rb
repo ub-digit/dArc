@@ -22,6 +22,31 @@ class Dataformats::Xml < Dataformats::Wrapper
      @doc == nil
   end
 
+  def xml_schema
+    nil
+  end
+
+  # checks if the xml is valid against given xml schema
+  def validate
+    # Check if xml syntax is correct
+    test = Nokogiri::XML(to_xml)
+    test.errors.each do |error|
+      self.errors.add(error)
+    end
+
+    #If schema exist, validate against given schema
+    if xml_schema
+      doc = Nokogiri::XML(to_xml)
+      open(xml_schema.to_s) do |xsd_file|
+        xsd = Nokogiri::XML::Schema(xsd_file.read)
+        xsd.validate(doc).each do |error|
+          self.errors.add(error)
+        end
+      end
+    end
+    return self.errors
+  end
+
   # saves the xml data from the document to the datastream
   def save
      ds = @obj.datastreams[datastream_name]
@@ -195,7 +220,6 @@ class Dataformats::Xml < Dataformats::Wrapper
      # adds a child element to the element represented by this path
      def add_child element_name, doc
        ns_uri = @namespaces[prefix_part(element_name)]
-       
        ns_prefix = eval_xpath(doc)[0].namespaces.key(ns_uri)
        ns_prefix = ns_prefix.sub(/xmlns/, '')
        ns_prefix = ns_prefix.sub(/:/, '')

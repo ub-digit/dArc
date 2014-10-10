@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Api::ApiController, :type => :controller do
 	before :each do
-		config_init
 		@api_key = Rails.application.config.api_key
 	end
 

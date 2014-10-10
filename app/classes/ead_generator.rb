@@ -2,7 +2,7 @@ require 'nokogiri'
 
 #Class for generating EAD from JSON, and convert EAD to JSON
 class EadGenerator
-	XML_SCHEMA = Pathname.new(Rails.root.to_s + "/app/assets/schemas/RA_EAD.xsd")
+	XML_SCHEMA = Pathname.new(Rails.root.to_s + "/app/assets/schemas/ead.xsd")
 	#XMK_SCHEMA = "http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd"
 
 
@@ -22,7 +22,7 @@ class EadGenerator
 
 	def self.generate_empty
 		builder = Nokogiri::XML::Builder.new do |xml|
-			xml.ead('xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance', 'xsi:schemaLocation' => 'http://xml.ra.se/EAD/RA_EAD.xsd', 'xmlns' => 'http://xml.ra.se/EAD'){
+			xml.ead('xmlns' => 'urn:isbn:1-931666-22-9', 'xmlns:xlink' => 'http://www.w3.org/1999/xlink', 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance', 'xsi:schemaLocation' => ' urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd'){
 				xml.eadheader {
 					xml.eadid(countrycode: "SE", mainagencycode: Rails.application.config.ownercode){
 						xml.text('')

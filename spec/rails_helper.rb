@@ -37,7 +37,42 @@ def get_cassette_path(request)
 end
 
 RSpec.configure do |config|
+  
+  # Include helper classes
   config.include TestHelper
+
+  # Create map for storing test data ids
+  config.add_setting :db_ids
+  RSpec.configuration.db_ids = {}
+
+  # Actions performed before test suite is run
+  config.before(:suite){
+
+    # Set appropriate test config values
+    Rails.application.config.api_key = "test_key"
+    Rails.application.config.ownercode = "SE-GUB-TEST"
+    #Rails.application.config.fedora_connection = Rails.application.config.fedora_test_connection
+
+    # Create a test Archive object
+    @archive = Archive.create()
+    @archive.from_json({"title" => "Test Archive", "unitid" => "1337", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive"})
+    @archive.save
+    RSpec.configuration.db_ids[:archive] = @archive.id
+
+    # Create a test Authority(Person) object
+    @person = Person.create()
+    @person.from_json({"title" => "Test Person","authorized_forename" => "Test", "authorized_surname" => "Testsson", "type" => "person", "startdate" => "1305", "enddate" => "1845"})
+    @person.save
+    RSpec.configuration.db_ids[:person] = @person.id
+    RSpec.configuration.db_ids[:authority] = @person.id
+  }
+
+  # Actions performed after test suite has been run
+  config.after(:suite) {
+    # Delete the test archive object
+    Archive.purge(RSpec.configuration.db_ids[:archive])
+    Person.purge(RSpec.configuration.db_ids[:person])
+  }
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   #config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

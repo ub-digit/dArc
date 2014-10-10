@@ -7,10 +7,19 @@ module DarcFedoraDSHandler
   # Usage: attr_datastream :dc, :title, :description generates hash {:title => :dc, :description => :dc}
   def attr_datastream(dataformat, *args)
     @@attr_fields_datastream ||= {}
-    args.each do |arg|
-      @@attr_fields_datastream[arg] = dataformat
-    end
+    @@attr_fields_datastream[self.name.to_sym] ||= {}
 
+    args.each do |arg|
+      @@attr_fields_datastream[self.name.to_sym][arg] = dataformat
+    end
+    
+    # Merge datastreams from parent classes
+    self.ancestors.reverse.each do |parent|
+      if @@attr_fields_datastream[parent.name.to_sym]
+        @@attr_fields_datastream[self.name.to_sym].merge! @@attr_fields_datastream[parent.name.to_sym] 
+      end
+    end
+    
     if(dataformat.to_s.match(/^relations_out_/)) then
       rel_type = dataformat.to_s.sub('relations_out_', '')
       args.each do |arg|
@@ -42,26 +51,34 @@ module DarcFedoraDSHandler
     # Defines method 'scope_name'_load (ie. brief_load)
     # Load method sets all fields defined in scope, using the given dataformat class
     define_method("#{scope_name}_load".to_sym) do
-      @@attr_fields_datastream.values.uniq.each do |ds|
-        ds_scope_fields = @@all_scope_fields[scope_name].select do |field| @@attr_fields_datastream[field] == ds end
-        if !ds_scope_fields.empty? then dataformat_wrapper_create(ds) end
-        ds_scope_fields.each do |field|
-          ds_data = dataformat_fetch(field)
-          instance_variable_set("@#{field}", ds_data)
-        end
-        if !ds_scope_fields.empty? then dataformat_wrapper_dispose end
-      end
-    end
+      @@attr_fields_datastream[self.class.name.to_sym].values.uniq.each do |ds|
+        ds_scope_fields = @@all_scope_fields[scope_name].select do |field| @@attr_fields_datastream[self.class.name.to_sym][field] == ds end
+          if !ds_scope_fields.empty? then dataformat_wrapper_create(ds) end
+            ds_scope_fields.each do |field|
+              ds_data = dataformat_fetch(field)
+              instance_variable_set("@#{field}", ds_data)
+            end
+            if !ds_scope_fields.empty? then dataformat_wrapper_dispose end
+            end
+          end
 
     # Defines method 'scope_name'_save (ie. brief_save)
     # Save method stores all fields defined in scope, using the given dataformat class
     define_method("#{scope_name}_save".to_sym) do
-      @@attr_fields_datastream.values.uniq.each do |ds|
-        ds_scope_fields = @@all_scope_fields[scope_name].select do |field| @@attr_fields_datastream[field] == ds end
-        if !ds_scope_fields.empty? then dataformat_wrapper_create(ds) end
-        ds_scope_fields.each do |field|
-          ds_data = instance_variable_get("@#{field}")
-          dataformat_push(field, ds_data)
+      @@attr_fields_datastream[self.class.name.to_sym].values.uniq.each do |ds|
+        ds_scope_fields = @@all_scope_fields[scope_name].select do |field| @@attr_fields_datastream[self.class.name.to_sym][field] == ds end
+          if !ds_scope_fields.empty? then dataformat_wrapper_create(ds) end
+            ds_scope_fields.each do |field|
+              ds_data = instance_variable_get("@#{field}")
+              dataformat_push(field, ds_data)
+            end
+        #Validate dataformat
+        df_errors = dataformat_wrapper_validate
+        if !df_errors.empty?
+          df_errors.full_messages.each do |msg|
+            errors[:base] << "DataFormat Error: #{msg}"
+          end
+          return false
         end
         if !ds_scope_fields.empty? then
           dataformat_wrapper_save
@@ -129,13 +146,12 @@ class DarcFedora
   extend DarcFedoraDSHandler
   attr_reader :id, :obj
   include ActiveModel::Validations
-  validate :dataformats_valid
   validates_presence_of :title
   
   def initialize id, obj, scope="brief"
-     @id = id
-     @obj = obj
-     @scope = scope
+   @id = id
+   @obj = obj
+   @scope = scope
 
      # don't do the model check for content model objects
      unless @obj.models.include?("info:fedora/fedora-system:ContentModel-3.0")
@@ -144,13 +160,7 @@ class DarcFedora
          raise Rubydora::RecordNotFound, 'DigitalObject.find called for an object of the wrong type', caller
        end
      end
-  end
-
-  # Validates all dataformats
-  def dataformats_valid
-    # Add code for validation of dataformats
-    # Use @errors.add(:field_name, "Error message") to make invalid
-  end
+   end
 
   # Returns a rubydora connection object
   def self.fedora_connection
@@ -168,12 +178,12 @@ class DarcFedora
   # Purges a fedora object. Returns a sting or raises an exepction. 
   def self.purge id
     case id
-      when Integer
-        string_id = numeric_id_to_fedora_id(id)
-      when String
-        string_id = id
-      else
-        raise ArgumentError, 'id must be numeric or a string', caller
+    when Integer
+      string_id = numeric_id_to_fedora_id(id)
+    when String
+      string_id = id
+    else
+      raise ArgumentError, 'id must be numeric or a string', caller
     end
     
     obj = fedora_connection.find(string_id)
@@ -184,12 +194,12 @@ class DarcFedora
   # Returns a DarcFedora object or raises an exception
   def self.find id, options={}
     case id
-      when Integer
-        string_id = numeric_id_to_fedora_id(id)
-      when String
-        string_id = id
-      else
-        raise ArgumentError, 'id must be numeric or a string', caller
+    when Integer
+      string_id = numeric_id_to_fedora_id(id)
+    when String
+      string_id = id
+    else
+      raise ArgumentError, 'id must be numeric or a string', caller
     end
 
     # set the scope from options[:select] if present. default to :full 
@@ -204,10 +214,10 @@ class DarcFedora
   # Finds a record based on id, can take both numeric part of PID(ie. 17), as well as full PID-string(ie. 'darc:17')
   # Returns a DarcFedora object or returns nil
   def self.find_by_id id, options={}
-     self.find(id, options)
-  rescue => error
-    return nil	
-  end
+   self.find(id, options)
+ rescue => error
+  return nil	
+end
 
   # Returns an array of integer part of PID for all objects of current class
   def self.all options={}
@@ -231,7 +241,8 @@ class DarcFedora
   # Saves fields in current scope through its' respective dataformat class
   def save
     return false if invalid?
-    self.send("#{@scope}_save")
+    return self.send("#{@scope}_save")
+    #return false if invalid?
   end
 
   # Returns fields in current scope from its' respective dataformat class as a hash
@@ -269,21 +280,30 @@ class DarcFedora
     return @wrapper.send(field.to_s + '=', value)
   end
 
+  # Validates a dataformat object and returns an array of errors
+  def dataformat_wrapper_validate
+    if @wrapper.respond_to? "validate"
+      return @wrapper.send("validate")
+    else
+      return []
+    end
+  end
+
   # Returns field value of the DC datastream
   def get_dc_value name
-     ds = @obj.datastreams['DC']
-     doc = Nokogiri::XML(ds.content.strip)
-     ele= doc.xpath('//oai_dc:dc/dc:' + name)
-     ele.text
-  end
+   ds = @obj.datastreams['DC']
+   doc = Nokogiri::XML(ds.content.strip)
+   ele= doc.xpath('//oai_dc:dc/dc:' + name)
+   ele.text
+ end
 
   # Returns a complete Fedora ID- string from an integer value
   def self.numeric_id_to_fedora_id numeric_id
-     Rails.application.config.namespace_prefix + numeric_id.to_s
-  end
+   Rails.application.config.namespace_prefix + numeric_id.to_s
+ end
 
   # Returns the corresponding model name in Fedora
   def self.fedora_model_name
-     name
-  end
+   name
+ end
 end

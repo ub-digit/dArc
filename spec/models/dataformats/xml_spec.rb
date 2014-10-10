@@ -51,4 +51,13 @@ RSpec.describe Dataformats::Xml::Path do
   def ns_u
     "http://xml.ra.se/EAC"
   end
+
+  describe "validate" do
+    context "for a valid document" do
+      it "should return no errors" do
+        
+      end
+    end
+  end
+
 end
