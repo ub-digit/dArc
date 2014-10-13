@@ -34,13 +34,13 @@ class Dataformats::RelationsOut < Dataformats::Relations
   def save
      return if @new_relations == nil
      current_relations = lookup
-     @new_relations.each do |new_relation|
+     @new_relations.uniq.each do |new_relation|
        unless current_relations.include? new_relation then
          relation_add new_relation
        end
      end
      current_relations.each do |current_relation|
-       unless @new_relations.include? current_relation then
+       unless @new_relations.uniq.include? current_relation then
          relation_remove current_relation
        end
      end

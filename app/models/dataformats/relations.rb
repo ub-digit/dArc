@@ -1,7 +1,7 @@
 class Dataformats::Relations < Dataformats::Wrapper
 
-  def archives= value
-     @new_relations = value
+  def archives= array
+     @new_relations = array
   end
 
   def archives
