@@ -226,7 +226,7 @@ end
     result = []
     resp.each do |r| 
       id = r.to_s.sub(/^info\:fedora\/darc\:/, '').to_i
-      obj = self.find(id)
+      obj = self.find(id, options)
       result << obj 
     end
     return result
