@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get 'disks/:id', to: 'disks#show'
     post 'disks', to: 'disks#create'
     put 'disks/:id', to: 'disks#update'
+    delete 'disks/:id', to: 'disks#purge'
 
     get 'disk_images', to: 'disk_images#index'
     get 'disk_images/:id', to: 'disk_images#show'
