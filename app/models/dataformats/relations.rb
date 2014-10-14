@@ -1,5 +1,8 @@
 class Dataformats::Relations < Dataformats::Wrapper
 
+  ###########################
+  # Getters and setters for arrays of object ids for relations
+  ###########################
   def archives= array
      @new_relations = array
   end
@@ -31,6 +34,7 @@ class Dataformats::Relations < Dataformats::Wrapper
   def disk_images
      lookup
   end
+  ##############################
 
   # uses sparql to search for objects related to this object. the type of relation and
   # the relation direction are controlled by the arguments

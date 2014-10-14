@@ -65,11 +65,22 @@ RSpec.configure do |config|
     @person.save
     RSpec.configuration.db_ids[:person] = @person.id
     RSpec.configuration.db_ids[:authority] = @person.id
+
+    @disk = Disk.create()
+    @disk.from_json({"title" => "Test Disk", "archives" => [@archive.id]})
+    @disk.save
+    RSpec.configuration.db_ids[:disk] = @disk.id
+
+    @disk_image = DiskImage.create()
+    @disk_image.from_json({"title" => "Test Disk-Image", "disks" => [@disk.id]})
+    RSpec.configuration.db_ids[:disk_image] = @disk_image.id
   }
 
   # Actions performed after test suite has been run
   config.after(:suite) {
-    # Delete the test archive object
+    # Delete the test archive objects
+    DiskImage.purge(RSpec.configuration.db_ids[:disk_image])
+    Disk.purge(RSpec.configuration.db_ids[:disk])
     Archive.purge(RSpec.configuration.db_ids[:archive])
     Person.purge(RSpec.configuration.db_ids[:person])
   }

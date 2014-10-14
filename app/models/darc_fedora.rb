@@ -267,7 +267,7 @@ end
 
   # Saves all fields included in dataformat object
   def dataformat_wrapper_save
-    @wrapper.save
+    @wrapper.save unless !@wrapper.respond_to? "save"
   end
 
   # Returns field value from dataformat object
