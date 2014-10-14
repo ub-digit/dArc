@@ -10,7 +10,7 @@ class Authority < DarcFedoraObject
   validates :type, inclusion: { in: %w(person corporation family), message: "#{@type} is not a valid value." }
 
   
-  def initialize id, obj, scope=:full
+  def initialize id, obj, scope=:full, new_record = false
     super
     load
   end

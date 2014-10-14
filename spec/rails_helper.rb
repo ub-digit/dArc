@@ -59,6 +59,11 @@ RSpec.configure do |config|
     @archive.save
     RSpec.configuration.db_ids[:archive] = @archive.id
 
+    @archive2 = Archive.create()
+    @archive2.from_json({"title" => "Test Archive 2", "unitid" => "13372", "unitdate" => "1337 - 14082", "unittitle" => "A vewy vewy quiet archive2"})
+    @archive2.save
+    RSpec.configuration.db_ids[:archive2] = @archive2.id
+
     # Create a test Authority(Person) object
     @person = Person.create()
     @person.from_json({"title" => "Test Person","authorized_forename" => "Test", "authorized_surname" => "Testsson", "type" => "person", "startdate" => "1305", "enddate" => "1845"})
@@ -66,14 +71,42 @@ RSpec.configure do |config|
     RSpec.configuration.db_ids[:person] = @person.id
     RSpec.configuration.db_ids[:authority] = @person.id
 
+    @person2 = Person.create()
+    @person2.from_json({"title" => "Test Person2","authorized_forename" => "Test2", "authorized_surname" => "Testsson2", "type" => "person", "startdate" => "13052", "enddate" => "18452"})
+    @person2.save
+    RSpec.configuration.db_ids[:person2] = @person2.id
+    RSpec.configuration.db_ids[:authority2] = @person2.id
+
     @disk = Disk.create()
     @disk.from_json({"title" => "Test Disk", "archives" => [@archive.id]})
     @disk.save
     RSpec.configuration.db_ids[:disk] = @disk.id
 
+    @disk2 = Disk.create()
+    @disk2.from_json({"title" => "Test Disk2", "archives" => [@archive.id]})
+    @disk2.save
+    RSpec.configuration.db_ids[:disk2] = @disk2.id
+
     @disk_image = DiskImage.create()
     @disk_image.from_json({"title" => "Test Disk-Image", "disks" => [@disk.id]})
+    @disk_image.save
     RSpec.configuration.db_ids[:disk_image] = @disk_image.id
+
+    # Sleep to allow for index to update
+    puts "================================"
+    puts "Sleeping for 10 seconds to let the index catch up with all of our awesome test data!"
+    10.times do |x|
+      print "#{10-x}"
+      4.times do |y|
+        sleep(0.2)
+        print "."
+      end
+      sleep(0.2)
+    end
+    print "0"
+    puts ""
+    puts "Let's roll!"
+    puts "================================"
   }
 
   # Actions performed after test suite has been run
@@ -81,8 +114,11 @@ RSpec.configure do |config|
     # Delete the test archive objects
     DiskImage.purge(RSpec.configuration.db_ids[:disk_image])
     Disk.purge(RSpec.configuration.db_ids[:disk])
+    Disk.purge(RSpec.configuration.db_ids[:disk2])
     Archive.purge(RSpec.configuration.db_ids[:archive])
+    Archive.purge(RSpec.configuration.db_ids[:archive2])
     Person.purge(RSpec.configuration.db_ids[:person])
+    Person.purge(RSpec.configuration.db_ids[:person2])
   }
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   #config.fixture_path = "#{::Rails.root}/spec/fixtures"

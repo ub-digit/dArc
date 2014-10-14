@@ -20,7 +20,8 @@ RSpec.describe Disk, :type => :model do
 		context "with valid attributes" do
 			it "should save without errors" do
 				a = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :update})
-				a.from_json({"title" => "Test title 2"}.to_json)
+				params = {"title" => a.as_json[:title], "archives" => a.as_json[:archives]}.to_json
+				a.from_json(params)
 				expect(a.save).to be true
 			end
 		end
@@ -32,39 +33,39 @@ RSpec.describe Disk, :type => :model do
 				expect(a.errors.messages.size).to eq 1
 			end
 		end
-		context "removing an archive" do
-			it "should save without errors" do
+		context "with an empty archives array" do
+			it "should produce an error" do
 				a = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :update})
 				params = {"title" => "Test title 3", "archives" => []}.to_json
 				a.from_json(params)
-				a.save
-
-				# Check for updated relation through loop to allow for index to synchronize
-				json = nil
-				wait_for_relation(20.seconds) do
-					b = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :full})
-					json = JSON.parse(b.to_json)
-					json["archives"].size < 1 
-				end
-				expect(json["archives"].size).to eq 0
+				expect(a.save).to be false
+				expect(a.errors.messages.size).to eq 1
 			end
 		end
-
-		context "adding an archive" do
+		context "with an archives array with more than one entry" do
+			it "should produce an error" do
+				a = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :update})
+				params = {"title" => "Test title 3", "archives" => [RSpec.configuration.db_ids[:archive], RSpec.configuration.db_ids[:archive2]]}.to_json
+				a.from_json(params)
+				expect(a.save).to be false
+				expect(a.errors.messages.size).to eq 1
+			end
+		end
+		context "with a new archive" do
 			it "should save without errors" do
 				a = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :update})
-				params = {"title" => "Test title 3", "archives" => [RSpec.configuration.db_ids[:archive]]}.to_json
+				params = {"title" => "Test title 3", "archives" => [RSpec.configuration.db_ids[:archive2]]}.to_json
 				a.from_json(params)
-				a.save
+				expect(a.save).to be true
 
 				# Check for updated relation through loop to allow for index to synchronize
 				json = nil
 				wait_for_relation(20.seconds) do
 					b = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :full})
-					json = JSON.parse(b.to_json)
-					json["archives"].size > 0 
+					json = b.as_json
+					json[:archives].first != RSpec.configuration.db_ids[:archive] 
 				end
-				expect(json["archives"].size).to eq 1
+				expect(json[:archives].first).to eq RSpec.configuration.db_ids[:archive2]
 			end
 		end
 	end

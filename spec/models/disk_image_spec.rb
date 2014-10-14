@@ -19,8 +19,8 @@ RSpec.describe DiskImage, :type => :model do
 	describe "save" do
 		context "with valid attributes" do
 			it "should save without errors" do
-				a = DiskImage.find(RSpec.configuration.db_ids[:disk_image], {:select => :update})
-				a.from_json({"title" => "Test title 2"}.to_json)
+				a = DiskImage.create()
+				a.from_json({"title" => "Test title 2", "disks" => [RSpec.configuration.db_ids[:disk]]}.to_json)
 				expect(a.save).to be true
 			end
 		end
@@ -30,41 +30,26 @@ RSpec.describe DiskImage, :type => :model do
 				a.from_json({"title" => ""}.to_json)
 				expect(a.save).to be false
 				expect(a.errors.messages.size).to eq 1
+				b = DiskImage.find(RSpec.configuration.db_ids[:disk_image], {:select => :update})
+				expect(b).to_not be nil
 			end
 		end
-		context "removing a disk" do
-			it "should save without errors" do
-				a = DiskImage.find(RSpec.configuration.db_ids[:disk_image], {:select => :update})
-				params = {"title" => "Test title 3", "disks" => []}.to_json
-				a.from_json(params)
-				a.save
-
-				# Check for updated relation through loop to allow for index to synchronize
-				json = nil
-				wait_for_relation(20.seconds) do
-					b = DiskImage.find(RSpec.configuration.db_ids[:disk_image], {:select => :full})
-					json = JSON.parse(b.to_json)
-					json["disks"].size < 1 
-				end
-				expect(json["disks"].size).to eq 0
+		context "with an empty disk array" do
+			it "should return false" do
+				a = DiskImage.create()
+				a.from_json({"title" => "test", "disks" => []}.to_json)
+				expect(a.save).to be false
+				expect(a.errors.messages.size).to eq 1
 			end
 		end
-
-		context "adding a disk" do
-			it "should save without errors" do
-				a = DiskImage.find(RSpec.configuration.db_ids[:disk_image], {:select => :update})
-				params = {"title" => "Test title 3", "disks" => [RSpec.configuration.db_ids[:disk]]}.to_json
-				a.from_json(params)
-				a.save
-
-				# Check for updated relation through loop to allow for index to synchronize
-				json = nil
-				wait_for_relation(20.seconds) do
-					b = DiskImage.find(RSpec.configuration.db_ids[:disk_image], {:select => :full})
-					json = JSON.parse(b.to_json)
-					json["disks"].size > 0 
-				end
-				expect(json["disks"].size).to eq 1
+		context "with a disk array with multiple entries" do
+			it "should return false" do
+				a = DiskImage.create()
+				a.from_json({"title" => "test", "disks" => [RSpec.configuration.db_ids[:disk], RSpec.configuration.db_ids[:disk2]]}.to_json)
+				id = a.as_json[:id]
+				expect(a.save).to be false
+				expect(a.errors.messages.size).to eq 1
+				expect{DiskImage.find(id)}.to raise_error
 			end
 		end
 	end

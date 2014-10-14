@@ -148,10 +148,11 @@ class DarcFedora
   include ActiveModel::Validations
   validates_presence_of :title
   
-  def initialize id, obj, scope="brief"
+  def initialize id, obj, scope="brief", new_record = false
    @id = id
    @obj = obj
    @scope = scope
+   @new_record = new_record
 
      # don't do the model check for content model objects
      unless @obj.models.include?("info:fedora/fedora-system:ContentModel-3.0")
@@ -172,7 +173,7 @@ class DarcFedora
     pid = fedora_connection.ingest
     obj = fedora_connection.find(pid)
     obj.models << Models.get_id_for_model_name(self.fedora_model_name)
-    self.new pid,fedora_connection.find(pid), :create 
+    self.new pid,fedora_connection.find(pid), :create, true 
   end
 
   # Purges a fedora object. Returns a sting or raises an exepction. 
@@ -240,6 +241,9 @@ end
 
   # Saves fields in current scope through its' respective dataformat class
   def save
+    if invalid? && @new_record
+      self.class.purge(as_json[:id])
+    end
     return false if invalid?
     return self.send("#{@scope}_save")
     #return false if invalid?

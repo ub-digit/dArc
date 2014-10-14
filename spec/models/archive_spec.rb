@@ -35,7 +35,7 @@ RSpec.describe Archive, :type => :model do
 		context "adding an authority" do
 			it "should save without errors" do
 				a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :update})
-				params = {"unitid" => "1338", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => [RSpec.configuration.db_ids[:person]]}.to_json
+				params = {"unitid" => "1338", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => [RSpec.configuration.db_ids[:person], RSpec.configuration.db_ids[:person2]]}.to_json
 				a.from_json(params)
 				a.save
 
@@ -44,16 +44,16 @@ RSpec.describe Archive, :type => :model do
 				wait_for_relation(20.seconds) do
 					b = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :full})
 					json = JSON.parse(b.to_json)
-					json["authorities"].size > 0 
+					json["authorities"].size > 1
 				end
 				expect(json["unitid"]).to eq "1338"
-				expect(json["authorities"].size).to eq 1
+				expect(json["authorities"].size).to eq 2
 			end
 		end
 		context "removing an authority" do 
 			it "should save without errors" do
 				a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :update})
-				params = {"unitid" => "1339", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => []}.to_json
+				params = {"unitid" => "1339", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => [RSpec.configuration.db_ids[:person]]}.to_json
 				a.from_json(params)
 				a.save
 
@@ -62,10 +62,10 @@ RSpec.describe Archive, :type => :model do
 				wait_for_relation(20.seconds) do
 					b = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :full})
 					json = JSON.parse(b.to_json)
-					json["authorities"].size < 1 
+					json["authorities"].size < 2
 				end
 				expect(json["unitid"]).to eq "1339"
-				expect(json["authorities"].size).to eq 0
+				expect(json["authorities"].size).to eq 1
 			end
 		end
 	end

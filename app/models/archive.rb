@@ -8,7 +8,7 @@ class Archive < DarcFedoraObject
   scope :brief, :unittitle, :unitdate, :unitid
   scope :create, :authorities, :unittitle, :unitdate, :unitid, :abstract
 
-  def initialize id, obj, scope=:full
+  def initialize id, obj, scope=:full, new_record = false
      super
      load
   end
