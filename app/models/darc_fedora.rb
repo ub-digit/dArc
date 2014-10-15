@@ -228,8 +228,12 @@ end
     result = []
     resp.each do |r| 
       id = r.to_s.sub(/^info\:fedora\/darc\:/, '').to_i
-      obj = self.find(id)
-      result << obj 
+      begin
+        obj = self.find(id, options)
+        result << obj 
+      rescue Rubydora::RecordNotFound => error
+        puts "Object is not found, id: #{id}"
+      end
     end
     return result
   end
