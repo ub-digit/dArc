@@ -7,11 +7,19 @@ class Archive < DarcFedoraObject
   scope :update, :authorities, :unittitle, :unitdate, :unitid, :abstract
   scope :brief, :unittitle, :unitdate, :unitid
   scope :create, :authorities, :unittitle, :unitdate, :unitid, :abstract
+  scope :delete, :disks
 
   validates :authorities, :length => { :minimum => 1}
 
   def initialize id, obj, scope=:full, new_record = false
      super
      load
+  end
+
+  def validate_for_delete
+    if as_json[:disks].size > 0
+      errors[:disks] << "Cannot delete object with existing relations: #{as_json[:disks]}"
+    end
+    super if defined?(super)
   end
 end

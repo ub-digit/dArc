@@ -46,4 +46,24 @@ RSpec.describe Authority, :type => :model do
 			end
 		end
 	end
+	describe "purge" do
+		context "with existing archive relations" do
+			it "should return false and not delete object" do
+				expect(Authority.purge(RSpec.configuration.db_ids[:authority])).to be false
+				a = Authority.find(RSpec.configuration.db_ids[:authority], {:select => :full})
+				expect(a).to_not be nil
+			end
+		end
+		context "without existing archive relations" do
+			it "should return true and delete the object" do
+				a = Authority.create()
+				a.from_json({"title" => "temp title", "startdate" => "1337", "enddate" => "1408", "type" => "person", "forename" => "test", "surname" => "testsson"}.to_json)
+				expect(a.save).to be true
+				id = a.as_json[:id]
+				expect(Authority.purge(id)).to be true
+				b = Authority.find_by_id(id, {:select => :full})
+				expect(b).to be nil
+			end
+		end
+	end
 end

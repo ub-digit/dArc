@@ -169,6 +169,7 @@ class DarcFedora
   end
 
 
+  # Creates a new object, only used for entirely new Fedora Objects
   def self.create options={}
     pid = fedora_connection.ingest
     obj = fedora_connection.find(pid)
@@ -176,7 +177,7 @@ class DarcFedora
     self.new pid,fedora_connection.find(pid), :create, true 
   end
 
-  # Purges a fedora object. Returns a sting or raises an exepction. 
+  # Purges a fedora object. Returns bool or raises an exepction. 
   def self.purge id
     return if !id
     case id
@@ -188,8 +189,30 @@ class DarcFedora
       raise ArgumentError, 'id must be numeric or a string purge', caller
     end
     
-    obj = fedora_connection.find(string_id)
-    obj.delete
+    do_object = self.new string_id,fedora_connection.find(string_id), :delete
+    do_object.delete
+  end
+
+  # Deletes the object, after validating that a delete is possible
+  def delete
+    #Validate delete against scope
+    if @scope != :delete
+      raise Exception, 'Object has wrong scope to be deleted'
+    end
+
+    # Validate class for delete
+    validate_for_delete if defined?(validate_for_delete)
+
+    if errors.messages.empty?
+      @obj.delete
+      return true
+    else
+      return false
+    end
+  end
+
+  def delete!
+    delete or raise Exception, @errors.messages
   end
 
   # Finds a record based on id, can take both numeric part of PID(ie. 17), as well as full PID-string(ie. 'darc:17')

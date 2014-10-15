@@ -109,14 +109,36 @@ RSpec.configure do |config|
 
   # Actions performed after test suite has been run
   config.after(:suite) {
+    puts "=====CLEANING MY ROOM==========="
     # Delete the test archive objects
-    DiskImage.purge(RSpec.configuration.db_ids[:disk_image])
-    Disk.purge(RSpec.configuration.db_ids[:disk])
-    Disk.purge(RSpec.configuration.db_ids[:disk2])
-    Archive.purge(RSpec.configuration.db_ids[:archive])
-    Archive.purge(RSpec.configuration.db_ids[:archive2])
-    Person.purge(RSpec.configuration.db_ids[:person])
-    Person.purge(RSpec.configuration.db_ids[:person2])
+    di = DiskImage.find(RSpec.configuration.db_ids[:disk_image], {:select => :delete})
+    di.delete or pp di.errors.messages 
+    sleep(4) # To let index catch up
+    print " | "
+    # Disk.purge(RSpec.configuration.db_ids[:disk])
+    # Disk.purge(RSpec.configuration.db_ids[:disk2])
+    d = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :delete})
+    d.delete or pp d.errors.messages
+    d2 = Disk.find(RSpec.configuration.db_ids[:disk2], {:select => :delete})
+    d2.delete or pp d2.errors.messages
+     sleep(4) # To let index catch up
+    print " | "
+    # Archive.purge(RSpec.configuration.db_ids[:archive])
+    # Archive.purge(RSpec.configuration.db_ids[:archive2])
+    a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :delete})
+    a.delete or pp a.errors.messages
+    a2 = Archive.find(RSpec.configuration.db_ids[:archive2], {:select => :delete})
+    a2.delete or pp a2.errors.messages
+    sleep(4) # To let index catch up
+    print " | "
+    # Person.purge(RSpec.configuration.db_ids[:person])
+    # Person.purge(RSpec.configuration.db_ids[:person2])
+    p = Person.find(RSpec.configuration.db_ids[:person], {:select => :delete})
+    p.delete or pp p.errors.messages
+    p2 = Person.find(RSpec.configuration.db_ids[:person2], {:select => :delete})
+    p2.delete or pp p2.errors.messages
+    puts ""
+    puts "======DONE======================"
   }
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   #config.fixture_path = "#{::Rails.root}/spec/fixtures"

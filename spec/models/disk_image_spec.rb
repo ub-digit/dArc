@@ -22,6 +22,8 @@ RSpec.describe DiskImage, :type => :model do
 				a = DiskImage.create()
 				a.from_json({"title" => "Test title 2", "disks" => [RSpec.configuration.db_ids[:disk]]}.to_json)
 				expect(a.save).to be true
+				b = DiskImage.find(a.as_json[:id], {:select => :delete})
+				expect(b.delete).to be true
 			end
 		end
 		context "with an invalid title" do

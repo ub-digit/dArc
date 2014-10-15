@@ -69,4 +69,24 @@ RSpec.describe Disk, :type => :model do
 			end
 		end
 	end
+	describe "purge" do
+		context "with existing disk-image relations" do
+			it "should return false and not delete object" do
+				expect(Disk.purge(RSpec.configuration.db_ids[:disk])).to be false
+				a = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :full})
+				expect(a).to_not be nil
+			end
+		end
+		context "without existing disk-image relations" do
+			it "should return true and delete the object" do
+				a = Disk.create()
+				a.from_json({"title" => "Tests title", "archives" => [RSpec.configuration.db_ids[:archive]]}.to_json)
+				expect(a.save).to be true
+				id = a.as_json[:id]
+				expect(Disk.purge(id)).to be true
+				b = Disk.find_by_id(id, {:select => :full})
+				expect(b).to be nil
+			end
+		end
+	end
 end

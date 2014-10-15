@@ -4,4 +4,5 @@ class DarcFedoraObject < DarcFedora
   scope :brief, :id, :pid, :title
   scope :update, :id, :pid, :title
   scope :create, :id, :pid, :title
+  scope :delete
 end

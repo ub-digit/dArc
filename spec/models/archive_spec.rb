@@ -32,14 +32,14 @@ RSpec.describe Archive, :type => :model do
 				expect(a.errors.messages.size).to eq 1
 			end
 		end
-		# context "with an empty authority list" do
-		# 	it "should return false" do
-		# 		a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :update})
-		# 		a.from_json({"title" => "test title", "unitid" => "1337", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => []}.to_json)
-		# 		expect(a.save).to be false
-		# 		expect(a.errors.messages.size).to eq 1
-		# 	end
-		# end
+		context "with an empty authority list" do
+			it "should return false" do
+				a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :update})
+				a.from_json({"title" => "test title", "unitid" => "1337", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => []}.to_json)
+				expect(a.save).to be false
+				expect(a.errors.messages.size).to eq 1
+			end
+		end
 		context "adding an authority" do
 			it "should save without errors" do
 				a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :update})
@@ -74,6 +74,28 @@ RSpec.describe Archive, :type => :model do
 				end
 				expect(json["unitid"]).to eq "1339"
 				expect(json["authorities"].size).to eq 1
+			end
+		end
+	end
+	describe "purge" do
+		context "with existing disk relations" do
+			it "should return false and not delete object" do
+				a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :delete})
+				expect(a.delete).to be false
+				expect(a.errors.messages.size).to eq 1
+				a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :full})
+				expect(a).to_not be nil
+			end
+		end
+		context "without existing disk relations" do
+			it "should return true and delete the object" do
+				a = Archive.create()
+				a.from_json({"title" => "temp title", "unitid" => "1337", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => [RSpec.configuration.db_ids[:authority]]}.to_json)
+				expect(a.save).to be true
+				id = a.as_json[:id]
+				expect(Archive.purge(id)).to be true
+				b = Archive.find_by_id(id, {:select => :full})
+				expect(b).to be nil
 			end
 		end
 	end
