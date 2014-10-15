@@ -62,7 +62,7 @@ class Api::FedoraObjectController < Api::ApiController
 
   def purge
     res = type_class.purge(params[:id].to_i)
-    render nothing: true, status: 200
+    render json: {}, status: 200
   rescue Rubydora::RecordNotFound => error
     render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
   rescue => error
