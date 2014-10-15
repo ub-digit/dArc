@@ -8,6 +8,8 @@ class Archive < DarcFedoraObject
   scope :brief, :unittitle, :unitdate, :unitid
   scope :create, :authorities, :unittitle, :unitdate, :unitid, :abstract
 
+  validates :authorities, :length => { :minimum => 1}
+
   def initialize id, obj, scope=:full, new_record = false
      super
      load

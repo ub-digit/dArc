@@ -71,7 +71,7 @@ RSpec.describe DarcFedora, :type => :model do
 
 	describe "create" do
 		context "of a valid model" do
-			it "should return an objects" do
+			it "should return an object" do
 				obj = Authority.create
 				@@create_id = obj.id
 				expect(obj).to be_an(Authority)

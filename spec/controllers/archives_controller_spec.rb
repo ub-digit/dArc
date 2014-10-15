@@ -42,7 +42,7 @@ RSpec.describe Api::ArchivesController, :type => :controller do
 	describe "POST create" do
 		context "with valid attributes" do
 			it "should return a success message" do
-				post :create, api_key: @api_key, archive: {unitid: "ArchiveId", title: "TestArchive", unittitle: "My new testArchive", unitdate: "1984-2854"}
+				post :create, api_key: @api_key, archive: {unitid: "ArchiveId", title: "TestArchive", unittitle: "My new testArchive", unitdate: "1984-2854", authorities: [RSpec.configuration.db_ids[:person]]}
 				@@temp_id = json["archive"]["id"]
 				expect(response.status.to_i).to eq 200
 			end

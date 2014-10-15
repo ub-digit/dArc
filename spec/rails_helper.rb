@@ -53,60 +53,58 @@ RSpec.configure do |config|
     Rails.application.config.ownercode = "SE-GUB-TEST"
     #Rails.application.config.fedora_connection = Rails.application.config.fedora_test_connection
 
-    # Create a test Archive object
-    @archive = Archive.create()
-    @archive.from_json({"title" => "Test Archive", "unitid" => "1337", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive"})
-    @archive.save
-    RSpec.configuration.db_ids[:archive] = @archive.id
-
-    @archive2 = Archive.create()
-    @archive2.from_json({"title" => "Test Archive 2", "unitid" => "13372", "unitdate" => "1337 - 14082", "unittitle" => "A vewy vewy quiet archive2"})
-    @archive2.save
-    RSpec.configuration.db_ids[:archive2] = @archive2.id
-
     # Create a test Authority(Person) object
     @person = Person.create()
     @person.from_json({"title" => "Test Person","authorized_forename" => "Test", "authorized_surname" => "Testsson", "type" => "person", "startdate" => "1305", "enddate" => "1845"})
-    @person.save
+    @person.save!
     RSpec.configuration.db_ids[:person] = @person.id
     RSpec.configuration.db_ids[:authority] = @person.id
 
     @person2 = Person.create()
     @person2.from_json({"title" => "Test Person2","authorized_forename" => "Test2", "authorized_surname" => "Testsson2", "type" => "person", "startdate" => "13052", "enddate" => "18452"})
-    @person2.save
+    @person2.save!
     RSpec.configuration.db_ids[:person2] = @person2.id
     RSpec.configuration.db_ids[:authority2] = @person2.id
 
+    # Create a test Archive object
+    @archive = Archive.create()
+    @archive.from_json({"title" => "Test Archive", "unitid" => "1337", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => [@person.id]})
+    @archive.save!
+    RSpec.configuration.db_ids[:archive] = @archive.id
+
+    @archive2 = Archive.create()
+    @archive2.from_json({"title" => "Test Archive 2", "unitid" => "13372", "unitdate" => "1337 - 14082", "unittitle" => "A vewy vewy quiet archive2", "authorities" => [@person2.id]})
+    @archive2.save!
+    RSpec.configuration.db_ids[:archive2] = @archive2.id
+
     @disk = Disk.create()
     @disk.from_json({"title" => "Test Disk", "archives" => [@archive.id]})
-    @disk.save
+    @disk.save!
     RSpec.configuration.db_ids[:disk] = @disk.id
 
     @disk2 = Disk.create()
     @disk2.from_json({"title" => "Test Disk2", "archives" => [@archive.id]})
-    @disk2.save
+    @disk2.save!
     RSpec.configuration.db_ids[:disk2] = @disk2.id
 
     @disk_image = DiskImage.create()
     @disk_image.from_json({"title" => "Test Disk-Image", "disks" => [@disk.id]})
-    @disk_image.save
+    @disk_image.save!
     RSpec.configuration.db_ids[:disk_image] = @disk_image.id
 
-    # Sleep to allow for index to update
-    puts "================================"
-    puts "Sleeping for 10 seconds to let the index catch up with all of our awesome test data!"
+    #Sleep to allow for index to update
+    puts "====PREPARING FOR TESTS========"
     10.times do |x|
-      print "#{10-x}"
+      print "#{x*10}%"
       4.times do |y|
-        sleep(0.2)
-        print "."
+        sleep(0.1)
+        print " . "
       end
-      sleep(0.2)
+      sleep(0.1)
     end
-    print "0"
+    print "100%"
     puts ""
-    puts "Let's roll!"
-    puts "================================"
+    puts "====COMMENCING TESTS!=========="
   }
 
   # Actions performed after test suite has been run

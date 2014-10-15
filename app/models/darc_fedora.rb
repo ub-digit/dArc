@@ -178,13 +178,14 @@ class DarcFedora
 
   # Purges a fedora object. Returns a sting or raises an exepction. 
   def self.purge id
+    return if !id
     case id
     when Integer
       string_id = numeric_id_to_fedora_id(id)
     when String
       string_id = id
     else
-      raise ArgumentError, 'id must be numeric or a string', caller
+      raise ArgumentError, 'id must be numeric or a string purge', caller
     end
     
     obj = fedora_connection.find(string_id)
@@ -200,7 +201,7 @@ class DarcFedora
     when String
       string_id = id
     else
-      raise ArgumentError, 'id must be numeric or a string', caller
+      raise ArgumentError, 'id must be numeric or a string find', caller
     end
 
     # set the scope from options[:select] if present. default to :full 
@@ -247,6 +248,10 @@ end
     return false if invalid?
     return self.send("#{@scope}_save")
     #return false if invalid?
+  end
+
+  def save!
+    save or raise Exception, @errors.messages
   end
 
   # Returns fields in current scope from its' respective dataformat class as a hash

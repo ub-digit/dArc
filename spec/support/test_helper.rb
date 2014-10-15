@@ -10,6 +10,7 @@ module TestHelper
 		while (!relation_found && timeout > 0)
 			if(yield)
 				relation_found = true
+				puts "Time waiting for relation: #{20-timeout}s"
 				next
 			end
 			sleep(1)
