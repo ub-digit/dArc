@@ -2,11 +2,11 @@ class Disk < DarcFedoraObject
 
   attr_datastream :ead, :item_unittitle, :item_unitdate, :item_unitid
   attr_datastream :relations_out_part, :archives
-  attr_datastream :relations_in_subset, :disk_images
-  scope :full, :archives, :disk_images, :item_unittitle, :item_unitdate, :item_unitid
+  attr_datastream :relations_in_subset, :diskimages
+  scope :full, :archives, :diskimages, :item_unittitle, :item_unitdate, :item_unitid
   scope :update, :archives, :item_unittitle, :item_unitdate, :item_unitid
   scope :create, :archives, :item_unittitle, :item_unitdate, :item_unitid
-  scope :delete, :disk_images
+  scope :delete, :diskimages
 
   validates :archives, :length => { :minimum => 1, :maximum => 1}
   validates_presence_of :item_unitid, :item_unittitle
@@ -17,8 +17,8 @@ class Disk < DarcFedoraObject
   end
 
   def validate_for_delete
-    if as_json[:disk_images].size > 0
-      errors[:disk_images] << "Cannot delete object with existing relations: #{as_json[:disk_images]}"
+    if as_json[:diskimages].size > 0
+      errors[:diskimages] << "Cannot delete object with existing relations: #{as_json[:diskimages]}"
     end
     super if defined?(super)
   end

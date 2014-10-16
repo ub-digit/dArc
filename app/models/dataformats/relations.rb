@@ -27,11 +27,11 @@ class Dataformats::Relations < Dataformats::Wrapper
      lookup
   end
 
-  def disk_images= value
+  def diskimages= value
      @new_relations = value
   end
 
-  def disk_images
+  def diskimages
      lookup
   end
   ##############################
