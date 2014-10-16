@@ -55,13 +55,13 @@ RSpec.configure do |config|
 
     # Create a test Authority(Person) object
     @person = Person.create()
-    @person.from_json({"title" => "Test Person","authorized_forename" => "Test", "authorized_surname" => "Testsson", "type" => "person", "startdate" => "1305", "enddate" => "1845"})
+    @person.from_json({"authorized_forename" => "Test", "authorized_surname" => "Testsson", "type" => "person", "startdate" => "1305", "enddate" => "1845"})
     @person.save!
     RSpec.configuration.db_ids[:person] = @person.id
     RSpec.configuration.db_ids[:authority] = @person.id
 
     @person2 = Person.create()
-    @person2.from_json({"title" => "Test Person2","authorized_forename" => "Test2", "authorized_surname" => "Testsson2", "type" => "person", "startdate" => "13052", "enddate" => "18452"})
+    @person2.from_json({"authorized_forename" => "Test2", "authorized_surname" => "Testsson2", "type" => "person", "startdate" => "13052", "enddate" => "18452"})
     @person2.save!
     RSpec.configuration.db_ids[:person2] = @person2.id
     RSpec.configuration.db_ids[:authority2] = @person2.id

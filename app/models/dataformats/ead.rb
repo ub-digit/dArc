@@ -48,6 +48,30 @@ class Dataformats::EAD < Dataformats::Xml
     read_from_path(Dataformats::Xml::Path.new(['e:ead', 'e:archdesc', {:level => 'fonds'}, 'e:did', 'e:unitdate'], {'e' => "urn:isbn:1-931666-22-9"}))
   end
 
+  def item_unitid= value
+    write_to_path(Dataformats::Xml::Path.new(['e:ead', 'e:archdesc', {:level => 'fonds'}, 'e:dsc', 'e:c', {:level => 'item'}, 'e:did', 'e:unitid'], {'e' => "urn:isbn:1-931666-22-9"}), value)
+  end
+
+  def item_unitid
+    read_from_path(Dataformats::Xml::Path.new(['e:ead', 'e:archdesc', {:level => 'fonds'}, 'e:dsc', 'e:c', {:level => 'item'}, 'e:did', 'e:unitid'], {'e' => "urn:isbn:1-931666-22-9"}))
+  end
+
+  def item_unittitle= value
+    write_to_path(Dataformats::Xml::Path.new(['e:ead', 'e:archdesc', {:level => 'fonds'}, 'e:dsc', 'e:c', {:level => 'item'}, 'e:did', 'e:unittitle'], {'e' => "urn:isbn:1-931666-22-9"}), value)
+  end
+
+  def item_unittitle
+    read_from_path(Dataformats::Xml::Path.new(['e:ead', 'e:archdesc', {:level => 'fonds'}, 'e:dsc', 'e:c', {:level => 'item'}, 'e:did', 'e:unittitle'], {'e' => "urn:isbn:1-931666-22-9"}))
+  end
+
+  def item_unitdate= value
+    write_to_path(Dataformats::Xml::Path.new(['e:ead', 'e:archdesc', {:level => 'fonds'}, 'e:dsc', 'e:c', {:level => 'item'}, 'e:did', 'e:unitdate'], {'e' => "urn:isbn:1-931666-22-9"}), value)
+  end
+
+  def item_unitdate
+    read_from_path(Dataformats::Xml::Path.new(['e:ead', 'e:archdesc', {:level => 'fonds'}, 'e:dsc', 'e:c', {:level => 'item'}, 'e:did', 'e:unitdate'], {'e' => "urn:isbn:1-931666-22-9"}))
+  end
+
 
 
   # create an empty eac document

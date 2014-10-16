@@ -24,14 +24,6 @@ RSpec.describe Archive, :type => :model do
 				expect(a.save).to be true
 			end
 		end
-		context "with an invalid title" do
-			it "should return false" do
-				a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :update})
-				a.from_json({"title" => "", "unitid" => "1337", "unitdate" => "1337 - 1408", "unittitle" => "A vewy vewy quiet archive", "authorities" => a.as_json[:authorities]}.to_json)
-				expect(a.save).to be false
-				expect(a.errors.messages.size).to eq 1
-			end
-		end
 		context "with an empty authority list" do
 			it "should return false" do
 				a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :update})
