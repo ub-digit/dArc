@@ -15,22 +15,30 @@ RSpec.describe Disk, :type => :model do
 			end 
 		end
 	end
-
+	describe "create" do
+		context "an empty object" do
+			it "should return an empty object" do
+				result = Disk.create()
+				expect(result).to_not be nil
+				result.delete
+			end
+		end
+		context "with valid parameters" do
+			it "should return a created object" do
+				result = Disk.create()
+				result.from_json({"title"=>nil, "item_unittitle"=>"asd", "item_unitdate"=>"ad", "item_unitid"=>"ad", "archives"=> [RSpec.configuration.db_ids[:archive2]]}.to_json)
+				expect(result.save).to be true
+				result.delete
+			end
+		end
+	end
 	describe "save" do
 		context "with valid attributes" do
 			it "should save without errors" do
 				a = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :update})
-				params = {"title" => a.as_json[:title], "archives" => a.as_json[:archives]}.to_json
+				params = {"item_unittitle" => a.as_json[:item_unittitle], "item_unitid" => "234", "archives" => a.as_json[:archives]}.to_json
 				a.from_json(params)
 				expect(a.save).to be true
-			end
-		end
-		context "with an invalid title" do
-			it "should return false" do
-				a = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :update})
-				a.from_json({"title" => ""}.to_json)
-				expect(a.save).to be false
-				expect(a.errors.messages.size).to eq 1
 			end
 		end
 		context "with an empty archives array" do
@@ -80,7 +88,7 @@ RSpec.describe Disk, :type => :model do
 		context "without existing disk-image relations" do
 			it "should return true and delete the object" do
 				a = Disk.create()
-				a.from_json({"title" => "Tests title", "archives" => [RSpec.configuration.db_ids[:archive]]}.to_json)
+				a.from_json({"item_unittitle" => "Title", "item_unitid" => "DiskID", "archives" => [RSpec.configuration.db_ids[:archive]]}.to_json)
 				expect(a.save).to be true
 				id = a.as_json[:id]
 				expect(Disk.purge(id)).to be true

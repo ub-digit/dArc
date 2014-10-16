@@ -37,7 +37,7 @@ def get_cassette_path(request)
 end
 
 RSpec.configure do |config|
-  
+
   # Include helper classes
   config.include TestHelper
 
@@ -78,12 +78,12 @@ RSpec.configure do |config|
     RSpec.configuration.db_ids[:archive2] = @archive2.id
 
     @disk = Disk.create()
-    @disk.from_json({"title" => "Test Disk", "archives" => [@archive.id]})
+    @disk.from_json({"item_unittitle" => "Test Disk", "item_unitid" => "Disk23", "archives" => [@archive.id]})
     @disk.save!
     RSpec.configuration.db_ids[:disk] = @disk.id
 
     @disk2 = Disk.create()
-    @disk2.from_json({"title" => "Test Disk2", "archives" => [@archive.id]})
+    @disk2.from_json({"item_unittitle" => "Test Disk2", "item_unitid" => "Disk24", "archives" => [@archive.id]})
     @disk2.save!
     RSpec.configuration.db_ids[:disk2] = @disk2.id
 
@@ -97,10 +97,10 @@ RSpec.configure do |config|
     10.times do |x|
       print "#{x*10}%"
       4.times do |y|
-        sleep(0.1)
+        sleep(0.2)
         print " . "
       end
-      sleep(0.1)
+      sleep(0.2)
     end
     print "100%"
     puts ""
@@ -112,31 +112,46 @@ RSpec.configure do |config|
     puts "=====CLEANING MY ROOM==========="
     # Delete the test archive objects
     di = DiskImage.find(RSpec.configuration.db_ids[:disk_image], {:select => :delete})
-    di.delete or pp di.errors.messages 
-    sleep(4) # To let index catch up
+    if di
+      di.delete or pp di.errors.messages 
+    end
+    sleep(10) # To let index catch up
     print " | "
     # Disk.purge(RSpec.configuration.db_ids[:disk])
     # Disk.purge(RSpec.configuration.db_ids[:disk2])
     d = Disk.find(RSpec.configuration.db_ids[:disk], {:select => :delete})
-    d.delete or pp d.errors.messages
+    if d
+      d.delete or pp d.errors.messages
+    end
     d2 = Disk.find(RSpec.configuration.db_ids[:disk2], {:select => :delete})
-    d2.delete or pp d2.errors.messages
-     sleep(4) # To let index catch up
-    print " | "
+    if d2
+      d2.delete or pp d2.errors.messages
+    end
+     sleep(10) # To let index catch up
+     print " | "
     # Archive.purge(RSpec.configuration.db_ids[:archive])
     # Archive.purge(RSpec.configuration.db_ids[:archive2])
     a = Archive.find(RSpec.configuration.db_ids[:archive], {:select => :delete})
-    a.delete or pp a.errors.messages
+    if a
+      a.delete or pp a.errors.messages
+    end
     a2 = Archive.find(RSpec.configuration.db_ids[:archive2], {:select => :delete})
-    a2.delete or pp a2.errors.messages
-    sleep(4) # To let index catch up
+    if a2
+      a2.delete or pp a2.errors.messages
+    end
+    sleep(10) # To let index catch up
     print " | "
     # Person.purge(RSpec.configuration.db_ids[:person])
     # Person.purge(RSpec.configuration.db_ids[:person2])
     p = Person.find(RSpec.configuration.db_ids[:person], {:select => :delete})
-    p.delete or pp p.errors.messages
+    if p
+      p.delete or pp p.errors.messages
+    end
+    
     p2 = Person.find(RSpec.configuration.db_ids[:person2], {:select => :delete})
-    p2.delete or pp p2.errors.messages
+    if p2
+      p2.delete or pp p2.errors.messages
+    end
     puts ""
     puts "======DONE======================"
   }

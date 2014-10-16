@@ -24,6 +24,6 @@ class Archive < DarcFedoraObject
   end
 
   def generate_title
-    @title = @unittitle + " (" + @unitdate + ")"
+    @title = @unittitle.to_s + " (" + @unitdate.to_s + ")"
   end
 end

@@ -196,12 +196,12 @@ class DarcFedora
   # Deletes the object, after validating that a delete is possible
   def delete
     #Validate delete against scope
-    if @scope != :delete
+    if @scope != :delete && @scope != :create
       raise Exception, 'Object has wrong scope to be deleted'
     end
 
     # Validate class for delete
-    validate_for_delete if defined?(validate_for_delete)
+    validate_for_delete if (defined?(validate_for_delete) && !@new_record)
 
     if errors.messages.empty?
       @obj.delete
@@ -218,6 +218,7 @@ class DarcFedora
   # Finds a record based on id, can take both numeric part of PID(ie. 17), as well as full PID-string(ie. 'darc:17')
   # Returns a DarcFedora object or raises an exception
   def self.find id, options={}
+    return if !id
     case id
     when Integer
       string_id = numeric_id_to_fedora_id(id)
@@ -276,6 +277,12 @@ end
     return false if invalid?
     return self.send("#{@scope}_save")
     #return false if invalid?
+  rescue => error
+    if @new_record
+      self.class.purge(as_json[:id])
+    end
+    pp error
+    return false
   end
 
   def save!
