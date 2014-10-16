@@ -9,4 +9,8 @@ class Person < Authority
     'Authority'
   end
 
+  def generate_title
+    @title = @authorized_forename + " " +  @authorized_surname + " (" + @startdate + " - " + @enddate +  ")"
+  end
+
 end

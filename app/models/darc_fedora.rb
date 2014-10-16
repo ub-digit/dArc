@@ -269,6 +269,7 @@ end
 
   # Saves fields in current scope through its' respective dataformat class
   def save
+    generate_title if defined?(generate_title)
     if invalid? && @new_record
       self.class.purge(as_json[:id])
     end

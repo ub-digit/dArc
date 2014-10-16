@@ -22,4 +22,5 @@ class Authority < DarcFedoraObject
     end
     super if defined?(super)
   end
+
 end

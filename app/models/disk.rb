@@ -20,4 +20,7 @@ class Disk < DarcFedoraObject
     end
     super if defined?(super)
   end
+
+  def generate_title
+  end
 end
