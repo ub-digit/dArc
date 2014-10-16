@@ -23,11 +23,11 @@ class Api::FedoraObjectController < Api::ApiController
     @object = type_class.create()
     if !@object.nil? 
       @object.from_json(params[type_name.to_sym])
-      unless @object.save then
-        render json: {error: "Could not create", errors: @object.errors}, status: 400
-        return
+      if @object.save
+        render json: {type_name => @object}, status: 200
+      else
+        render json: {errors: @object.errors}, status: 422
       end
-      render json: {type_name => @object}, status: 200
     else
       render json: {error: "Could not create object"}, status: 404
     end
@@ -51,8 +51,11 @@ class Api::FedoraObjectController < Api::ApiController
     @object = type_class.find(params[:id].to_i, {:select => :update})
     if !@object.nil? 
       @object.from_json(params[type_name.to_sym])
-      @object.save
-      render json: {type_name => @object}, status: 200
+      if @object.save
+        render json: {type_name => @object}, status: 200
+      else
+        render json: {errors: @object.errors}, status: 422
+      end
     else
       render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
     end
@@ -61,12 +64,16 @@ class Api::FedoraObjectController < Api::ApiController
   end
 
   def purge
-    res = type_class.purge(params[:id].to_i)
-    render json: {}, status: 200
-  rescue Rubydora::RecordNotFound => error
-    render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
-  rescue => error
-    render json: {error: "Unknown error"}, status: 500
-  end
+    @object = type_class.find(params[:id].to_i, {:select => :delete})
+    if @object.delete
+      render json: {}, status: 200
+    else
+      render json: {errors: @object.errors}, status: 422
+    end
+    rescue Rubydora::RecordNotFound => error
+      render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
+    rescue => error
+      render json: {error: "Unknown error"}, status: 500
+    end
 
-end
+  end

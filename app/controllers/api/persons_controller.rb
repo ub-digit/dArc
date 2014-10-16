@@ -4,6 +4,7 @@ class Api::PersonsController < Api::FedoraObjectController
     Person
   end
 
+  # Override of pluralization to not get "people"
   def type_list_name
     "persons"
   end
