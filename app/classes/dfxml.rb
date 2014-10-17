@@ -2,7 +2,7 @@ require 'nokogiri'
 require 'json'
 
 class Dfxml
-  def self.from_file filename
+  def self.from_file filename,diskimageid
     open(filename) do |dfxml_file|
 	  xml = Nokogiri::XML(dfxml_file.read)
 	  
@@ -12,7 +12,7 @@ class Dfxml
         obj_hash = fileobject_to_hash obj
         if obj_hash != nil then
           obj_hash = modify_file_object obj_hash
-          ContentFileInfo.new(obj_hash.merge({'disk_image' => 114}))
+          ContentFileInfo.new(obj_hash.merge({'disk_image' => diskimageid}))
         end
 	  end
 	  

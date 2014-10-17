@@ -112,6 +112,7 @@ class Ingester
 
     FileUtils.mv dir.to_s + '/dfxml.xml', storage_path + '/dfxml.xml'
     create_datastream(disk_image, 'DFXML', storage_path + '/dfxml.xml', 'text/xml')
+    Dfxml.from_file(storage_path + '/dfxml.xml',disk_image_id)
   end
   
   # Returns the storage path for a disk_image id
