@@ -24,6 +24,6 @@ class Disk < DarcFedoraObject
   end
 
   def generate_title
-    @title = @item_unittitle.to_s + "[" + @item_unitid.to_s + "]"
+    @title = @item_unittitle.to_s
   end
 end
