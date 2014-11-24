@@ -4,4 +4,9 @@ class Api::DiskImagesController < Api::FedoraObjectController
     DiskImage
   end
 
+  def serialize_object
+    super.as_json.merge({
+    })
+  end
+
 end

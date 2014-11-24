@@ -24,7 +24,7 @@ class Api::FedoraObjectController < Api::ApiController
     if !@object.nil? 
       @object.from_json(params[type_name.to_sym])
       if @object.save
-        render json: {type_name => @object}, status: 200
+        render json: {type_name => serialize_object}, status: 200
       else
         render json: {errors: @object.errors}, status: 422
       end
@@ -35,11 +35,14 @@ class Api::FedoraObjectController < Api::ApiController
     render json: {error: "Could not create object #{error}"}, status: 404
   end
 
+  def serialize_object
+    @object
+  end
 
   def show
     @object = type_class.find(params[:id].to_i, {:select => :full})
     if !@object.nil? 
-      render json: {type_name => @object}, status: 200
+      render json: {type_name => serialize_object}, status: 200
     else
       render json: {error: "Could not find object with id: #{params[:id]}"}, status: 404
     end
@@ -52,7 +55,7 @@ class Api::FedoraObjectController < Api::ApiController
     if !@object.nil? 
       @object.from_json(params[type_name.to_sym])
       if @object.save
-        render json: {type_name => @object}, status: 200
+        render json: {type_name => serialize_object}, status: 200
       else
         render json: {errors: @object.errors}, status: 422
       end
