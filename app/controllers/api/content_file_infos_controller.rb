@@ -1,9 +1,35 @@
 class Api::ContentFileInfosController < Api::ApiController
 
+  DefaultPageSize = 50
+
+  def page
+    if params[:page].nil?
+      1
+    else
+      Integer(params[:page])
+    end
+  end
+
+  def page_size
+    if params[:page_size].nil?
+      DefaultPageSize
+    else
+      Integer(params[:page_size])
+    end
+  end
+
   def index
     @objects = ContentFileInfo.find(params[:disk_image].to_i, params[:volume].to_i, params[:parent].to_i)
     if !@objects.nil?
-      render json: {'content_file_infos' => @objects}, status: 200
+      paginated = MongodbPaginator.paginate @objects, page, page_size
+
+      render json: {
+          content_file_infos: paginated[:data],
+          meta: {
+            pagination: paginated[:meta],
+          }
+        },
+        status: 200
     else
       #render json: {error: "No objects found"}, status: 404
     end
