@@ -1,6 +1,6 @@
 class Api::ContentFileInfosController < Api::ApiController
 
-  DefaultPageSize = 50
+  DEFAULT_PAGE_SIZE = 50
 
   def page
     if params[:page].nil?
@@ -12,7 +12,7 @@ class Api::ContentFileInfosController < Api::ApiController
 
   def page_size
     if params[:page_size].nil?
-      DefaultPageSize
+      DEFAULT_PAGE_SIZE
     else
       Integer(params[:page_size])
     end
