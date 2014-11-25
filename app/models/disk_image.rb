@@ -7,16 +7,16 @@ class DiskImage < DarcFedoraObject
   validates :disks, :length => { :minimum => 1, :maximum => 1}, allow_nil: true
 
   def initialize id, obj, scope="brief", new_record = false
-     super
-     load
+    super
+    load
   end
 
-    def volumes
-        coll = MongodbClient.new.mongo_collection
-        docs = coll.aggregate( [ { '$match' => { 'disk_image' => @id } }, { '$group' => { '_id' => "$volume" } } ] )
+  def volumes
+    coll = MongodbClient.new.mongo_collection
+    docs = coll.aggregate( [ { '$match' => { 'disk_image' => @id } }, { '$group' => { '_id' => "$volume" } } ] )
 
-        docs.map { |doc|
-            { id: doc['_id'] }
-        }
-    end
+    docs.map { |doc|
+      { id: doc['_id'] }
+    }
+  end
 end
