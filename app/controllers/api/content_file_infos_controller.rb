@@ -48,7 +48,7 @@ class Api::ContentFileInfosController < Api::ApiController
           status: 200
       end
     else
-      #render json: {error: "No objects found"}, status: 404
+      render json: {error: "No objects found"}, status: 404
     end
   rescue => error
     render json: {error: "No objects found"}, status: 404
