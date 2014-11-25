@@ -19,7 +19,8 @@ class Api::ContentFileInfosController < Api::ApiController
   end
 
   def index
-    @objects = ContentFileInfo.find(params[:disk_image].to_i, params[:volume].to_i, params[:parent].to_i)
+    opts = { showDeleted: params[:showDeleted]=='true', extFilter: params[:extFilter] }
+    @objects = ContentFileInfo.find(params[:disk_image].to_i, params[:volume].to_i, params[:parent].to_i, opts)
     if !@objects.nil?
       paginated = MongodbPaginator.paginate @objects, page, page_size
 

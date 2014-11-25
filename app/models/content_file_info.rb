@@ -18,12 +18,20 @@ class ContentFileInfo
     end
   end
   
-  def self.find disk_image_id, volume_id, parent_id
+  def self.find disk_image_id, volume_id, parent_id, opts
       client = Mongo::MongoClient.new # defaults to localhost:27017
       db     = client['darc-content']
       coll   = db['dfxml']
 
-      docs = coll.find({'disk_image' => disk_image_id, 'volume' => volume_id, 'parent_object' => parent_id})    
+      query = {'disk_image' => disk_image_id, 'volume' => volume_id, 'parent_object' => parent_id}
+      if !opts[:showDeleted] then
+        query.merge!({ 'nlink' => 1})
+      end
+      if opts[:extFilter].to_s != '' then
+        query.merge!({ '$or' => [ {'extension' => opts[:extFilter]}, { 'name_type' => {'$ne' => 'r'} } ] })
+      end
+
+      docs = coll.find(query)
 
       docs
   end
