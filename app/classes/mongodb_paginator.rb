@@ -1,5 +1,26 @@
 class MongodbPaginator
 
+  # Extract one page of entries from a MongoDB cursor and compute pagination metadata for it.
+  #
+  # Parameters:
+  # +cursor+:: A +Mongo::Cursor+ to a result set. This will be modified.
+  # +page+:: An +Integer+ designating which page to extract. 1 is the first page.
+  # +page+:: An +Integer+ designating the page size
+  #
+  # Returns a hash with the following keys and values:
+  # +data+:: The +cursor+ parameter passed to the function, with skip and limit set.
+  # +meta+:: A hash containing pagination metadata.
+  #
+  # The +meta+ hash has the following keys and values:
+  # +page+:: One-indexed page number of the returned set
+  # +pages+:: Total number of pages in the matched set
+  # +per_page+:: Number of items per page
+  # +next+:: One-indexed number of the next page, or `nil` if not applicable
+  # +previous+:: One-indexed number of the previous page, or `nil` if not applicable
+  # +items+:: The number of items in the returned set
+  # +first_item+:: One-indexed number of the first item returned, or nil if not applicable
+  # +last_item+:: One-indexed number of the last item returned, or nil if not applicable
+  # +total_items+:: Total number of items in the matched set
   def self.paginate(cursor, page, page_size)
     page_index = page - 1
     begin_index = page_index * page_size
