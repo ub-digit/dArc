@@ -15,8 +15,8 @@ class MongodbPaginator
     {
       data: cursor,
       meta: if num_returned == 0 then {
-          page: 0,
-          pages: 0,
+          page: page,
+          pages: total_pages,
           per_page: page_size,
           next: nil,
           previous: nil,
