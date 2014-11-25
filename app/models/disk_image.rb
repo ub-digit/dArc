@@ -11,10 +11,10 @@ class DiskImage < DarcFedoraObject
      load
   end
 
-	def volumes
-		coll = MongodbClient.new.mongo_collection
-		docs = coll.aggregate( [ { '$match' => { 'disk_image' => 42} }, { '$group' => { '_id' => "$volume" } } ] )
+    def volumes
+        coll = MongodbClient.new.mongo_collection
+        docs = coll.aggregate( [ { '$match' => { 'disk_image' => 42} }, { '$group' => { '_id' => "$volume" } } ] )
       
-		docs.map { |doc| doc['_id'] }
-	end
+        docs.map { |doc| doc['_id'] }
+    end
 end
