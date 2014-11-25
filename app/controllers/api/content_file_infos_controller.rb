@@ -1,7 +1,7 @@
 class Api::ContentFileInfosController < Api::ApiController
 
   def index
-    @objects = ContentFileInfo.find(params[:disk_image].to_i, params[:parent].to_i)
+    @objects = ContentFileInfo.find(params[:disk_image].to_i, params[:volume].to_i, params[:parent].to_i)
     if !@objects.nil?
       render json: {'content_file_infos' => @objects}, status: 200
     else

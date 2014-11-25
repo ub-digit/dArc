@@ -18,12 +18,12 @@ class ContentFileInfo
     end
   end
   
-  def self.find disk_image_id, parent_id
+  def self.find disk_image_id, volume_id, parent_id
       client = Mongo::MongoClient.new # defaults to localhost:27017
       db     = client['darc-content']
       coll   = db['dfxml']
 
-      docs = coll.find({'disk_image' => disk_image_id, 'parent_object' => parent_id})    
+      docs = coll.find({'disk_image' => disk_image_id, 'volume' => volume_id, 'parent_object' => parent_id})    
 
       docs
   end
