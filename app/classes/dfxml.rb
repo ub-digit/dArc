@@ -179,6 +179,9 @@ end
   def self.modify_file_object hash
     name = hash['filename'].sub(/^.*\/([^\/]*)$/,'\1')
     hash['name'] = name
+
+    extension = name.sub(/^.*\.([^.]*)$/,'\1')
+    hash['extension'] = extension
     
     hash['class'] = name.match(/^\.(\.)?$/) ? 'hide' : '';
     hash
