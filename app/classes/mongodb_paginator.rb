@@ -21,8 +21,8 @@ class MongodbPaginator
           next: nil,
           previous: nil,
           items: 0,
-          first: nil,
-          last: nil,
+          first_item: nil,
+          last_item: nil,
           total_items: 0,
         } else {
           page: page,
@@ -31,8 +31,8 @@ class MongodbPaginator
           next: if page == total_pages then nil else page + 1 end,
           previous: if page == 1 then nil else page - 1 end,
           items: num_returned,
-          first: begin_index + 1,
-          last: begin_index + num_returned,
+          first_item: begin_index + 1,
+          last_item: begin_index + num_returned,
           total_items: num_total,
         } end,
     }
