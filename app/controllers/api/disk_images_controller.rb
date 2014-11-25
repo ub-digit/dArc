@@ -6,6 +6,7 @@ class Api::DiskImagesController < Api::FedoraObjectController
 
   def serialize_object
     super.as_json.merge({
+      volumes: @object.volumes,
     })
   end
 

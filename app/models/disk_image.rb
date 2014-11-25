@@ -14,7 +14,9 @@ class DiskImage < DarcFedoraObject
     def volumes
         coll = MongodbClient.new.mongo_collection
         docs = coll.aggregate( [ { '$match' => { 'disk_image' => @id } }, { '$group' => { '_id' => "$volume" } } ] )
-      
-        docs.map { |doc| doc['_id'] }
+
+        docs.map { |doc|
+            { id: doc['_id'] }
+        }
     end
 end
