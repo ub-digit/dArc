@@ -30,15 +30,23 @@ class Api::ContentFileInfosController < Api::ApiController
     opts = { showDeleted: params[:showDeleted]=='true', hideDirs: params[:hideDirs]=='true', extFilter: params[:extFilter] }
     @objects = ContentFileInfo.find(id_filter, opts)
     if !@objects.nil?
-      paginated = MongodbPaginator.paginate @objects, page, page_size
+      if page_size == -1
+        render json: {
+            content_file_infos: @objects,
+            meta: {}
+          },
+          status: 200
+      else
+        paginated = MongodbPaginator.paginate @objects, page, page_size
 
-      render json: {
-          content_file_infos: paginated[:data],
-          meta: {
-            pagination: paginated[:meta],
-          }
-        },
-        status: 200
+        render json: {
+            content_file_infos: paginated[:data],
+            meta: {
+              pagination: paginated[:meta],
+            }
+          },
+          status: 200
+      end
     else
       #render json: {error: "No objects found"}, status: 404
     end
