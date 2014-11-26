@@ -44,7 +44,7 @@ class MongodbPaginator
           items: 0,
           first_item: nil,
           last_item: nil,
-          total_items: 0,
+          total_items: num_total,
         } else {
           page: page,
           pages: total_pages,
