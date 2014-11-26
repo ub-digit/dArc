@@ -33,29 +33,30 @@ class MongodbPaginator
 
     total_pages = num_total / page_size + if num_total % page_size == 0 then 0 else 1 end
 
+    meta = {
+      page: page,
+      pages: total_pages,
+      per_page: page_size,
+      total_items: num_total,
+    }
+
     {
       data: cursor,
-      meta: if num_returned == 0 then {
-          page: page,
-          pages: total_pages,
-          per_page: page_size,
+      meta: meta.merge(
+        if num_returned == 0 then {
           next: nil,
           previous: nil,
           items: 0,
           first_item: nil,
           last_item: nil,
-          total_items: num_total,
         } else {
-          page: page,
-          pages: total_pages,
-          per_page: page_size,
           next: if page == total_pages then nil else page + 1 end,
           previous: if page == 1 then nil else page - 1 end,
           items: num_returned,
           first_item: begin_index + 1,
           last_item: begin_index + num_returned,
-          total_items: num_total,
-        } end,
+        } end
+      ),
     }
   end
 
