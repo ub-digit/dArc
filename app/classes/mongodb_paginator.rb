@@ -44,8 +44,8 @@ class MongodbPaginator
       data: cursor,
       meta: meta.merge(
         if num_returned == 0 then {
-          next: nil,
-          previous: nil,
+          next: if page < 1 then 1 else nil end,
+          previous: if page > total_pages then total_pages else nil end,
           items: 0,
           first_item: nil,
           last_item: nil,
