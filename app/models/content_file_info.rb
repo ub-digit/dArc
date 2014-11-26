@@ -19,13 +19,28 @@ class ContentFileInfo
   end
   
   def self.find disk_image_id, volume_id, parent_id, opts
+      ContentFileInfo.find({ 'disk_image_id' => disk_image_id, 'volume_id' => volume_id, 'parent_id' => parent_id}, opts)
+  end
+  
+  def self.find id_filter, opts
       client = Mongo::MongoClient.new # defaults to localhost:27017
       db     = client['darc-content']
       coll   = db['dfxml']
 
-      query = {'disk_image' => disk_image_id, 'volume' => volume_id, 'parent_object' => parent_id}
+      query = {'disk_image' => id_filter[:disk_image_id]}
+      
+      unless id_filter[:volume_id].to_s.empty? then
+        query.merge!({ 'volume' => id_filter[:volume_id] })
+      end
+      unless id_filter[:parent_id].to_s.empty? then
+        query.merge!({ 'parent_object' => id_filter[:parent_id] })
+      end
+
       if !opts[:showDeleted] then
         query.merge!({ 'nlink' => 1})
+      end
+      if opts[:hideDirs] then
+        query.merge!({ 'name_type' => 'r' })
       end
       if opts[:extFilter].to_s != '' then
         query.merge!({ '$or' => [ {'extension' => opts[:extFilter]}, { 'name_type' => {'$ne' => 'r'} } ] })
