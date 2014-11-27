@@ -35,12 +35,17 @@ class Api::ContentFileInfosController < Api::ApiController
              negCategory: params[:negCategory],
              sortField: params[:sortField],
              sortAsc: !(params[:sortOrder]=='desc') }
+
+    all_categories = ContentFileInfo.all_categories id_filter
+
     @objects = ContentFileInfo.find(id_filter, opts)
     if !@objects.nil?
       if page_size < 0
         render json: {
             content_file_infos: @objects,
-            meta: {}
+            meta: {
+              all_categories: all_categories,
+            }
           },
           status: 200
       elsif page_size == 0
@@ -57,6 +62,7 @@ class Api::ContentFileInfosController < Api::ApiController
               first_item: nil,
               last_item: nil,
             },
+            all_categories: all_categories,
           },
         }, status: 200
       else
@@ -66,7 +72,8 @@ class Api::ContentFileInfosController < Api::ApiController
             content_file_infos: paginated[:data],
             meta: {
               pagination: paginated[:meta],
-            }
+            },
+            all_categories: all_categories,
           },
           status: 200
       end
