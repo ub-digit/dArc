@@ -34,6 +34,16 @@ class ContentFileInfo
       docs
   end
 
+  def self.all_categories id_filter
+    docs = MongodbClient.new.mongo_collection.aggregate [
+      { '$match' => make_filter_query(id_filter, {}) },
+      { '$group' => { '_id' => "$categories" } },
+    ]
+
+    categories = Set.new docs.map { |doc| doc['_id'] }.flatten
+    categories.delete nil
+  end
+
   private
 
   def self.make_filter_query id_filter, opts
