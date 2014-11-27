@@ -27,7 +27,11 @@ class Api::ContentFileInfosController < Api::ApiController
       id_filter.merge!({ parent_id: params[:parent].to_i })
     end
 
-    opts = { showDeleted: params[:showDeleted]=='true', hideDirs: params[:hideDirs]=='true', extFilter: params[:extFilter] }
+    opts = { showDeleted: params[:showDeleted]=='true',
+             hideDirs: params[:hideDirs]=='true',
+             extFilter: params[:extFilter],
+             posCategory: params[:posCategory],
+             negCategory: params[:negCategory] }
     @objects = ContentFileInfo.find(id_filter, opts)
     if !@objects.nil?
       paginated = MongodbPaginator.paginate @objects, page, page_size

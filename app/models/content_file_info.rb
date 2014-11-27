@@ -46,6 +46,14 @@ class ContentFileInfo
         query.merge!({ '$or' => [ {'extension' => opts[:extFilter]}, { 'name_type' => {'$ne' => 'r'} } ] })
       end
 
+      if opts[:posCategory].to_s != '' and opts[:negCategory].to_s != '' then
+        query.merge!({ '$and' => [ { 'categories' => {'$in' => opts[:posCategory].split(',') }  }, { 'categories' => {'$nin' => opts[:negCategory].split(',') }  } ] })
+      elsif opts[:posCategory].to_s != '' then
+        query.merge!({ 'categories' => {'$in' => opts[:posCategory].split(',') }  })
+      elsif opts[:negCategory].to_s != '' then
+        query.merge!({ 'categories' => {'$nin' => opts[:negCategory].split(',') }  })
+      end
+
       docs = coll.find(query)
 
       docs
