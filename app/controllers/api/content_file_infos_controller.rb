@@ -36,6 +36,22 @@ class Api::ContentFileInfosController < Api::ApiController
             meta: {}
           },
           status: 200
+      elsif page_size == 0
+        render json: {
+          meta: {
+            pagination: {
+              page: nil,
+              pages: nil,
+              per_page: nil,
+              total_items: @objects.count,
+              next: nil,
+              previous: nil,
+              items: 0,
+              first_item: nil,
+              last_item: nil,
+            },
+          },
+        }, status: 200
       else
         paginated = MongodbPaginator.paginate @objects, page, page_size
 
