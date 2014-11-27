@@ -18,10 +18,6 @@ class ContentFileInfo
     end
   end
   
-  def self.find disk_image_id, volume_id, parent_id, opts
-      ContentFileInfo.find({ 'disk_image_id' => disk_image_id, 'volume_id' => volume_id, 'parent_id' => parent_id}, opts)
-  end
-  
   def self.find id_filter, opts
       docs = MongodbClient.new.mongo_collection.find(make_filter_query(id_filter, opts))
 
