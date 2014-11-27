@@ -34,12 +34,28 @@ class Api::ContentFileInfosController < Api::ApiController
              negCategory: params[:negCategory] }
     @objects = ContentFileInfo.find(id_filter, opts)
     if !@objects.nil?
-      if page_size == -1
+      if page_size < 0
         render json: {
             content_file_infos: @objects,
             meta: {}
           },
           status: 200
+      elsif page_size == 0
+        render json: {
+          meta: {
+            pagination: {
+              page: nil,
+              pages: nil,
+              per_page: nil,
+              total_items: @objects.count,
+              next: nil,
+              previous: nil,
+              items: 0,
+              first_item: nil,
+              last_item: nil,
+            },
+          },
+        }, status: 200
       else
         paginated = MongodbPaginator.paginate @objects, page, page_size
 
@@ -52,7 +68,7 @@ class Api::ContentFileInfosController < Api::ApiController
           status: 200
       end
     else
-      #render json: {error: "No objects found"}, status: 404
+      render json: {error: "No objects found"}, status: 404
     end
   rescue => error
     render json: {error: "No objects found"}, status: 404
