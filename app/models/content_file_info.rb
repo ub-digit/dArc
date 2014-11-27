@@ -14,7 +14,7 @@ class ContentFileInfo
       #client = Mongo::MongoClient.new # defaults to localhost:27017
       #db     = client['darc-content']
       #coll   = db['dfxml']
-      mongo_collection.insert(@hash)
+      MongodbClient.new.mongo_collection.insert(@hash)
     end
   end
   
@@ -23,11 +23,7 @@ class ContentFileInfo
   end
   
   def self.find id_filter, opts
-      client = Mongo::MongoClient.new # defaults to localhost:27017
-      db     = client['darc-content']
-      coll   = db['dfxml']
-
-      docs = coll.find(make_filter_query(id_filter, opts))
+      docs = MongodbClient.new.mongo_collection.find(make_filter_query(id_filter, opts))
 
       if opts[:sortField].to_s != '' then
         if opts[:sortAsc] then
@@ -40,15 +36,6 @@ class ContentFileInfo
       end
 
       docs
-  end
-
-  def mongo_collection
-      return @@mongo_coll unless @@mongo_coll == nil
-
-      client = Mongo::MongoClient.new # defaults to localhost:27017
-      db     = client['darc-content']
-      @@mongo_coll   = db['dfxml']
-      @@mongo_coll
   end
 
   private
