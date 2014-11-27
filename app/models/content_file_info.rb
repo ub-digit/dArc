@@ -59,6 +59,16 @@ class ContentFileInfo
 
       docs = coll.find(query)
 
+      if opts[:sortField].to_s != '' then
+        if opts[:sortAsc] then
+          sortOrder = 1
+        else
+          sortOrder = -1
+        end
+
+        docs = docs.sort( { opts[:sortField].to_s => sortOrder })
+      end
+
       docs
   end
 

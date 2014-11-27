@@ -32,7 +32,9 @@ class Api::ContentFileInfosController < Api::ApiController
              extFilter: params[:extFilter],
              pathFilter: params[:pathFilter],
              posCategory: params[:posCategory],
-             negCategory: params[:negCategory] }
+             negCategory: params[:negCategory],
+             sortField: params[:sortField],
+             sortAsc: !(params[:sortOrder]=='desc') }
     @objects = ContentFileInfo.find(id_filter, opts)
     if !@objects.nil?
       if page_size < 0
