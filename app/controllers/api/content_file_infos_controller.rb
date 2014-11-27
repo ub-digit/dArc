@@ -45,6 +45,7 @@ class Api::ContentFileInfosController < Api::ApiController
             content_file_infos: @objects,
             meta: {
               all_categories: all_categories,
+              filtered_categories: get_categories_in_cursor(@objects),
               returned_categories: [],
             }
           },
@@ -64,10 +65,14 @@ class Api::ContentFileInfosController < Api::ApiController
               last_item: nil,
             },
             all_categories: all_categories,
+            filtered_categories: get_categories_in_cursor(@objects),
             returned_categories: [],
           },
         }, status: 200
       else
+        filtered_categories = get_categories_in_cursor @objects
+
+        @objects = ContentFileInfo.find(id_filter, opts) # Reset the cursor since we've already used it
         paginated = MongodbPaginator.paginate @objects, page, page_size
 
         returned_categories = get_categories_in_cursor paginated[:data]
@@ -78,6 +83,7 @@ class Api::ContentFileInfosController < Api::ApiController
               pagination: paginated[:meta],
             },
             all_categories: all_categories,
+            filtered_categories: filtered_categories,
             returned_categories: returned_categories,
           },
           status: 200
