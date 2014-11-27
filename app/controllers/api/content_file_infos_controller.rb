@@ -45,6 +45,7 @@ class Api::ContentFileInfosController < Api::ApiController
             content_file_infos: @objects,
             meta: {
               all_categories: all_categories,
+              returned_categories: [],
             }
           },
           status: 200
@@ -63,10 +64,13 @@ class Api::ContentFileInfosController < Api::ApiController
               last_item: nil,
             },
             all_categories: all_categories,
+            returned_categories: [],
           },
         }, status: 200
       else
         paginated = MongodbPaginator.paginate @objects, page, page_size
+
+        returned_categories = get_categories_in_cursor paginated[:data]
 
         render json: {
             content_file_infos: paginated[:data],
@@ -74,6 +78,7 @@ class Api::ContentFileInfosController < Api::ApiController
               pagination: paginated[:meta],
             },
             all_categories: all_categories,
+            returned_categories: returned_categories,
           },
           status: 200
       end
@@ -82,6 +87,22 @@ class Api::ContentFileInfosController < Api::ApiController
     end
   rescue => error
     render json: {error: "No objects found"}, status: 404
+  end
+
+  def get_categories_in_cursor(cursor)
+      categories = Set.new
+
+      cursor.each { |item|
+        if item['categories'].respond_to? 'each'
+          categories |= item['categories']
+        else
+          categories.add item['categories']
+        end
+      }
+
+      categories.subtract [nil, '']
+
+      categories
   end
 
 end
