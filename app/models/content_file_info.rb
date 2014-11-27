@@ -27,6 +27,33 @@ class ContentFileInfo
       db     = client['darc-content']
       coll   = db['dfxml']
 
+      docs = coll.find(make_filter_query(id_filter, opts))
+
+      if opts[:sortField].to_s != '' then
+        if opts[:sortAsc] then
+          sortOrder = 1
+        else
+          sortOrder = -1
+        end
+
+        docs = docs.sort( { opts[:sortField].to_s => sortOrder })
+      end
+
+      docs
+  end
+
+  def mongo_collection
+      return @@mongo_coll unless @@mongo_coll == nil
+
+      client = Mongo::MongoClient.new # defaults to localhost:27017
+      db     = client['darc-content']
+      @@mongo_coll   = db['dfxml']
+      @@mongo_coll
+  end
+
+  private
+
+  def self.make_filter_query id_filter, opts
       query = {'disk_image' => id_filter[:disk_image_id]}
       
       unless id_filter[:volume_id].to_s.empty? then
@@ -57,27 +84,6 @@ class ContentFileInfo
         query.merge!({ 'categories' => {'$nin' => opts[:negCategory].split(',') }  })
       end
 
-      docs = coll.find(query)
-
-      if opts[:sortField].to_s != '' then
-        if opts[:sortAsc] then
-          sortOrder = 1
-        else
-          sortOrder = -1
-        end
-
-        docs = docs.sort( { opts[:sortField].to_s => sortOrder })
-      end
-
-      docs
-  end
-
-  def mongo_collection
-      return @@mongo_coll unless @@mongo_coll == nil
-
-      client = Mongo::MongoClient.new # defaults to localhost:27017
-      db     = client['darc-content']
-      @@mongo_coll   = db['dfxml']
-      @@mongo_coll
+      query
   end
 end
