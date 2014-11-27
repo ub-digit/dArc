@@ -45,6 +45,9 @@ class ContentFileInfo
       if opts[:extFilter].to_s != '' then
         query.merge!({ '$or' => [ {'extension' => opts[:extFilter]}, { 'name_type' => {'$ne' => 'r'} } ] })
       end
+      if opts[:pathFilter].to_s != '' then
+        query.merge!({ 'filename' => Regexp.new(opts[:pathFilter].to_s) })
+      end
 
       if opts[:posCategory].to_s != '' and opts[:negCategory].to_s != '' then
         query.merge!({ '$and' => [ { 'categories' => {'$in' => opts[:posCategory].split(',') }  }, { 'categories' => {'$nin' => opts[:negCategory].split(',') }  } ] })

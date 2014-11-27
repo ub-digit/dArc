@@ -30,6 +30,7 @@ class Api::ContentFileInfosController < Api::ApiController
     opts = { showDeleted: params[:showDeleted]=='true',
              hideDirs: params[:hideDirs]=='true',
              extFilter: params[:extFilter],
+             pathFilter: params[:pathFilter],
              posCategory: params[:posCategory],
              negCategory: params[:negCategory] }
     @objects = ContentFileInfo.find(id_filter, opts)
