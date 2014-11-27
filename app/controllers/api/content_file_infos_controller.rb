@@ -30,7 +30,7 @@ class Api::ContentFileInfosController < Api::ApiController
     opts = { showDeleted: params[:showDeleted]=='true', hideDirs: params[:hideDirs]=='true', extFilter: params[:extFilter] }
     @objects = ContentFileInfo.find(id_filter, opts)
     if !@objects.nil?
-      if page_size == -1
+      if page_size < 0
         render json: {
             content_file_infos: @objects,
             meta: {}
