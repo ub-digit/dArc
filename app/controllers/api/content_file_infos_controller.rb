@@ -72,7 +72,6 @@ class Api::ContentFileInfosController < Api::ApiController
       else
         filtered_categories = get_categories_in_cursor @objects
 
-        @objects = ContentFileInfo.find(id_filter, opts) # Reset the cursor since we've already used it
         paginated = MongodbPaginator.paginate @objects, page, page_size
 
         returned_categories = get_categories_in_cursor paginated[:data]
@@ -105,6 +104,8 @@ class Api::ContentFileInfosController < Api::ApiController
           categories.add item['categories']
         end
       }
+
+      cursor.rewind!
 
       categories.subtract [nil, '']
 
