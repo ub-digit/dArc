@@ -80,10 +80,10 @@ class Api::ContentFileInfosController < Api::ApiController
             content_file_infos: paginated[:data],
             meta: {
               pagination: paginated[:meta],
+              all_categories: all_categories,
+              filtered_categories: filtered_categories,
+              returned_categories: returned_categories,
             },
-            all_categories: all_categories,
-            filtered_categories: filtered_categories,
-            returned_categories: returned_categories,
           },
           status: 200
       end
