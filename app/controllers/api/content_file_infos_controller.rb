@@ -94,6 +94,7 @@ class Api::ContentFileInfosController < Api::ApiController
     render json: {error: "No objects found"}, status: 404
   end
 
+  # This method rewinds the cursor. Don't send a cursor you've started consuming.
   def get_categories_in_cursor(cursor)
       categories = Set.new
 
