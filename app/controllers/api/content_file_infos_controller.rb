@@ -27,8 +27,7 @@ class Api::ContentFileInfosController < Api::ApiController
       id_filter.merge!({ parent_id: params[:parent].to_i })
     end
 
-    opts = { showDeleted: params[:showDeleted]=='true',
-             hideDirs: params[:hideDirs]=='true',
+    opts = { hideDirs: params[:hideDirs]=='true',
              extFilter: params[:extFilter],
              pathFilter: params[:pathFilter],
              posCategory: params[:posCategory],

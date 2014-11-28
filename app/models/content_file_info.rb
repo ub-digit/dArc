@@ -56,9 +56,6 @@ class ContentFileInfo
         query.merge!({ 'parent_object' => id_filter[:parent_id] })
       end
 
-      if !opts[:showDeleted] then
-        query.merge!({ 'nlink' => 1})
-      end
       if opts[:hideDirs] then
         query.merge!({ 'name_type' => 'r' })
       end
