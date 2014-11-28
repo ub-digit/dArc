@@ -5,6 +5,7 @@ class DfxmlFileobjectCategorizer < DfxmlFileobjectModifier
 
 	def modify! object
 		@categorizer_config.each do |tag, rules|
+			# rules can be either an array of rules (with implied 'or') or a singe rule
 			if rules.kind_of?(Array) then
 				rules.each do |rule|
 					match_rule object, rule, tag
@@ -17,6 +18,7 @@ class DfxmlFileobjectCategorizer < DfxmlFileobjectModifier
 
 	def match_rule object, rule, tag
 		matches = true
+		# all patterns must match their fields (implied 'and')
 		rule.each do |field, pattern|
 			if object[field.to_s] then
 				if Regexp.new(pattern).match(object[field.to_s].to_s) == nil then

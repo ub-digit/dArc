@@ -11,9 +11,6 @@ class ContentFileInfo
   
   def save
     unless @hash == nil
-      #client = Mongo::MongoClient.new # defaults to localhost:27017
-      #db     = client['darc-content']
-      #coll   = db['dfxml']
       MongodbClient.new.mongo_collection.insert(@hash)
     end
   end

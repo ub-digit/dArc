@@ -2,12 +2,14 @@ class DfxmlFileobjectWriter
 	def write object
 	end
 
+	# writes to stdout
 	class DfxmlFileobjectWriter::StdoutWriter < DfxmlFileobjectWriter
 		def write object
 			puts object.to_json.to_s
 		end
 	end
 
+	# writes to a file
 	class DfxmlFileobjectWriter::FileWriter < DfxmlFileobjectWriter
 		def initialize outdir
 			@outdir = outdir
@@ -25,6 +27,7 @@ class DfxmlFileobjectWriter
 		end
 	end
 	
+	# writes to mongodb
 	class DfxmlFileobjectWriter::MongodbWriter < DfxmlFileobjectWriter
 		def write object
 			ContentFileInfo.new(object).save

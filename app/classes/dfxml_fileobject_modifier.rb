@@ -2,6 +2,7 @@ class DfxmlFileobjectModifier
 	def modify! object
 	end
 
+	# adds some standard fields like name and extension
 	class DfxmlFileobjectModifier::Names < DfxmlFileobjectModifier
 		def modify! object
 		    name = object['filename'].sub(/^.*\/([^\/]*)$/,'\1')
@@ -14,6 +15,7 @@ class DfxmlFileobjectModifier
 		end
 	end
 
+	# adds the disk image id
 	class DfxmlFileobjectModifier::DiskImageId < DfxmlFileobjectModifier
 		def initialize diskimageid
 			@diskimageid = diskimageid
