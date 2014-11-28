@@ -1,0 +1,6 @@
+{
+	dir: { name_type: "d" },
+	orphans: { filename: ".*\\$OrphanFiles/.*" },
+	dirdots: { name: "^\.(\.)?$" },
+	empty: { filesize: "^0$" },
+}

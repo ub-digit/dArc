@@ -3,18 +3,6 @@ require 'json'
 
 class DfxmlParser
 
-	def self.print filename, diskimageid
-		DfxmlParser.parse_dfxml filename, [DfxmlFileobjectModifier::DiskImageId.new(diskimageid), DfxmlFileobjectModifier::Names.new], DfxmlFileobjectWriter::StdoutWriter.new
-	end
-
-	def self.write filename, diskimageid, outdir
-		DfxmlParser.parse_dfxml filename, [DfxmlFileobjectModifier::DiskImageId.new(diskimageid), DfxmlFileobjectModifier::Names.new], DfxmlFileobjectWriter::FileWriter.new(outdir)
-	end
-
-	def self.load filename, diskimageid
-		DfxmlParser.parse_dfxml filename, [DfxmlFileobjectModifier::DiskImageId.new(diskimageid), DfxmlFileobjectModifier::Names.new], DfxmlFileobjectWriter::MongodbWriter.new
-	end
-
 	def self.parse_dfxml filename, modifiers, writer
 		start = Time.now
 

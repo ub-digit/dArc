@@ -35,6 +35,7 @@ nbproject/
 config/initializers/api_key.rb
 config/initializers/config.rb
 config/ingest.rb
+config/ingest_categorization.rb
 
 # Ignore generated css etc.
 .sass-cache/
