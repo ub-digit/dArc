@@ -36,6 +36,7 @@ config/initializers/api_key.rb
 config/initializers/config.rb
 config/ingest.rb
 config/ingest_categorization.rb
+config/ingest_categorization.json
 
 # Ignore generated css etc.
 .sass-cache/

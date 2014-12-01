@@ -16,7 +16,7 @@ class Dfxml
 	end
 
 	def self.config 
-		DfxmlFileobjectCategorizer.read_config 'config/ingest_categorization.rb'
+		DfxmlFileobjectCategorizer.read_config (Rails.root + 'config/ingest_categorization.json')
 	end
 
 	def self.default_modifiers diskimageid

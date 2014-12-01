@@ -32,7 +32,6 @@ class DfxmlFileobjectCategorizer < DfxmlFileobjectModifier
 	end
 
 	def self.read_config categorizer_config_filename
-		config_text = File.read(categorizer_config_filename)
-		eval config_text
+		JSON.parse(File.read(categorizer_config_filename))
 	end
 end

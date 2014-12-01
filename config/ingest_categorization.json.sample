@@ -1,0 +1,12 @@
+{
+	"sys/dir":{"name_type":"d"},
+	"sys/file":{"name_type":"r"},
+	"sys/fs":{"name_type":"v"},
+	"sys/orphans":{"filename":".*\\$OrphanFiles/.*"},
+	"sys/dirdots":{"name":"^.(.)?$"},
+	"sys/deleted":{"nlink":"^0$"},
+	"sys/empty":{"filesize":"^0$"},
+	"office":[{"extension":"xls"},{"extension":"doc"}],
+	"os":{"filename":"^WINNT/(?!Profiles/).*"},
+	"program":{"filename":"^Program( Files)?/.*"}
+}
